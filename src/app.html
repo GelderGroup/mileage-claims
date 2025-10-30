@@ -1,16 +1,53 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/src/app.css" />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
-    %sveltekit.head%
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2196f3">
+    <meta name="description" content="Mileage PWA for submitting and managing mileage claims.">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Mileage Claims">
+    <meta name="msapplication-TileColor" content="#2196f3">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="images/gelder-logo-2023.svg">
+    <link rel="mask-icon" href="images/gelder-logo-2023.svg" color="#2196f3">
+    <link rel="stylesheet" href="css/app.css">
+    <title>Gelder Mileage Claims</title>
+    <link rel="icon" type="image/svg+xml" href="lib/assets/favicon.svg">
 </head>
 
-<body data-sveltekit-preload-data="hover">
-    <div style="display: contents">%sveltekit.body%</div>
+<body>
+    <main class="container-fluid">
+        <nav>
+            <ul>
+                <li>
+                    <img class="mb-2" id="gelder-logo" src="images/gelder-logo-2023.svg" alt="Gelder Logo">
+                    <h4>
+                        Mileage Claims<small id="app-version"></small>
+                    </h4>
+                    <small id="app-subtitle"></small>
+                </li>
+            </ul>
+            <ul id="mileage-claim-controls" hidden>
+                <li>
+                    <label for="week-ending-select" class="mt-2">
+                        <small>Week Ending:</small>
+                    </label>
+                    <select id="week-ending-select" name="week-ending-select" aria-label="Select"></select>
+                    <small id="save-status" class="m-0"></small>
+                </li>
+            </ul>
+        </nav>
+        <div id="content-wrapper"></div>
+    </main>
+    <script src="js/index.js" type="module"></script>
 </body>
 
 </html>

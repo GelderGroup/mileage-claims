@@ -1,0 +1,15 @@
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.calculate-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: var(--pico-card-sectioning-background-color);
+    border-radius: var(--pico-border-radius);
+}
