@@ -1,6 +1,6 @@
 {
     "name": "mileage-claims",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "scripts": {
         "start": "npm run clean && parcel src/app.html --open",
         "clean": "rmdir /s /q dist || exit 0",
