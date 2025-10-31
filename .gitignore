@@ -3,3 +3,41 @@
 /dist
 /node_modules
 /package-lock.json
+
+# Security - Environment variables and secrets
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+
+# Azure Functions - Local settings and secrets
+api/local.settings.json
+api/.env
+api/node_modules
+
+# IDE and OS files
+.vscode/settings.json
+.vscode/launch.json
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Runtime and build artifacts
+.cache/
+.temp/
+.tmp/
+
+# Personal notes or sensitive documentation
+notes.txt
+TODO.txt
+secrets.md
+credentials.md

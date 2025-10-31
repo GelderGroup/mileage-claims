@@ -8,17 +8,38 @@
 
 ## Step 1: Prepare GitHub Repository
 
-Since your project is already synced with GitHub, you're ready to deploy! Just ensure:
+Since your project is already synced with GitHub, you're ready to deploy! You have two options:
+
+### Option A: Make Repository Public (Recommended)
 
 1. **All changes are committed and pushed** to your `main` branch
-2. **Your repository is public** (or you have GitHub Pro for private repo deployments)
+2. **Make repository public** (required for free GitHub accounts)
 
-If you need to make the repository public:
+To make the repository public:
 
 - Go to your GitHub repository settings
 - Scroll down to "Danger Zone"
 - Click "Change repository visibility"
 - Select "Make public"
+
+**Note**: Making the repo public means anyone can view your source code, but they cannot:
+
+- Push changes to your repository
+- Access your Azure resources or data
+- See your environment variables or secrets
+- Access your Microsoft 365 authentication
+
+Your actual application and data remain secure.
+
+### Option B: Alternative Deployment Methods
+
+If you prefer to keep your repository private, you can:
+
+- **Manual deployment**: Use Azure CLI to deploy directly from your local machine
+- **Azure DevOps**: Use Azure Repos instead of GitHub (works with private repos)
+- **ZIP deployment**: Upload your built files directly to Azure
+
+**For this guide, we'll use Option A (public repo)** as it's the simplest with automatic CI/CD.
 
 ## Step 2: Create Azure Static Web App
 
@@ -151,6 +172,37 @@ cd ..
    - **Authentication fails**: Check client ID and tenant ID are correct
    - **API calls fail**: Check that Azure Functions are deployed correctly
    - **Cors errors**: Ensure redirect URI matches exactly
+
+## Security Best Practices
+
+### Files Already Protected by .gitignore:
+✅ **Environment files**: `.env`, `.env.local`, etc. (where secrets would go)  
+✅ **Azure Functions local settings**: `local.settings.json` (contains connection strings)  
+✅ **Node modules**: Dependencies are reinstalled, not stored  
+✅ **Build artifacts**: `/dist` folder (generated during deployment)  
+✅ **Personal notes**: Any files with credentials or sensitive notes
+
+### What Gets Exposed (Safe):
+- Application source code structure
+- Package.json dependencies (public packages)
+- Static HTML/CSS/JS (no secrets embedded)
+- Azure Function templates (without connection strings)
+
+### What Stays Private:
+- Your actual client ID and tenant ID (added manually in Azure)
+- Connection strings and API keys (stored in Azure app settings)
+- User data (stored in Azure Table Storage)
+- Environment variables (configured in Azure portal)
+
+### Important: Never Commit These Files:
+```
+.env
+local.settings.json
+config/secrets.js
+*.key
+*.pem
+credentials.json
+```
 
 ## Step 8: Optional Enhancements
 
