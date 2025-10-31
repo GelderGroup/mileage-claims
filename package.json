@@ -4,7 +4,6 @@
     "scripts": {
         "start": "npm run clean && parcel src/app.html --open",
         "clean": "rmdir /s /q dist || exit 0",
-        "prebuild": "npm version patch --force",
         "build": "npm run clean && parcel build src/app.html --no-source-maps"
     },
     "type": "module",
