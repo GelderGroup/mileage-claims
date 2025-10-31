@@ -148,34 +148,55 @@ export class AuthService {
         };
     }
 
-    static async getExtensionAttribute1() {
+    static async getStandardUserAttributes() {
         if (isLocalDevelopment) {
-            return 'dev-extension-value';
+            return {
+                displayName: 'Local Dev User',
+                givenName: 'Local',
+                surname: 'User',
+                mail: 'local.user@localhost',
+                userPrincipalName: 'local.user@localhost',
+                id: 'local-dev-user',
+                jobTitle: 'Developer',
+                mobilePhone: null,
+                officeLocation: 'Local',
+                preferredLanguage: 'en-US',
+                businessPhones: [],
+                department: 'Development'
+            };
         }
 
         try {
             const accessToken = await this.getAccessToken();
-
-            // Call Microsoft Graph API to get current user's extension attributes
-            // Note: This might not work with basic User.Read scope for extension attributes
-            // You may need to test this or request admin consent for User.Read.All
-            const response = await fetch('https://graph.microsoft.com/v1.0/me?$select=extensionAttribute1', {
+            const response = await fetch('https://graph.microsoft.com/v1.0/me', {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
                 }
             });
-
             if (!response.ok) {
-                console.warn(`Graph API call failed with status ${response.status}. Extension attributes may require User.Read.All scope with admin consent.`);
+                console.warn(`Graph API call failed with status ${response.status}.`);
                 return null;
             }
-
             const userData = await response.json();
-            return userData.extensionAttribute1 || null;
+            // Return only standard attributes
+            return {
+                displayName: userData.displayName,
+                givenName: userData.givenName,
+                surname: userData.surname,
+                mail: userData.mail,
+                userPrincipalName: userData.userPrincipalName,
+                id: userData.id,
+                jobTitle: userData.jobTitle,
+                mobilePhone: userData.mobilePhone,
+                officeLocation: userData.officeLocation,
+                preferredLanguage: userData.preferredLanguage,
+                businessPhones: userData.businessPhones,
+                department: userData.department
+            };
         } catch (error) {
-            console.error('Failed to get extension attribute:', error);
-            return null; // Graceful fallback
+            console.error('Failed to get standard user attributes:', error);
+            return null;
         }
     }
 }

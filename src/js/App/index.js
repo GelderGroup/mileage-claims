@@ -56,22 +56,22 @@ export default class App {
             );
             this.contentContainer.appendChild(this.showModalButton);
 
-            // Add test button for extension attribute
-            const testExtButton = el('button', {
+            // Add test button for standard user attributes
+            const testStdButton = el('button', {
                 type: 'button',
                 style: 'margin-left: 1rem; background-color: var(--secondary);'
-            }, 'Test Extension Attribute');
+            }, 'Show Standard User Attributes');
 
-            testExtButton.addEventListener('click', async () => {
+            testStdButton.addEventListener('click', async () => {
                 try {
-                    testExtButton.textContent = 'Testing...';
-                    testExtButton.disabled = true;
+                    testStdButton.textContent = 'Loading...';
+                    testStdButton.disabled = true;
 
-                    const extValue = await AuthService.getExtensionAttribute1();
+                    const stdAttrs = await AuthService.getStandardUserAttributes();
 
                     const resultDiv = el('div', {
-                        style: 'margin: 1rem 0; padding: 1rem; background-color: var(--card-background-color); border-radius: var(--border-radius);'
-                    }, `Extension Attribute 1: ${extValue || 'Not found or not accessible'}`);
+                        style: 'margin: 1rem 0; padding: 1rem; background-color: var(--card-background-color); border-radius: var(--border-radius); white-space: pre-wrap; font-family: monospace;'
+                    }, stdAttrs ? JSON.stringify(stdAttrs, null, 2) : 'Not found or not accessible');
 
                     // Remove any existing result
                     const existingResult = this.contentContainer.querySelector('.ext-test-result');
@@ -81,7 +81,7 @@ export default class App {
                     this.contentContainer.appendChild(resultDiv);
 
                 } catch (error) {
-                    console.error('Extension attribute test failed:', error);
+                    console.error('Standard attribute test failed:', error);
                     const errorDiv = el('div', {
                         style: 'margin: 1rem 0; padding: 1rem; background-color: var(--del-color); color: white; border-radius: var(--border-radius);'
                     }, `Error: ${error.message}`);
@@ -89,12 +89,12 @@ export default class App {
                     errorDiv.className = 'ext-test-result';
                     this.contentContainer.appendChild(errorDiv);
                 } finally {
-                    testExtButton.textContent = 'Test Extension Attribute';
-                    testExtButton.disabled = false;
+                    testStdButton.textContent = 'Show Standard User Attributes';
+                    testStdButton.disabled = false;
                 }
             });
 
-            this.contentContainer.appendChild(testExtButton);
+            this.contentContainer.appendChild(testStdButton);
         } else {
             this.showModalButton.disabled = true;
             this.contentContainer.innerHTML = '';
