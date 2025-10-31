@@ -2,9 +2,9 @@
     "name": "mileage-claims",
     "version": "1.0.13",
     "scripts": {
-        "start": "npm run clean && parcel src/app.html --open",
+        "start": "npm run clean && parcel src/index.html --open",
         "clean": "rmdir /s /q dist || exit 0",
-        "build": "npm run clean && parcel build src/app.html --no-source-maps"
+        "build": "npm run clean && parcel build src/index.html --no-source-maps"
     },
     "type": "module",
     "dependencies": {
