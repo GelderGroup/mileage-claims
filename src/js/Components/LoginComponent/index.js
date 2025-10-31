@@ -1,10 +1,10 @@
 import { el } from 'redom';
 import { AuthService } from '../../services/authService.js';
 
-export class LoginComponent {
+class LoginComponent {
     constructor() {
         this.user = null;
-        this.onLoginChange = null;
+        this.onAuthStateChange = null; // Callback for auth state changes
         this.createElement();
         this.checkAuthState();
     }
@@ -46,8 +46,8 @@ export class LoginComponent {
         this.loginBtn.style.display = 'none';
         this.logoutBtn.style.display = 'inline-block';
 
-        if (this.onLoginChange) {
-            this.onLoginChange(true, userInfo);
+        if (this.onAuthStateChange) {
+            this.onAuthStateChange({ detail: { isAuthenticated: true } });
         }
     }
 
@@ -57,8 +57,8 @@ export class LoginComponent {
         this.loginBtn.style.display = 'inline-block';
         this.logoutBtn.style.display = 'none';
 
-        if (this.onLoginChange) {
-            this.onLoginChange(false, null);
+        if (this.onAuthStateChange) {
+            this.onAuthStateChange({ detail: { isAuthenticated: false } });
         }
     }
 
@@ -104,3 +104,5 @@ export class LoginComponent {
         return this.user;
     }
 }
+
+export default LoginComponent;

@@ -9,6 +9,7 @@ export default class MileageModal {
     constructor() {
         this.onSave = null;
         this.onCancel = null;
+        this.onMileageSubmitted = null; // Callback for mileage submission
 
         this.createElement();
     }
@@ -191,14 +192,16 @@ export default class MileageModal {
             // Save to Azure backend
             await MileageService.saveMileageEntry(data);
 
-            // Dispatch success event
-            this.dispatchEvent(new CustomEvent('mileageSubmitted', {
-                detail: {
-                    success: true,
-                    data: data,
-                    message: 'Mileage claim submitted successfully!'
-                }
-            }));
+            // Call callback for success
+            if (this.onMileageSubmitted) {
+                this.onMileageSubmitted({
+                    detail: {
+                        success: true,
+                        data: data,
+                        message: 'Mileage claim submitted successfully!'
+                    }
+                });
+            }
 
             this.close();
 
@@ -217,14 +220,16 @@ export default class MileageModal {
                 this.el.querySelector('form').appendChild(errorMsg);
             }
 
-            // Dispatch error event
-            this.dispatchEvent(new CustomEvent('mileageSubmitted', {
-                detail: {
-                    success: false,
-                    error: error.message,
-                    data: data
-                }
-            }));
+            // Call callback for error
+            if (this.onMileageSubmitted) {
+                this.onMileageSubmitted({
+                    detail: {
+                        success: false,
+                        error: error.message,
+                        data: data
+                    }
+                });
+            }
         }
     }
 }

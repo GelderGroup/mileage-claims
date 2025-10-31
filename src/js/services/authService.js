@@ -1,5 +1,8 @@
 import { PublicClientApplication } from '@azure/msal-browser';
 
+// Check if we're in local development
+const isLocalDevelopment = window.location.hostname === 'localhost';
+
 // MSAL configuration
 const msalConfig = {
     auth: {
@@ -23,6 +26,11 @@ let msalInstance = null;
 
 export class AuthService {
     static async initialize() {
+        if (isLocalDevelopment) {
+            // In local development, skip MSAL initialization
+            return null;
+        }
+
         if (!msalInstance) {
             msalInstance = new PublicClientApplication(msalConfig);
             await msalInstance.initialize();
@@ -31,6 +39,17 @@ export class AuthService {
     }
 
     static async login() {
+        if (isLocalDevelopment) {
+            // Simulate login in local development
+            console.log('Local development: Simulating login');
+            return {
+                account: {
+                    username: 'local.user@localhost',
+                    name: 'Local Development User'
+                }
+            };
+        }
+
         await this.initialize();
 
         try {
@@ -44,6 +63,11 @@ export class AuthService {
     }
 
     static async logout() {
+        if (isLocalDevelopment) {
+            console.log('Local development: Simulating logout');
+            return;
+        }
+
         await this.initialize();
 
         try {
@@ -54,6 +78,10 @@ export class AuthService {
     }
 
     static async getCurrentUser() {
+        if (isLocalDevelopment) {
+            return null; // No user in local development
+        }
+
         await this.initialize();
 
         const accounts = msalInstance.getAllAccounts();
@@ -61,6 +89,10 @@ export class AuthService {
     }
 
     static async getAccessToken() {
+        if (isLocalDevelopment) {
+            return 'local-development-token';
+        }
+
         await this.initialize();
 
         const account = await this.getCurrentUser();
@@ -88,11 +120,23 @@ export class AuthService {
     }
 
     static async isAuthenticated() {
+        if (isLocalDevelopment) {
+            return false; // Not authenticated in local development
+        }
+
         const user = await this.getCurrentUser();
         return user !== null;
     }
 
     static async getUserInfo() {
+        if (isLocalDevelopment) {
+            return {
+                name: 'Local Development User',
+                email: 'local.user@localhost',
+                id: 'local-dev-user'
+            };
+        }
+
         const user = await this.getCurrentUser();
         if (!user) return null;
 

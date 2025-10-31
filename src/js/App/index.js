@@ -10,6 +10,12 @@ export default class App {
         this.loginComponent = new LoginComponent();
         this.entryModal = new MileageModal();
 
+        // Set up callback for auth state changes
+        this.loginComponent.onAuthStateChange = this.handleAuthStateChange;
+
+        // Set up callback for mileage submission
+        this.entryModal.onMileageSubmitted = this.handleMileageSubmitted;
+
         this.el = el('',
             el('header',
                 el('nav',
@@ -28,9 +34,7 @@ export default class App {
             ),
             this.entryModal
         );
-    }
-
-    onmount = () => {
+    } onmount = () => {
         this.displayAppVersion();
         this.setupEventListeners();
         this.checkAuthState();
@@ -38,8 +42,6 @@ export default class App {
 
     setupEventListeners = () => {
         this.showModalButton.addEventListener('click', this.openModal);
-        this.loginComponent.addEventListener('authStateChanged', this.handleAuthStateChange);
-        this.entryModal.addEventListener('mileageSubmitted', this.handleMileageSubmitted);
     }
 
     handleAuthStateChange = async (event) => {
@@ -97,8 +99,6 @@ export default class App {
     }
     onunmount = () => {
         this.showModalButton.removeEventListener('click', this.openModal);
-        this.loginComponent.removeEventListener('authStateChanged', this.handleAuthStateChange);
-        this.entryModal.removeEventListener('mileageSubmitted', this.handleMileageSubmitted);
     }
 
     displayAppVersion = () => {
