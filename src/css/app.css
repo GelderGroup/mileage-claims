@@ -1,3 +1,71 @@
 :root {
     font-family: 'DM Sans', sans-serif;
 }
+
+.appbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding-block: .5rem;
+    background: var(--pico-background-color);
+    border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+.appbar .left,
+.appbar .right {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: .5rem
+}
+
+/* Stack the logo and version vertically in the left section */
+.appbar .left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .1rem;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    text-decoration: none
+}
+
+#gelder-logo {
+    display: block;
+    width: 150px;
+    /* set width, let height auto-scale from viewBox */
+    height: auto;
+    flex: 0 0 auto;
+    /* if inside a flex bar */
+    overflow: visible;
+    /* keeps the underline from clipping */
+    color: var(--pico-color);
+}
+
+/* Make the MILEAGE CLAIMS text less prominent using Pico's secondary color */
+#gelder-logo path:nth-last-of-type(1),
+#gelder-logo path:nth-last-of-type(2),
+#gelder-logo path:nth-last-of-type(3) {
+    fill: var(--pico-secondary) !important;
+}
+
+/* Make the control compact instead of full-width */
+#period-select {
+    width: auto;
+    margin: 0
+}
+
+#app-version {
+    color: var(--pico-secondary);
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
