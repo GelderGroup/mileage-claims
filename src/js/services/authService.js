@@ -7,7 +7,9 @@ const isLocalDevelopment = window.location.hostname === 'localhost';
 const msalConfig = {
     auth: {
         clientId: process.env.AZURE_CLIENT_ID || 'your-client-id-here', // Will be set in Azure
-        authority: 'https://login.microsoftonline.com/common', // Multi-tenant
+        authority: process.env.AZURE_TENANT_ID
+            ? `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}`
+            : 'https://login.microsoftonline.com/common', // Fallback for local dev
         redirectUri: window.location.origin + '/.auth/login/aad/callback'
     },
     cache: {
