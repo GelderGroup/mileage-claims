@@ -8,7 +8,7 @@ const msalConfig = {
     auth: {
         clientId: '27566b14-1439-4b8c-905c-6712687f1617', // Azure environment variable
         authority: 'https://login.microsoftonline.com/009c4932-1b42-4c0f-ae49-eed8b8c9a26f', // Tenant ID
-        redirectUri: window.location.origin + '/.auth/login/aad/callback'
+        redirectUri: window.location.origin // SPA redirect to root
     },
     cache: {
         cacheLocation: 'sessionStorage',
