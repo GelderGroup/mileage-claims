@@ -37,7 +37,7 @@ In the newly created app registration:
 **WHO:** Your boss or you (if you have contributor access)
 
 ```powershell
-az staticwebapp appsettings set --name "mileage-claims-app" --resource-group "rg-mileage-claims" --setting-names AZURE_CLIENT_ID="27566b14-1439-4b8c-905c-6712687f1617"
+az staticwebapp appsettings set --name "mileage-claims-app" --resource-group "rg-mileage-claims" --setting-names AZURE_CLIENT_ID="[YOUR-ACTUAL-CLIENT-ID]"
 ```
 
 Replace `[CLIENT-ID-FROM-STEP-1]` with the actual Application (client) ID from Step 1.
