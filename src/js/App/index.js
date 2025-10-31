@@ -55,37 +55,37 @@ export default class App {
                 el('p', `Welcome, ${userInfo.name}! You can now submit mileage claims.`)
             );
             this.contentContainer.appendChild(this.showModalButton);
-            
+
             // Add test button for extension attribute
             const testExtButton = el('button', {
                 type: 'button',
                 style: 'margin-left: 1rem; background-color: var(--secondary);'
             }, 'Test Extension Attribute');
-            
+
             testExtButton.addEventListener('click', async () => {
                 try {
                     testExtButton.textContent = 'Testing...';
                     testExtButton.disabled = true;
-                    
+
                     const extValue = await AuthService.getExtensionAttribute1();
-                    
+
                     const resultDiv = el('div', {
                         style: 'margin: 1rem 0; padding: 1rem; background-color: var(--card-background-color); border-radius: var(--border-radius);'
                     }, `Extension Attribute 1: ${extValue || 'Not found or not accessible'}`);
-                    
+
                     // Remove any existing result
                     const existingResult = this.contentContainer.querySelector('.ext-test-result');
                     if (existingResult) existingResult.remove();
-                    
+
                     resultDiv.className = 'ext-test-result';
                     this.contentContainer.appendChild(resultDiv);
-                    
+
                 } catch (error) {
                     console.error('Extension attribute test failed:', error);
                     const errorDiv = el('div', {
                         style: 'margin: 1rem 0; padding: 1rem; background-color: var(--del-color); color: white; border-radius: var(--border-radius);'
                     }, `Error: ${error.message}`);
-                    
+
                     errorDiv.className = 'ext-test-result';
                     this.contentContainer.appendChild(errorDiv);
                 } finally {
@@ -93,7 +93,7 @@ export default class App {
                     testExtButton.disabled = false;
                 }
             });
-            
+
             this.contentContainer.appendChild(testExtButton);
         } else {
             this.showModalButton.disabled = true;
