@@ -133,7 +133,8 @@ export class AuthService {
             return {
                 name: 'Local Development User',
                 email: 'local.user@localhost',
-                id: 'local-dev-user'
+                id: 'local-dev-user',
+                extensionAttribute1: 'dev-extension-value'
             };
         }
 
@@ -145,6 +146,37 @@ export class AuthService {
             email: user.username,
             id: user.homeAccountId
         };
+    }
+
+    static async getExtensionAttribute1() {
+        if (isLocalDevelopment) {
+            return 'dev-extension-value';
+        }
+
+        try {
+            const accessToken = await this.getAccessToken();
+            
+            // Call Microsoft Graph API to get current user's extension attributes
+            // Note: This might not work with basic User.Read scope for extension attributes
+            // You may need to test this or request admin consent for User.Read.All
+            const response = await fetch('https://graph.microsoft.com/v1.0/me?$select=extensionAttribute1', {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                console.warn(`Graph API call failed with status ${response.status}. Extension attributes may require User.Read.All scope with admin consent.`);
+                return null;
+            }
+
+            const userData = await response.json();
+            return userData.extensionAttribute1 || null;
+        } catch (error) {
+            console.error('Failed to get extension attribute:', error);
+            return null; // Graceful fallback
+        }
     }
 }
 
