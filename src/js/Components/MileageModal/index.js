@@ -30,6 +30,12 @@ export default class MileageModal {
 
         this.milesInput = el('input', { type: 'number', placeholder: '0', step: '1', min: '0' });
 
+        this.reasonInput = el('input', {
+            type: 'text',
+            placeholder: 'Reason for travel (optional)',
+            value: 'Business travel'
+        });
+
         this.calculateBtn = new CalculateButton({
             name: 'calculate'
         });
@@ -58,7 +64,8 @@ export default class MileageModal {
                             this.milesInput,
                             this.calculateBtn
                         )
-                    )
+                    ),
+                    el('label', 'Reason for Travel', this.reasonInput)
                 ),
                 el('footer',
                     this.cancelBtn,
@@ -159,12 +166,13 @@ export default class MileageModal {
         }
     }
 
-    handleSave = () => {
+    handleSave = async () => {
         const data = {
             date: this.dateInput.value,
-            startPostcode: this.startPostcodeInput.value,
-            endPostcode: this.endPostcodeInput.value,
-            miles: this.milesInput.value
+            fromPostcode: this.startPostcodeInput.value,
+            toPostcode: this.endPostcodeInput.value,
+            distance: this.milesInput.value,
+            reason: this.reasonInput.value || 'Business travel'
         };
 
         // Validate the data using the service
@@ -176,13 +184,47 @@ export default class MileageModal {
         }
 
         // Format postcodes for consistency
-        data.startPostcode = MileageService.formatPostcode(data.startPostcode);
-        data.endPostcode = MileageService.formatPostcode(data.endPostcode);
+        data.fromPostcode = MileageService.formatPostcode(data.fromPostcode);
+        data.toPostcode = MileageService.formatPostcode(data.toPostcode);
 
-        if (this.onSave) {
-            this.onSave(data);
+        try {
+            // Save to Azure backend
+            await MileageService.saveMileageEntry(data);
+
+            // Dispatch success event
+            this.dispatchEvent(new CustomEvent('mileageSubmitted', {
+                detail: {
+                    success: true,
+                    data: data,
+                    message: 'Mileage claim submitted successfully!'
+                }
+            }));
+
+            this.close();
+
+        } catch (error) {
+            console.error('Failed to submit mileage claim:', error);
+
+            // Show error message in modal
+            const errorMsg = this.el.querySelector('.error-message') ||
+                el('div', { className: 'error-message' });
+
+            errorMsg.textContent = error.message || 'Failed to submit mileage claim. Please try again.';
+            errorMsg.style.color = 'var(--del-color)';
+            errorMsg.style.marginTop = '1rem';
+
+            if (!this.el.querySelector('.error-message')) {
+                this.el.querySelector('form').appendChild(errorMsg);
+            }
+
+            // Dispatch error event
+            this.dispatchEvent(new CustomEvent('mileageSubmitted', {
+                detail: {
+                    success: false,
+                    error: error.message,
+                    data: data
+                }
+            }));
         }
-
-        this.close();
     }
 }

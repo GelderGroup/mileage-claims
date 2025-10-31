@@ -1,0 +1,19 @@
+{
+    "name": "mileage-claims-api",
+    "version": "1.0.0",
+    "description": "Azure Functions API for mileage claims app",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "func start",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@azure/data-tables": "^13.2.2",
+        "jsonwebtoken": "^9.0.2",
+        "jwks-rsa": "^3.1.0"
+    },
+    "devDependencies": {
+        "@azure/functions": "^4.0.0"
+    }
+}

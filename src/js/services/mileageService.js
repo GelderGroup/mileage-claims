@@ -1,4 +1,6 @@
 // Service for handling mileage-related business logic
+import { AuthService } from './authService.js';
+
 export class MileageService {
 
     /**
@@ -89,6 +91,75 @@ export class MileageService {
             return cleaned.slice(0, -3) + ' ' + cleaned.slice(-3);
         }
         return cleaned;
+    }
+
+    /**
+     * Save mileage entry to Azure backend
+     * @param {Object} mileageData - Validated mileage entry data
+     * @returns {Promise<Object>} Response from server
+     */
+    static async saveMileageEntry(mileageData) {
+        try {
+            // Get authentication token
+            const token = await AuthService.getAccessToken();
+            const userInfo = await AuthService.getUserInfo();
+
+            // Prepare data for submission
+            const submissionData = {
+                ...mileageData,
+                submittedBy: userInfo.email,
+                submittedAt: new Date().toISOString(),
+                status: 'submitted'
+            };
+
+            // Call Azure Function API
+            const response = await fetch('/api/saveMileageEntry', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(submissionData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || `Server error: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Failed to save mileage entry:', error);
+            throw new Error(`Failed to save mileage entry: ${error.message}`);
+        }
+    }
+
+    /**
+     * Get user's mileage entries from Azure backend
+     * @returns {Promise<Array>} Array of mileage entries
+     */
+    static async getMileageEntries() {
+        try {
+            const token = await AuthService.getAccessToken();
+
+            const response = await fetch('/api/getMileageEntries', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch entries: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Failed to get mileage entries:', error);
+            throw error;
+        }
     }
 }
 
