@@ -155,7 +155,7 @@ export class AuthService {
 
         try {
             const accessToken = await this.getAccessToken();
-            
+
             // Call Microsoft Graph API to get current user's extension attributes
             // Note: This might not work with basic User.Read scope for extension attributes
             // You may need to test this or request admin consent for User.Read.All
