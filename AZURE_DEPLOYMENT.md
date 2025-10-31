@@ -23,12 +23,14 @@ If you need to make the repository public:
 ## Step 2: Create Azure Static Web App
 
 1. **Create Azure Static Web App**:
+
    - Go to [Azure Portal](https://portal.azure.com)
    - Click "Create a resource"
    - Search for "Static Web Apps" and select it
    - Click "Create"
 
 2. **Configure the Static Web App**:
+
    - **Subscription**: Choose your Azure subscription
    - **Resource Group**: Create new or select existing
    - **Name**: `mileage-claims-app` (or your preferred name)
@@ -47,11 +49,12 @@ If you need to make the repository public:
 3. **Review and Create**: Click "Review + create" then "Create"
 
 ## Step 3: Configure Microsoft 365 Authentication
-   - **Branch**: `main`
-   - **Build Presets**: Custom
-   - **App location**: `/` (root)
-   - **Api location**: `/api`
-   - **Output location**: `/dist`
+
+- **Branch**: `main`
+- **Build Presets**: Custom
+- **App location**: `/` (root)
+- **Api location**: `/api`
+- **Output location**: `/dist`
 
 3. **Review and Create**: Click "Review + create" then "Create"
 
@@ -82,7 +85,7 @@ If you need to make the repository public:
    - Copy the **Application (client) ID**
    - Copy the **Directory (tenant) ID**
 
-## Step 3: Configure Environment Variables
+## Step 4: Configure Environment Variables
 
 1. **In Azure Static Web Apps**:
    - Go to your Static Web App in Azure Portal
@@ -92,7 +95,7 @@ If you need to make the repository public:
      - `AZURE_TENANT_ID`: Your Directory (tenant) ID from step 2
      - `AzureWebJobsStorage`: Connection string to Azure Storage (created automatically)
 
-## Step 4: Update Configuration Files
+## Step 5: Update Configuration Files
 
 1. **Update `src/js/services/authService.js`**:
    Replace the placeholder values:
