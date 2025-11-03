@@ -1,12 +1,12 @@
 import { CosmosClient } from '@azure/cosmos';
 
 const cosmosClient = new CosmosClient(process.env.COSMOS_CONNECTION_STRING);
-const database = cosmosClient.database('mileageClaims');
+const database = cosmosClient.database('mileageclaimsdb');
 const container = database.container('vehicles');
 
 export default async function (context, req) {
     context.log('SaveUserVehicle function started');
-    
+
     try {
         // Check if Cosmos connection string exists
         if (!process.env.COSMOS_CONNECTION_STRING) {
@@ -56,10 +56,10 @@ export default async function (context, req) {
         context.log.error('Error saving user vehicle:', error);
         context.log.error('Error details:', error.message);
         context.log.error('Error stack:', error.stack);
-        
+
         context.res = {
             status: 500,
-            body: { 
+            body: {
                 error: 'Internal server error',
                 details: error.message,
                 timestamp: new Date().toISOString()
