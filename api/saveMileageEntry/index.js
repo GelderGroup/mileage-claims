@@ -3,7 +3,7 @@ import jwksClient from 'jwks-rsa';
 import { CosmosClient } from '@azure/cosmos';
 
 const cosmosClient = new CosmosClient(process.env.COSMOS_CONNECTION_STRING);
-const database = cosmosClient.database('mileageclaimsdb');
+const database = cosmosClient.database('mileagedb');
 const container = database.container('mileageEntries');
 
 // JWT validation for Microsoft 365 tokens

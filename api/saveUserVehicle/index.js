@@ -1,7 +1,7 @@
 import { CosmosClient } from '@azure/cosmos';
 
 const cosmosClient = new CosmosClient(process.env.COSMOS_CONNECTION_STRING);
-const database = cosmosClient.database('mileageclaimsdb');
+const database = cosmosClient.database('mileagedb');
 const container = database.container('vehicles');
 
 export default async function (context, req) {
