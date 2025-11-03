@@ -9,6 +9,7 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
+        "@azure/cosmos": "^4.0.0",
         "@azure/data-tables": "^13.2.2",
         "jsonwebtoken": "^9.0.2",
         "jwks-rsa": "^3.1.0"

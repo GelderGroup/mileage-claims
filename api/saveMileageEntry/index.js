@@ -1,5 +1,10 @@
 import jwt from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
+import { CosmosClient } from '@azure/cosmos';
+
+const cosmosClient = new CosmosClient(process.env.COSMOS_CONNECTION_STRING);
+const database = cosmosClient.database('mileageClaims');
+const container = database.container('mileageEntries');
 
 // JWT validation for Microsoft 365 tokens
 const client = jwksClient({
@@ -56,8 +61,8 @@ export default async function (context, req) {
         // Create entry with unique ID
         const entryId = `${user.email}_${Date.now()}`;
         const entry = {
-            PartitionKey: user.email,
-            RowKey: entryId,
+            id: entryId,
+            userId: user.email,
             fromPostcode,
             toPostcode,
             date,
@@ -68,8 +73,8 @@ export default async function (context, req) {
             status: 'submitted'
         };
 
-        // Save to Azure Table Storage
-        context.bindings.outputTable = entry;
+        // Save to Cosmos DB
+        const { resource } = await container.items.create(entry);
 
         context.res = {
             status: 201,
