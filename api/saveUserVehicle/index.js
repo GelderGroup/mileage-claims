@@ -7,7 +7,7 @@ const container = database.container('vehicles');
 export default async function (context, req) {
     try {
         const { userId, registration, make, model } = req.body;
-        
+
         if (!userId || !registration || !make || !model) {
             context.res = {
                 status: 400,

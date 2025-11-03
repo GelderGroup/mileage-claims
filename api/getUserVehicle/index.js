@@ -8,7 +8,7 @@ export default async function (context, req) {
     try {
         // Get user ID from query parameters (this will come from the authenticated user)
         const userId = req.query.userId;
-        
+
         if (!userId) {
             context.res = {
                 status: 400,
