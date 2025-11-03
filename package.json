@@ -3,7 +3,7 @@
     "version": "1.0.13",
     "scripts": {
         "start": "npm run clean && parcel src/index.html --open",
-        "clean": "rmdir /s /q dist || exit 0",
+        "clean": "rm -rf dist",
         "build": "npm run clean && parcel build src/index.html --no-source-maps"
     },
     "type": "module",

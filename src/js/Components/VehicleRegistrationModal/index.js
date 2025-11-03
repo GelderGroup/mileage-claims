@@ -92,7 +92,7 @@ export default class VehicleRegistrationModal {
             this.submitButton.textContent = 'Registering...';
 
             // Get current user info
-            const userInfo = await import('../services/authService.js').then(module =>
+            const userInfo = await import('../../services/authService.js').then(module =>
                 module.AuthService.getUserInfo()
             );
 
