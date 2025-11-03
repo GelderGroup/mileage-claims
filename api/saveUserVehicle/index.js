@@ -5,7 +5,20 @@ const database = cosmosClient.database('mileageClaims');
 const container = database.container('vehicles');
 
 export default async function (context, req) {
+    context.log('SaveUserVehicle function started');
+    
     try {
+        // Check if Cosmos connection string exists
+        if (!process.env.COSMOS_CONNECTION_STRING) {
+            context.log.error('COSMOS_CONNECTION_STRING environment variable is missing');
+            context.res = {
+                status: 500,
+                body: { error: 'Database configuration error: connection string missing' }
+            };
+            return;
+        }
+
+        context.log('Request body:', JSON.stringify(req.body));
         const { userId, registration, make, model } = req.body;
 
         if (!userId || !registration || !make || !model) {
@@ -41,9 +54,16 @@ export default async function (context, req) {
 
     } catch (error) {
         context.log.error('Error saving user vehicle:', error);
+        context.log.error('Error details:', error.message);
+        context.log.error('Error stack:', error.stack);
+        
         context.res = {
             status: 500,
-            body: { error: 'Internal server error' }
+            body: { 
+                error: 'Internal server error',
+                details: error.message,
+                timestamp: new Date().toISOString()
+            }
         };
     }
 }
