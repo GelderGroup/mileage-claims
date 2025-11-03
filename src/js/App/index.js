@@ -3,18 +3,23 @@ import pkg from '../../../package.json' assert { type: 'json' };
 import '@picocss/pico/css/pico.min.css';
 import MileageModal from "../Components/MileageModal";
 import LoginComponent from "../Components/LoginComponent";
+import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
 import { AuthService } from "../services/authService.js";
 
 export default class App {
     constructor() {
         this.loginComponent = new LoginComponent();
         this.entryModal = new MileageModal();
+        this.vehicleRegistrationModal = new VehicleRegistrationModal();
 
         // Set up callback for auth state changes
         this.loginComponent.onAuthStateChange = this.handleAuthStateChange;
 
         // Set up callback for mileage submission
         this.entryModal.onMileageSubmitted = this.handleMileageSubmitted;
+
+        // Set up callback for vehicle registration
+        this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
         this.el = el('',
             el('header',
@@ -32,7 +37,8 @@ export default class App {
                     }, 'Add Mileage Entry')
                 )
             ),
-            this.entryModal
+            this.entryModal,
+            this.vehicleRegistrationModal
         );
     } onmount = () => {
         this.displayAppVersion();
@@ -48,53 +54,31 @@ export default class App {
         const { isAuthenticated } = event.detail;
 
         if (isAuthenticated) {
-            this.showModalButton.disabled = false;
             const userInfo = await AuthService.getUserInfo();
             this.contentContainer.innerHTML = '';
+
+            // Show loading message
             this.contentContainer.appendChild(
-                el('p', `Welcome, ${userInfo.name}! You can now submit mileage claims.`)
+                el('p', `Welcome, ${userInfo.name}! Checking your vehicle registration...`)
             );
-            this.contentContainer.appendChild(this.showModalButton);
 
-            // Add test button for standard user attributes
-            const testStdButton = el('button', {
-                type: 'button',
-                style: 'margin-left: 1rem; background-color: var(--secondary);'
-            }, 'Show Standard User Attributes');
+            try {
+                // Check if user has registered a vehicle
+                const response = await fetch(`/api/getUserVehicle?userId=${encodeURIComponent(userInfo.email)}`);
+                const result = await response.json();
 
-            testStdButton.addEventListener('click', async () => {
-                try {
-                    testStdButton.textContent = 'Loading...';
-                    testStdButton.disabled = true;
-
-                    const stdAttrs = await AuthService.getStandardUserAttributes();
-
-                    const resultDiv = el('div', {
-                        style: 'margin: 1rem 0; padding: 1rem; background-color: var(--card-background-color); border-radius: var(--border-radius); white-space: pre-wrap; font-family: monospace;'
-                    }, stdAttrs ? JSON.stringify(stdAttrs, null, 2) : 'Not found or not accessible');
-
-                    // Remove any existing result
-                    const existingResult = this.contentContainer.querySelector('.ext-test-result');
-                    if (existingResult) existingResult.remove();
-
-                    resultDiv.className = 'ext-test-result';
-                    this.contentContainer.appendChild(resultDiv);
-
-                } catch (error) {
-                    console.error('Standard attribute test failed:', error);
-                    const errorDiv = el('div', {
-                        style: 'margin: 1rem 0; padding: 1rem; background-color: var(--del-color); color: white; border-radius: var(--border-radius);'
-                    }, `Error: ${error.message}`);
-
-                    errorDiv.className = 'ext-test-result';
-                    this.contentContainer.appendChild(errorDiv);
-                } finally {
-                    testStdButton.textContent = 'Show Standard User Attributes';
-                    testStdButton.disabled = false;
+                if (response.ok && result.hasVehicle) {
+                    // User has a vehicle registered - show main app
+                    this.showMainApp(userInfo, result.vehicle);
+                } else {
+                    // User needs to register a vehicle
+                    this.showVehicleRegistrationRequired(userInfo);
                 }
-            });
-
-            this.contentContainer.appendChild(testStdButton);
+            } catch (error) {
+                console.error('Error checking vehicle registration:', error);
+                // On error, assume no vehicle and show registration
+                this.showVehicleRegistrationRequired(userInfo);
+            }
         } else {
             this.showModalButton.disabled = true;
             this.contentContainer.innerHTML = '';
@@ -103,6 +87,58 @@ export default class App {
             );
             this.contentContainer.appendChild(this.showModalButton);
         }
+    }
+
+    showMainApp = (userInfo, vehicle) => {
+        this.showModalButton.disabled = false;
+        this.contentContainer.innerHTML = '';
+
+        this.contentContainer.appendChild(
+            el('div',
+                el('p', `Welcome, ${userInfo.name}!`),
+                el('p', `Vehicle: ${vehicle.registration} - ${vehicle.make} ${vehicle.model}`)
+            )
+        );
+        this.contentContainer.appendChild(this.showModalButton);
+
+        // Add vehicle change button
+        const changeVehicleButton = el('button', {
+            type: 'button',
+            style: 'margin-left: 1rem; background-color: var(--secondary);'
+        }, 'Change Vehicle');
+
+        changeVehicleButton.addEventListener('click', () => {
+            this.vehicleRegistrationModal.open();
+        });
+
+        this.contentContainer.appendChild(changeVehicleButton);
+    }
+
+    showVehicleRegistrationRequired = (userInfo) => {
+        this.showModalButton.disabled = true;
+        this.contentContainer.innerHTML = '';
+
+        this.contentContainer.appendChild(
+            el('div',
+                el('p', `Welcome, ${userInfo.name}!`),
+                el('p', 'You need to register your vehicle details before you can submit mileage claims.'),
+                el('button', {
+                    type: 'button'
+                }, 'Register Vehicle')
+            )
+        );
+
+        // Set up register button click
+        const registerButton = this.contentContainer.querySelector('button');
+        registerButton.addEventListener('click', () => {
+            this.vehicleRegistrationModal.open();
+        });
+    }
+
+    handleVehicleRegistered = async (vehicleData) => {
+        // Refresh the auth state to show the main app
+        const userInfo = await AuthService.getUserInfo();
+        this.showMainApp(userInfo, vehicleData);
     }
 
     handleMileageSubmitted = (event) => {
