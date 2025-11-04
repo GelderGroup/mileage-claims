@@ -1,185 +1,62 @@
 // Service for handling mileage-related business logic
-import { AuthService } from './swaAuth.js';
+import { SwaAuth } from "./swaAuth.js";
 
 export class MileageService {
-
-    /**
-     * Get user's current location and convert to postcode
-     * @returns {Promise<string>} Promise that resolves to postcode string
-     */
     static async getCurrentLocationPostcode() {
-        if (!('geolocation' in navigator)) {
-            throw new Error('Geolocation is not supported by this browser');
-        }
-
-        const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
-
-        console.log('Would reverse-geocode', position);
-
-        // TODO: Replace with actual reverse geocoding API call
-        const postcode = 'SW1A 1AA'; // Dummy postcode from reverse-geocoding
-
-        return postcode;
+        if (!("geolocation" in navigator)) throw new Error("Geolocation is not supported by this browser");
+        const position = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej));
+        console.log("Would reverse-geocode", position);
+        return "SW1A 1AA"; // TODO: replace with real reverse-geocode
     }
 
-    /**
-     * Calculate distance between two postcodes
-     * @param {string} startPostcode 
-     * @param {string} endPostcode 
-     * @returns {Promise<number>} Distance in miles
-     */
     static async calculateDistance(startPostcode, endPostcode) {
-        if (!startPostcode?.trim() || !endPostcode?.trim()) {
-            throw new Error('Both start and end postcodes are required');
-        }
-
-        // TODO: Replace with actual distance calculation API
-        // For now, return a random distance for demo purposes
-        const miles = Math.floor(Math.random() * 100) + 10; // Random miles between 10-110
-
+        if (!startPostcode?.trim() || !endPostcode?.trim()) throw new Error("Both start and end postcodes are required");
+        const miles = Math.floor(Math.random() * 100) + 10;
         console.log(`Calculated ${miles} miles from ${startPostcode} to ${endPostcode}`);
-
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 500));
-
+        await new Promise(r => setTimeout(r, 500));
         return miles;
     }
 
-    /**
-     * Validate mileage entry data
-     * @param {Object} data - Mileage entry data
-     * @returns {Object} { isValid: boolean, errors: string[] }
-     */
     static validateMileageEntry(data) {
         const errors = [];
-
-        if (!data.date) {
-            errors.push('Date is required');
-        }
-
-        if (!data.startPostcode?.trim()) {
-            errors.push('Start postcode is required');
-        }
-
-        if (!data.endPostcode?.trim()) {
-            errors.push('End postcode is required');
-        }
-
-        if (!data.distance || data.distance <= 0) {
-            errors.push('Miles must be greater than 0');
-        }
-
-        return {
-            isValid: errors.length === 0,
-            errors
-        };
+        if (!data.date) errors.push("Date is required");
+        if (!data.startPostcode?.trim()) errors.push("Start postcode is required");
+        if (!data.endPostcode?.trim()) errors.push("End postcode is required");
+        if (!data.distance || data.distance <= 0) errors.push("Miles must be greater than 0");
+        return { isValid: errors.length === 0, errors };
     }
 
-    /**
-     * Format postcode for consistency
-     * @param {string} postcode 
-     * @returns {string} Formatted postcode
-     */
     static formatPostcode(postcode) {
-        if (!postcode) return '';
-
-        // Basic UK postcode formatting - add space before last 3 characters
-        const cleaned = postcode.replace(/\s/g, '').toUpperCase();
-        if (cleaned.length >= 5) {
-            return cleaned.slice(0, -3) + ' ' + cleaned.slice(-3);
-        }
-        return cleaned;
+        if (!postcode) return "";
+        const cleaned = postcode.replace(/\s/g, "").toUpperCase();
+        return cleaned.length >= 5 ? cleaned.slice(0, -3) + " " + cleaned.slice(-3) : cleaned;
     }
 
-    /**
-     * Save mileage entry to Azure backend
-     * @param {Object} mileageData - Validated mileage entry data
-     * @returns {Promise<Object>} Response from server
-     */
+    // POST: include cookies, no bearer
     static async saveMileageEntry(mileageData) {
-        try {
-            // With EasyAuth, no need for manual token handling
-            // Azure handles authentication automatically
-
-            // Prepare data for submission (no need for submittedBy - server gets user from EasyAuth)
-            const submissionData = {
-                ...mileageData,
-                submittedAt: new Date().toISOString(),
-                status: 'submitted'
-            };
-
-            console.log('Submitting mileage data:', submissionData);
-
-            // Call Azure Function API (EasyAuth handles authentication automatically)
-            const response = await fetch('/api/saveMileageEntryEasyAuth', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify(submissionData)
-            });
-
-            console.log('Response received:', {
-                status: response.status,
-                statusText: response.statusText,
-                headers: Object.fromEntries(response.headers.entries())
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Server error response:', errorText);
-                console.error('Response status:', response.status);
-                console.error('Response headers:', [...response.headers.entries()]);
-
-                let errorData;
-                try {
-                    errorData = JSON.parse(errorText);
-                } catch (e) {
-                    errorData = { message: errorText || 'Unknown server error' };
-                }
-
-                throw new Error(errorData.error || errorData.message || `Server error: ${response.status}`);
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.error('Failed to save mileage entry:', error);
-            throw new Error(`Failed to save mileage entry: ${error.message}`);
-        }
+        const submissionData = { ...mileageData, submittedAt: new Date().toISOString(), status: "submitted" };
+        const res = await fetch("/api/saveMileageEntryEasyAuth", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" }, // no Authorization needed
+            body: JSON.stringify(submissionData),
+        });
+        if (!res.ok) throw new Error((await res.text()) || `Server error: ${res.status}`);
+        return res.json();
     }
 
-    /**
-     * Get user's mileage entries from Azure backend
-     * @returns {Promise<Array>} Array of mileage entries
-     */
+    // GET: include cookies, no bearer
     static async getMileageEntries() {
-        try {
-            const token = await AuthService.getAccessToken();
-
-            const response = await fetch('/api/getMileageEntries', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to fetch entries: ${response.status}`);
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.error('Failed to get mileage entries:', error);
-            throw error;
-        }
+        // optional: ensure logged in (SWA cookie present)
+        const p = await SwaAuth.me();
+        if (!p) throw new Error("Not authenticated");
+        const res = await fetch("/api/getMileageEntries", { credentials: "include" });
+        if (!res.ok) throw new Error(`Failed to fetch entries: ${res.status}`);
+        return res.json();
     }
 }
 
-// For convenience, also export individual functions
+// Convenience re-exports
 export const getCurrentLocationPostcode = MileageService.getCurrentLocationPostcode;
 export const calculateDistance = MileageService.calculateDistance;
 export const validateMileageEntry = MileageService.validateMileageEntry;
