@@ -3,8 +3,8 @@
     "version": "1.0.13",
     "scripts": {
         "start": "npm run clean && parcel src/index.html --open",
-        "clean": "rm -rf dist",
-        "build": "npm run clean && parcel build src/index.html --no-source-maps"
+        "clean": "powershell -Command \"if (Test-Path dist) { Remove-Item dist -Recurse -Force }\"",
+        "build": "npm run clean && parcel build src/index.html --no-source-maps && powershell -Command \"Copy-Item -Path staticwebapp.config.json -Destination dist\\staticwebapp.config.json\""
     },
     "type": "module",
     "dependencies": {
