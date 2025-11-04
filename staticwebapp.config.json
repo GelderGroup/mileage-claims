@@ -1,6 +1,6 @@
 {
     "navigationFallback": {
-        "rewrite": "/app.html",
+        "rewrite": "/index.html",
         "exclude": [
             "/images/*.{png,jpg,gif}",
             "/css/*"
@@ -21,7 +21,7 @@
         },
         {
             "route": "/*",
-            "rewrite": "/app.html"
+            "rewrite": "/index.html"
         }
     ],
     "auth": {
