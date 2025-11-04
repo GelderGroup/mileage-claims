@@ -31,8 +31,8 @@ async function validateToken(authHeader) {
 
     return new Promise((resolve, reject) => {
         jwt.verify(token, getKey, {
-            audience: process.env.AZURE_CLIENT_ID,
-            issuer: 'https://login.microsoftonline.com/common/v2.0',
+            audience: [process.env.AZURE_CLIENT_ID, 'api://default'], // Allow multiple audiences
+            issuer: ['https://login.microsoftonline.com/common/v2.0', 'https://sts.windows.net/' + process.env.AZURE_TENANT_ID + '/'], // Allow both v1 and v2
             algorithms: ['RS256']
         }, (err, decoded) => {
             if (err) {
@@ -40,7 +40,7 @@ async function validateToken(authHeader) {
                 console.log('JWT validation error details:', err);
                 reject(new Error('Invalid token'));
             } else {
-                console.log('JWT validation successful:', decoded.email || decoded.preferred_username);
+                console.log('JWT validation successful:', decoded.email || decoded.preferred_username || decoded.upn);
                 resolve(decoded);
             }
         });
