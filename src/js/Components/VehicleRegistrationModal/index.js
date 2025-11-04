@@ -91,23 +91,17 @@ export default class VehicleRegistrationModal {
             this.submitButton.disabled = true;
             this.submitButton.textContent = 'Registering...';
 
-            // Get current user info
-            const userInfo = await import('../../services/authService.js').then(module =>
-                module.AuthService.getUserInfo()
-            );
-
-            if (!userInfo) {
-                throw new Error('User not authenticated');
-            }
+            // With EasyAuth, we don't need to send userId
+            // The server will extract user info from authentication headers
 
             // Save vehicle to database
             const response = await fetch('/api/saveUserVehicle', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
                 body: JSON.stringify({
-                    userId: userInfo.email,
                     registration: registration,
                     make: make,
                     model: model

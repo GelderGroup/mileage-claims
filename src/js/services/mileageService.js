@@ -100,28 +100,23 @@ export class MileageService {
      */
     static async saveMileageEntry(mileageData) {
         try {
-            // Get authentication token
-            const token = await AuthService.getAccessToken();
-            const userInfo = await AuthService.getUserInfo();
+            // With EasyAuth, no need for manual token handling
+            // Azure handles authentication automatically
 
-            // Prepare data for submission
+            // Prepare data for submission (no need for submittedBy - server gets user from EasyAuth)
             const submissionData = {
                 ...mileageData,
-                submittedBy: userInfo.email,
                 submittedAt: new Date().toISOString(),
                 status: 'submitted'
             };
 
             console.log('Submitting mileage data:', submissionData);
-            console.log('User info:', userInfo);
-            console.log('Token length:', token ? token.length : 'No token');
 
-            // Call Azure Function API (simple auth version)
-            const response = await fetch('/api/saveMileageEntryAuth', {
+            // Call Azure Function API (EasyAuth handles authentication automatically)
+            const response = await fetch('/api/saveMileageEntryEasyAuth', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
                     'X-Requested-With': 'XMLHttpRequest'
                 },
                 body: JSON.stringify(submissionData)

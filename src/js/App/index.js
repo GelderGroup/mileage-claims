@@ -63,8 +63,15 @@ export default class App {
             );
 
             try {
-                // Check if user has registered a vehicle
-                const response = await fetch(`/api/getUserVehicle?userId=${encodeURIComponent(userInfo.email)}`);
+                // With EasyAuth, API calls are automatically authenticated
+                // No need to manually send tokens
+
+                const response = await fetch(`/api/getUserVehicle`, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
                 const result = await response.json();
 
                 if (response.ok && result.hasVehicle) {
