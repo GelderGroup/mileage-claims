@@ -36,6 +36,14 @@ jobs:
       - name: Build application
         run: npm run build
 
+      # 👇 ADD THIS NEW STEP
+      - name: Show build output
+        run: |
+          echo "---- Build Output ----"
+          ls -la dist
+          echo "---- staticwebapp.config.json (first 40 lines) ----"
+          head -n 40 dist/staticwebapp.config.json
+      # 👆 END NEW STEP
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
