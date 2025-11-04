@@ -3,8 +3,8 @@
     "version": "1.0.13",
     "scripts": {
         "start": "npm run clean && parcel src/index.html --open",
-        "clean": "powershell -Command \"if (Test-Path dist) { Remove-Item dist -Recurse -Force }\"",
-        "build": "npm run clean && parcel build src/index.html --no-source-maps && powershell -Command \"Copy-Item -Path staticwebapp.config.json -Destination dist\\staticwebapp.config.json\""
+        "clean": "rimraf dist",
+        "build": "npm run clean && parcel build src/index.html --no-source-maps && cpx \"staticwebapp.config.json\" dist"
     },
     "type": "module",
     "dependencies": {
@@ -13,7 +13,9 @@
         "redom-components": "^1.0.16"
     },
     "devDependencies": {
+        "cpx2": "^8.0.0",
         "parcel": "^2.16.0",
-        "redom": "^4.3.0"
+        "redom": "^4.3.0",
+        "rimraf": "^6.1.0"
     }
 }
