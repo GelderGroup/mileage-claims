@@ -2,6 +2,10 @@ import jwt from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
 import { CosmosClient } from '@azure/cosmos';
 
+const cosmosClient = new CosmosClient(process.env.COSMOS_CONNECTION_STRING);
+const database = cosmosClient.database('mileagedb');
+const container = database.container('mileageEntries');
+
 // JWT validation for Microsoft 365 tokens
 const client = jwksClient({
     jwksUri: 'https://login.microsoftonline.com/common/discovery/v2.0/keys'
@@ -85,17 +89,6 @@ export default async function (context, req) {
         };
 
         context.log('Creating entry:', JSON.stringify(entry, null, 2));
-
-        // Initialize Cosmos DB client inside the function
-        context.log('Initializing Cosmos DB client...');
-
-        if (!process.env.COSMOS_CONNECTION_STRING) {
-            throw new Error('COSMOS_CONNECTION_STRING environment variable is not set');
-        }
-
-        const cosmosClient = new CosmosClient(process.env.COSMOS_CONNECTION_STRING);
-        const database = cosmosClient.database('mileagedb');
-        const container = database.container('mileageEntries');
 
         // Save to Cosmos DB
         context.log('Attempting to save to Cosmos DB...');
