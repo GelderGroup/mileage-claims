@@ -128,4 +128,4 @@ After successful authentication setup:
 2. Test mileage entry submission
 3. Verify data storage in Azure Tables
 4. Set up data export functionality
-   chore:redeploy
+   chore:redeploy agin
