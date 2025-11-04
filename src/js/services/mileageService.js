@@ -112,6 +112,10 @@ export class MileageService {
                 status: 'submitted'
             };
 
+            console.log('Submitting mileage data:', submissionData);
+            console.log('User info:', userInfo);
+            console.log('Token length:', token ? token.length : 'No token');
+
             // Call Azure Function API
             const response = await fetch('/api/saveMileageEntry', {
                 method: 'POST',
@@ -121,6 +125,12 @@ export class MileageService {
                     'X-Requested-With': 'XMLHttpRequest'
                 },
                 body: JSON.stringify(submissionData)
+            });
+
+            console.log('Response received:', {
+                status: response.status,
+                statusText: response.statusText,
+                headers: Object.fromEntries(response.headers.entries())
             });
 
             if (!response.ok) {

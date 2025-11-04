@@ -43,7 +43,15 @@ async function validateToken(authHeader) {
 export default async function (context, req) {
     context.log('Save mileage entry request received');
     context.log('Request method:', req.method);
-    context.log('Request headers:', JSON.stringify(req.headers, null, 2));
+
+    // Log environment variables (without exposing sensitive data)
+    context.log('Environment check:', {
+        hasCosmosConnection: !!process.env.COSMOS_CONNECTION_STRING,
+        hasClientId: !!process.env.AZURE_CLIENT_ID,
+        cosmosConnectionLength: process.env.COSMOS_CONNECTION_STRING ? process.env.COSMOS_CONNECTION_STRING.length : 0
+    });
+
+    context.log('Request headers keys:', Object.keys(req.headers || {}));
     context.log('Request body:', JSON.stringify(req.body, null, 2));
 
     try {
@@ -84,6 +92,18 @@ export default async function (context, req) {
 
         // Save to Cosmos DB
         context.log('Attempting to save to Cosmos DB...');
+        context.log('Database name:', database.id);
+        context.log('Container name:', container.id);
+
+        // Test database connection first
+        try {
+            await database.read();
+            context.log('Database connection successful');
+        } catch (dbError) {
+            context.log('Database connection failed:', dbError.message);
+            throw new Error(`Database connection failed: ${dbError.message}`);
+        }
+
         const { resource } = await container.items.create(entry);
         context.log('Successfully saved to Cosmos DB:', resource.id);
 
