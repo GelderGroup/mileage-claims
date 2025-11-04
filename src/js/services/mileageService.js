@@ -116,11 +116,12 @@ export class MileageService {
             console.log('User info:', userInfo);
             console.log('Token length:', token ? token.length : 'No token');
 
-            // Call Azure Function API (no auth version)
-            const response = await fetch('/api/saveMileageEntryNoAuth', {
+            // Call Azure Function API (simple auth version)
+            const response = await fetch('/api/saveMileageEntryAuth', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                     'X-Requested-With': 'XMLHttpRequest'
                 },
                 body: JSON.stringify(submissionData)
