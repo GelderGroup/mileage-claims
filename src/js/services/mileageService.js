@@ -59,15 +59,15 @@ export class MileageService {
             errors.push('Date is required');
         }
 
-        if (!data.startPostcode?.trim()) {
+        if (!data.fromPostcode?.trim()) {
             errors.push('Start postcode is required');
         }
 
-        if (!data.endPostcode?.trim()) {
+        if (!data.toPostcode?.trim()) {
             errors.push('End postcode is required');
         }
 
-        if (!data.miles || data.miles <= 0) {
+        if (!data.distance || data.distance <= 0) {
             errors.push('Miles must be greater than 0');
         }
 
