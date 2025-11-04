@@ -1,109 +1,48 @@
-import { CosmosClient } from '@azure/cosmos';
-
+import { CosmosClient } from "@azure/cosmos"; // keep for now (conn string)
 const cosmosClient = new CosmosClient(process.env.COSMOS_CONNECTION_STRING);
-const database = cosmosClient.database('mileagedb');
-const container = database.container('vehicles');
+const container = cosmosClient.database("mileagedb").container("vehicles");
 
-// Extract user information from Azure EasyAuth headers
-function getUserFromHeaders(req) {
-    // Azure EasyAuth automatically sets this header when user is authenticated
-    const clientPrincipal = req.headers['x-ms-client-principal'];
-
-    if (!clientPrincipal) {
-        throw new Error('User not authenticated - x-ms-client-principal header missing');
-    }
-
-    try {
-        // Decode the base64 encoded client principal
-        const decoded = Buffer.from(clientPrincipal, 'base64').toString('utf-8');
-        const principal = JSON.parse(decoded);
-
-        if (!principal.userDetails) {
-            throw new Error('Invalid user principal - no user details');
-        }
-
-        return {
-            email: principal.userDetails,
-            name: principal.userClaims?.find(claim => claim.typ === 'name')?.val || principal.userDetails
-        };
-    } catch (error) {
-        throw new Error(`Failed to parse user principal: ${error.message}`);
-    }
+// Robustly extract SWA principal
+function getClientPrincipal(req) {
+    const raw = req.headers["x-ms-client-principal"];
+    if (!raw) throw new Error("Missing x-ms-client-principal");
+    const json = Buffer.from(raw, "base64").toString("utf8");
+    const p = JSON.parse(json); // keys: identityProvider, userId, userDetails, claims:[{typ,val}]
+    const byType = (t) => p.claims?.find(c => c.typ === t)?.val;
+    return {
+        userId: p.userId,                                // AAD OID
+        email: byType("preferred_username") || p.userDetails, // usually UPN/email
+        name: byType("name") || p.userDetails,
+        roles: p.claims?.filter(c => c.typ === "roles").map(c => c.val) || []
+    };
 }
 
 export default async function (context, req) {
-    context.log('GetUserVehicle function started (EasyAuth version)');
-
     try {
-        // Check if Cosmos connection string exists
         if (!process.env.COSMOS_CONNECTION_STRING) {
-            context.log.error('COSMOS_CONNECTION_STRING environment variable is missing');
-            context.res = {
-                status: 500,
-                body: { error: 'Database configuration error: connection string missing' }
-            };
-            return;
+            context.log.error("COSMOS_CONNECTION_STRING missing");
+            return (context.res = { status: 500, body: { error: "DB config error" } });
         }
 
-        // Extract user from EasyAuth headers
-        let user;
-        try {
-            user = getUserFromHeaders(req);
-            context.log('User extracted from EasyAuth:', user.email);
-        } catch (authError) {
-            context.log('Authentication failed:', authError.message);
-            context.res = {
-                status: 401,
-                body: { error: 'Authentication failed', details: authError.message }
-            };
-            return;
-        }
+        // SWA already blocks unauthenticated at the edge; we still assert identity here
+        const principal = getClientPrincipal(req);
 
-        // Query for user's vehicle using authenticated user email
+        // Optional: enforce an app role (uncomment if you add roles)
+        // if (!principal.roles.includes("vehicle-reader")) return (context.res = { status: 403, body: { error: "Forbidden" } });
+
         const query = {
-            query: 'SELECT * FROM c WHERE c.userId = @userId',
-            parameters: [
-                {
-                    name: '@userId',
-                    value: user.email
-                }
-            ]
+            query: "SELECT * FROM c WHERE c.userId = @userId",
+            parameters: [{ name: "@userId", value: principal.email }]
         };
 
         const { resources } = await container.items.query(query).fetchAll();
-
-        if (resources.length > 0) {
-            // User has a registered vehicle
-            context.res = {
-                status: 200,
-                body: {
-                    hasVehicle: true,
-                    vehicle: resources[0]
-                }
-            };
-        } else {
-            // User needs to register a vehicle
-            context.res = {
-                status: 200,
-                body: {
-                    hasVehicle: false,
-                    vehicle: null
-                }
-            };
-        }
-
-    } catch (error) {
-        context.log.error('Error checking user vehicle:', error);
-        context.log.error('Error details:', error.message);
-        context.log.error('Error stack:', error.stack);
-
-        context.res = {
-            status: 500,
-            body: {
-                error: 'Internal server error',
-                details: error.message,
-                timestamp: new Date().toISOString()
-            }
-        };
+        return (context.res = {
+            status: 200,
+            body: { hasVehicle: resources.length > 0, vehicle: resources[0] ?? null, user: { email: principal.email, name: principal.name } }
+        });
+    } catch (err) {
+        const status = /Missing x-ms-client-principal/.test(err.message) ? 401 : 500;
+        context.log.error("getUserVehicle error:", err);
+        context.res = { status, body: { error: err.message } };
     }
 }
