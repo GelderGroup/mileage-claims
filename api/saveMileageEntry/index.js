@@ -25,6 +25,10 @@ async function validateToken(authHeader) {
 
     const token = authHeader.substring(7);
 
+    // Add debugging for JWT validation
+    console.log('Token validation - Client ID:', process.env.AZURE_CLIENT_ID);
+    console.log('Token validation - Token length:', token.length);
+
     return new Promise((resolve, reject) => {
         jwt.verify(token, getKey, {
             audience: process.env.AZURE_CLIENT_ID,
@@ -32,8 +36,11 @@ async function validateToken(authHeader) {
             algorithms: ['RS256']
         }, (err, decoded) => {
             if (err) {
+                console.log('JWT validation error:', err.message);
+                console.log('JWT validation error details:', err);
                 reject(new Error('Invalid token'));
             } else {
+                console.log('JWT validation successful:', decoded.email || decoded.preferred_username);
                 resolve(decoded);
             }
         });
@@ -48,7 +55,8 @@ export default async function (context, req) {
     context.log('Environment check:', {
         hasCosmosConnection: !!process.env.COSMOS_CONNECTION_STRING,
         hasClientId: !!process.env.AZURE_CLIENT_ID,
-        cosmosConnectionLength: process.env.COSMOS_CONNECTION_STRING ? process.env.COSMOS_CONNECTION_STRING.length : 0
+        cosmosConnectionLength: process.env.COSMOS_CONNECTION_STRING ? process.env.COSMOS_CONNECTION_STRING.length : 0,
+        clientIdLength: process.env.AZURE_CLIENT_ID ? process.env.AZURE_CLIENT_ID.length : 0
     });
 
     context.log('Request headers keys:', Object.keys(req.headers || {}));
@@ -56,15 +64,14 @@ export default async function (context, req) {
 
     try {
         // Validate authentication
-        context.log('Validating authentication token...');
+        context.log('Step 1: Starting authentication validation...');
         const user = await validateToken(req.headers.authorization);
-        context.log('Authentication successful for user:', user.email);
+        context.log('Step 2: Authentication successful for user:', user.email);
 
         // Validate request body
+        context.log('Step 3: Validating request body...');
         const { startPostcode, endPostcode, date, distance, reason } = req.body;
-        context.log('Extracted fields:', { startPostcode, endPostcode, date, distance, reason });
-
-        if (!startPostcode || !endPostcode || !date || !distance || !reason) {
+        context.log('Extracted fields:', { startPostcode, endPostcode, date, distance, reason }); if (!startPostcode || !endPostcode || !date || !distance || !reason) {
             context.log('Missing required fields:', { startPostcode: !!startPostcode, endPostcode: !!endPostcode, date: !!date, distance: !!distance, reason: !!reason });
             context.res = {
                 status: 400,
