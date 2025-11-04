@@ -116,8 +116,8 @@ export class MileageService {
             console.log('User info:', userInfo);
             console.log('Token length:', token ? token.length : 'No token');
 
-            // Call Azure Function API
-            const response = await fetch('/api/saveMileageEntry', {
+            // Call Azure Function API (using simplified version for testing)
+            const response = await fetch('/api/saveMileageEntrySimple', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
