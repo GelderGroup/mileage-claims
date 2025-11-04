@@ -1,5 +1,5 @@
 // Service for handling mileage-related business logic
-import { AuthService } from './authService.js';
+import { AuthService } from './swaAuth.js';
 
 export class MileageService {
 

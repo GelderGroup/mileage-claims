@@ -1,5 +1,5 @@
 import { el } from 'redom';
-import { AuthService } from '../../services/authService.js';
+import { AuthService } from '../../services/swaAuth.js';
 
 class LoginComponent {
     constructor() {

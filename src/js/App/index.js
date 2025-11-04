@@ -4,7 +4,7 @@ import '@picocss/pico/css/pico.min.css';
 import MileageModal from "../Components/MileageModal";
 import LoginComponent from "../Components/LoginComponent";
 import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
-import { AuthService } from "../services/authService.js";
+import { AuthService } from "../services/swaAuth.js";
 
 export default class App {
     constructor() {
@@ -40,15 +40,41 @@ export default class App {
             this.entryModal,
             this.vehicleRegistrationModal
         );
-    } onmount = () => {
+    }
+
+    onmount = async () => {
         this.displayAppVersion();
         this.setupEventListeners();
-        this.checkAuthState();
+
+        const principal = await SwaAuth.me();
+        if (!principal) {
+            SwaAuth.login();            // hands off to SWA sign-in
+            return;
+        }
+        this.afterLogin(principal);
+    };
+
+    displayAppVersion = () => {
+        const versionElement = document.getElementById('app-version');
+        if (versionElement) {
+            versionElement.textContent = `v${pkg.version}`;
+        }
     }
 
     setupEventListeners = () => {
         this.showModalButton.addEventListener('click', this.openModal);
     }
+
+    afterLogin = async (principal) => {
+        const userInfo = { name: SwaAuth.getName(principal), email: SwaAuth.getEmail(principal) };
+        this.contentContainer.innerHTML = '';
+        this.contentContainer.appendChild(el('p', `Welcome, ${userInfo.name}! Checking your vehicle registration...`));
+
+        const res = await fetch("/api/getUserVehicle", { credentials: "include" });
+        const result = await res.json();
+        if (res.ok && result.hasVehicle) this.showMainApp(userInfo, result.vehicle);
+        else this.showVehicleRegistrationRequired(userInfo);
+    };
 
     handleAuthStateChange = async (event) => {
         const { isAuthenticated } = event.detail;
@@ -184,10 +210,5 @@ export default class App {
         this.showModalButton.removeEventListener('click', this.openModal);
     }
 
-    displayAppVersion = () => {
-        const versionElement = document.getElementById('app-version');
-        if (versionElement) {
-            versionElement.textContent = `v${pkg.version}`;
-        }
-    }
+
 }
