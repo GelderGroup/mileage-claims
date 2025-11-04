@@ -2,8 +2,13 @@
     "navigationFallback": {
         "rewrite": "/index.html",
         "exclude": [
-            "/images/*.{png,jpg,gif}",
-            "/css/*"
+            "/images/*",
+            "/css/*",
+            "/*.css",
+            "/*.js",
+            "/favicon.ico",
+            "/lib/*",
+            "/assets/*"
         ]
     },
     "responseOverrides": {
@@ -18,10 +23,6 @@
             "allowedRoles": [
                 "authenticated"
             ]
-        },
-        {
-            "route": "/*",
-            "rewrite": "/index.html"
         }
     ],
     "auth": {
@@ -34,11 +35,5 @@
                 }
             }
         }
-    },
-    "globalHeaders": {
-        "content-security-policy": "default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'"
-    },
-    "mimeTypes": {
-        ".json": "text/json"
     }
 }
