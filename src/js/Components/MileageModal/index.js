@@ -170,8 +170,8 @@ export default class MileageModal {
     handleSave = async () => {
         const data = {
             date: this.dateInput.value,
-            fromPostcode: this.startPostcodeInput.value,
-            toPostcode: this.endPostcodeInput.value,
+            startPostcode: this.startPostcodeInput.value,
+            endPostcode: this.endPostcodeInput.value,
             distance: this.milesInput.value,
             reason: this.reasonInput.value || 'Business travel'
         };
@@ -185,8 +185,8 @@ export default class MileageModal {
         }
 
         // Format postcodes for consistency
-        data.fromPostcode = MileageService.formatPostcode(data.fromPostcode);
-        data.toPostcode = MileageService.formatPostcode(data.toPostcode);
+        data.startPostcode = MileageService.formatPostcode(data.startPostcode);
+        data.endPostcode = MileageService.formatPostcode(data.endPostcode);
 
         try {
             // Save to Azure backend

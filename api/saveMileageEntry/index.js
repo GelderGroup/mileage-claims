@@ -53,11 +53,11 @@ export default async function (context, req) {
         context.log('Authentication successful for user:', user.email);
 
         // Validate request body
-        const { fromPostcode, toPostcode, date, distance, reason } = req.body;
-        context.log('Extracted fields:', { fromPostcode, toPostcode, date, distance, reason });
+        const { startPostcode, endPostcode, date, distance, reason } = req.body;
+        context.log('Extracted fields:', { startPostcode, endPostcode, date, distance, reason });
 
-        if (!fromPostcode || !toPostcode || !date || !distance || !reason) {
-            context.log('Missing required fields:', { fromPostcode: !!fromPostcode, toPostcode: !!toPostcode, date: !!date, distance: !!distance, reason: !!reason });
+        if (!startPostcode || !endPostcode || !date || !distance || !reason) {
+            context.log('Missing required fields:', { startPostcode: !!startPostcode, endPostcode: !!endPostcode, date: !!date, distance: !!distance, reason: !!reason });
             context.res = {
                 status: 400,
                 body: { error: 'Missing required fields' }
@@ -70,8 +70,8 @@ export default async function (context, req) {
         const entry = {
             id: entryId,
             userId: user.email,
-            fromPostcode,
-            toPostcode,
+            startPostcode,
+            endPostcode,
             date,
             distance: parseFloat(distance),
             reason,

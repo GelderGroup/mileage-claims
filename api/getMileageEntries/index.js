@@ -1,6 +1,10 @@
 import jwt from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
-import { TableClient } from '@azure/data-tables';
+import { CosmosClient } from '@azure/cosmos';
+
+const cosmosClient = new CosmosClient(process.env.COSMOS_CONNECTION_STRING);
+const database = cosmosClient.database('mileagedb');
+const container = database.container('mileageEntries');
 
 // JWT validation for Microsoft 365 tokens
 const client = jwksClient({
@@ -43,37 +47,37 @@ export default async function (context, req) {
         // Validate authentication
         const user = await validateToken(req.headers.authorization);
 
-        // Create table client
-        const tableClient = TableClient.fromConnectionString(
-            process.env.AzureWebJobsStorage,
-            'MileageEntries'
-        );
+        // Query entries for this user from Cosmos DB
+        const querySpec = {
+            query: "SELECT * FROM c WHERE c.userId = @userId",
+            parameters: [
+                {
+                    name: "@userId",
+                    value: user.email
+                }
+            ]
+        };
 
-        // Query entries for this user
-        const entities = [];
-        const entitiesIter = tableClient.listEntities({
-            queryOptions: { filter: `PartitionKey eq '${user.email}'` }
-        });
+        const { resources: entries } = await container.items.query(querySpec).fetchAll();
 
-        for await (const entity of entitiesIter) {
-            entities.push({
-                id: entity.RowKey,
-                fromPostcode: entity.fromPostcode,
-                toPostcode: entity.toPostcode,
-                date: entity.date,
-                distance: entity.distance,
-                reason: entity.reason,
-                submittedAt: entity.submittedAt,
-                status: entity.status
-            });
-        }
+        // Transform entries to expected format
+        const formattedEntries = entries.map(entry => ({
+            id: entry.id,
+            startPostcode: entry.startPostcode,
+            endPostcode: entry.endPostcode,
+            date: entry.date,
+            distance: entry.distance,
+            reason: entry.reason,
+            submittedAt: entry.submittedAt,
+            status: entry.status
+        }));
 
         // Sort by submission date (newest first)
-        entities.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+        formattedEntries.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
 
         context.res = {
             status: 200,
-            body: entities
+            body: formattedEntries
         };
 
     } catch (error) {

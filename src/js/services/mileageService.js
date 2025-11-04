@@ -59,11 +59,11 @@ export class MileageService {
             errors.push('Date is required');
         }
 
-        if (!data.fromPostcode?.trim()) {
+        if (!data.startPostcode?.trim()) {
             errors.push('Start postcode is required');
         }
 
-        if (!data.toPostcode?.trim()) {
+        if (!data.endPostcode?.trim()) {
             errors.push('End postcode is required');
         }
 
