@@ -2,18 +2,13 @@ import { el } from "redom";
 import pkg from '../../../package.json' assert { type: 'json' };
 import '@picocss/pico/css/pico.min.css';
 import MileageModal from "../Components/MileageModal";
-import LoginComponent from "../Components/LoginComponent";
 import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
 import { SwaAuth } from "../services/swaAuth.js";
 
 export default class App {
     constructor() {
-        this.loginComponent = new LoginComponent();
         this.entryModal = new MileageModal();
         this.vehicleRegistrationModal = new VehicleRegistrationModal();
-
-        // Set up callback for auth state changes
-        this.loginComponent.onAuthStateChange = this.handleAuthStateChange;
 
         // Set up callback for mileage submission
         this.entryModal.onMileageSubmitted = this.handleMileageSubmitted;
@@ -24,8 +19,7 @@ export default class App {
         this.el = el('',
             el('header',
                 el('nav',
-                    el('h1', 'Mileage Claims'),
-                    this.loginComponent
+                    el('h1', 'Mileage Claims')
                 )
             ),
             el('main',
@@ -47,11 +41,8 @@ export default class App {
         this.setupEventListeners();
 
         const principal = await SwaAuth.me();
-        if (!principal) {
-            SwaAuth.login();            // hands off to SWA sign-in
-            return;
-        }
-        this.afterLogin(principal);
+        if (!principal) { SwaAuth.login(); return; }        // <-- auto redirect
+        await this.afterLogin(principal);
     };
 
     displayAppVersion = () => {
@@ -66,61 +57,15 @@ export default class App {
     }
 
     afterLogin = async (principal) => {
-        const userInfo = { name: SwaAuth.getName(principal), email: SwaAuth.getEmail(principal) };
+        this.userInfo = { name: SwaAuth.getName(principal), email: SwaAuth.getEmail(principal) };
         this.contentContainer.innerHTML = '';
         this.contentContainer.appendChild(el('p', `Welcome, ${userInfo.name}! Checking your vehicle registration...`));
 
         const res = await fetch("/api/getUserVehicle", { credentials: "include" });
         const result = await res.json();
-        if (res.ok && result.hasVehicle) this.showMainApp(userInfo, result.vehicle);
-        else this.showVehicleRegistrationRequired(userInfo);
+        if (res.ok && result.hasVehicle) this.showMainApp(this.userInfo, result.vehicle);
+        else this.showVehicleRegistrationRequired(this.userInfo);
     };
-
-    handleAuthStateChange = async (event) => {
-        const { isAuthenticated } = event.detail;
-
-        if (isAuthenticated) {
-            const userInfo = await AuthService.getUserInfo();
-            this.contentContainer.innerHTML = '';
-
-            // Show loading message
-            this.contentContainer.appendChild(
-                el('p', `Welcome, ${userInfo.name}! Checking your vehicle registration...`)
-            );
-
-            try {
-                // With EasyAuth, API calls are automatically authenticated
-                // No need to manually send tokens
-
-                const response = await fetch(`/api/getUserVehicle`, {
-                    method: 'GET',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                });
-                const result = await response.json();
-
-                if (response.ok && result.hasVehicle) {
-                    // User has a vehicle registered - show main app
-                    this.showMainApp(userInfo, result.vehicle);
-                } else {
-                    // User needs to register a vehicle
-                    this.showVehicleRegistrationRequired(userInfo);
-                }
-            } catch (error) {
-                console.error('Error checking vehicle registration:', error);
-                // On error, assume no vehicle and show registration
-                this.showVehicleRegistrationRequired(userInfo);
-            }
-        } else {
-            this.showModalButton.disabled = true;
-            this.contentContainer.innerHTML = '';
-            this.contentContainer.appendChild(
-                el('p', 'Please sign in with your Microsoft 365 account to submit mileage claims.')
-            );
-            this.contentContainer.appendChild(this.showModalButton);
-        }
-    }
 
     showMainApp = (userInfo, vehicle) => {
         this.showModalButton.disabled = false;
@@ -168,11 +113,7 @@ export default class App {
         });
     }
 
-    handleVehicleRegistered = async (vehicleData) => {
-        // Refresh the auth state to show the main app
-        const userInfo = await AuthService.getUserInfo();
-        this.showMainApp(userInfo, vehicleData);
-    }
+    handleVehicleRegistered = (vehicleData) => this.showMainApp(this.userInfo, vehicleData);
 
     handleMileageSubmitted = (event) => {
         const { success, message, error } = event.detail;
@@ -196,19 +137,11 @@ export default class App {
         }
     }
 
-    checkAuthState = async () => {
-        const isAuthenticated = await AuthService.isAuthenticated();
-        if (isAuthenticated) {
-            this.handleAuthStateChange({ detail: { isAuthenticated: true } });
-        }
-    }
-
     openModal = () => {
         this.entryModal.open();
     }
+
     onunmount = () => {
         this.showModalButton.removeEventListener('click', this.openModal);
     }
-
-
 }
