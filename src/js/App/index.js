@@ -4,7 +4,7 @@ import '@picocss/pico/css/pico.min.css';
 import MileageModal from "../Components/MileageModal";
 import LoginComponent from "../Components/LoginComponent";
 import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
-import { AuthService } from "../services/swaAuth.js";
+import { SwaAuth } from "../services/swaAuth.js";
 
 export default class App {
     constructor() {
