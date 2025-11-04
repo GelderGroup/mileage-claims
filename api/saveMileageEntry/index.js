@@ -42,15 +42,22 @@ async function validateToken(authHeader) {
 
 export default async function (context, req) {
     context.log('Save mileage entry request received');
+    context.log('Request method:', req.method);
+    context.log('Request headers:', JSON.stringify(req.headers, null, 2));
+    context.log('Request body:', JSON.stringify(req.body, null, 2));
 
     try {
         // Validate authentication
+        context.log('Validating authentication token...');
         const user = await validateToken(req.headers.authorization);
+        context.log('Authentication successful for user:', user.email);
 
         // Validate request body
         const { fromPostcode, toPostcode, date, distance, reason } = req.body;
+        context.log('Extracted fields:', { fromPostcode, toPostcode, date, distance, reason });
 
         if (!fromPostcode || !toPostcode || !date || !distance || !reason) {
+            context.log('Missing required fields:', { fromPostcode: !!fromPostcode, toPostcode: !!toPostcode, date: !!date, distance: !!distance, reason: !!reason });
             context.res = {
                 status: 400,
                 body: { error: 'Missing required fields' }
@@ -73,8 +80,12 @@ export default async function (context, req) {
             status: 'submitted'
         };
 
+        context.log('Creating entry:', JSON.stringify(entry, null, 2));
+
         // Save to Cosmos DB
+        context.log('Attempting to save to Cosmos DB...');
         const { resource } = await container.items.create(entry);
+        context.log('Successfully saved to Cosmos DB:', resource.id);
 
         context.res = {
             status: 201,
@@ -87,11 +98,18 @@ export default async function (context, req) {
 
     } catch (error) {
         context.log.error('Error saving mileage entry:', error);
+        context.log.error('Error stack:', error.stack);
+        context.log.error('Error details:', {
+            message: error.message,
+            name: error.name,
+            code: error.code
+        });
 
         context.res = {
             status: error.message.includes('token') ? 401 : 500,
             body: {
-                error: error.message.includes('token') ? 'Authentication failed' : 'Internal server error'
+                error: error.message.includes('token') ? 'Authentication failed' : 'Internal server error',
+                details: error.message
             }
         };
     }

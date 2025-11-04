@@ -124,8 +124,19 @@ export class MileageService {
             });
 
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || `Server error: ${response.status}`);
+                const errorText = await response.text();
+                console.error('Server error response:', errorText);
+                console.error('Response status:', response.status);
+                console.error('Response headers:', [...response.headers.entries()]);
+
+                let errorData;
+                try {
+                    errorData = JSON.parse(errorText);
+                } catch (e) {
+                    errorData = { message: errorText || 'Unknown server error' };
+                }
+
+                throw new Error(errorData.error || errorData.message || `Server error: ${response.status}`);
             }
 
             return await response.json();
