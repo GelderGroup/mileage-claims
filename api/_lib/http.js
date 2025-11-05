@@ -1,9 +1,15 @@
+// Force a proper HTTP response using the Web Response API.
+// This avoids the host re-shaping the object and losing content-type.
 export const json = (c, status, body) => {
-    c.res = { status, headers: { 'Content-Type': 'application/json; charset=utf-8' }, body };
+    c.res = new Response(JSON.stringify(body), {
+        status,
+        headers: { 'content-type': 'application/json; charset=utf-8' }
+    });
 };
 
 export const ok = (c, body) => json(c, 200, body);
-export const err = (c, status, message, det) => json(c, status, { error: message, ...(det && { details: det }) });
+export const err = (c, status, msg, details) =>
+    json(c, status, { error: msg, ...(details && { details }) });
 
 export const principalOr401 = (c, req, getPrincipal) => {
     try { return getPrincipal(req); }
