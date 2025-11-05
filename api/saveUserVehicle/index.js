@@ -4,8 +4,6 @@ import { getCosmosContainer } from '../_lib/cosmos.js';
 const vehicles = getCosmosContainer("mileagedb", "vehicles");
 
 export default async function (context, req) {
-    context.log('SaveUserVehicle function started (EasyAuth version)');
-
     try {
         const user = getClientPrincipal(req);
         const { registration, make, model } = req.body;
@@ -33,7 +31,6 @@ export default async function (context, req) {
         const { resource } = await vehicles.items.upsert(vehicleRecord);
 
         context.res = { status: 201, body: { success: true, id: resource.id, message: "Vehicle saved successfully" } };
-
     } catch (error) {
         const status = /x-ms-client-principal/.test(error.message) ? 401 : 500;
         context.res = { status, body: { error: status === 401 ? "Authentication failed" : "Internal server error", details: error.message } };
