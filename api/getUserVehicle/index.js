@@ -13,7 +13,7 @@ export default async function (context, req) {
             parameters: [{ name: "@userId", value: principal.email }]
         }).fetchAll();
 
-        return ok(context, {
+        ok(context, {
             hasVehicle: vehicles.length > 0,
             vehicle: vehicles[0] ?? null,
             user: { email: principal.email, name: principal.name }
