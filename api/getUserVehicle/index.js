@@ -1,5 +1,5 @@
 import { getCosmosContainer } from "../_lib/cosmos.js";
-import { getClientPrincipal } from "../_lib/auth";
+import { getClientPrincipal } from "../_lib/auth.js";
 
 const vehicles = getCosmosContainer("mileagedb", "vehicles");
 

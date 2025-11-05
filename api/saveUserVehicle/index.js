@@ -1,5 +1,5 @@
 import { CosmosClient } from '@azure/cosmos';
-import { getClientPrincipal } from '../_lib/auth';
+import { getClientPrincipal } from '../_lib/auth.js';
 
 const cosmosClient = new CosmosClient(process.env.COSMOS_CONNECTION_STRING);
 const database = cosmosClient.database('mileagedb');
