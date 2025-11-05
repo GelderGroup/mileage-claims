@@ -63,11 +63,12 @@ export default class App {
         this.contentContainer.appendChild(el('p', `Welcome, ${this.userInfo.name}! Checking your vehicle registration...`));
 
         try {
-            const result = await VehiclesApi.get(); // throws on non-2xx
-            console.log('getUserVehicle result:', result);
-            if (result?.hasVehicle) {
-                this.showMainApp(this.userInfo, result.vehicle);
+            const { hasVehicle, vehicle } = await VehiclesApi.get(); // http() already parsed JSON
+            if (hasVehicle === true) {
+                console.log('User vehicle found:', vehicle);
+                this.showMainApp(this.userInfo, vehicle);
             } else {
+                console.log('No vehicle found for user:', this.userInfo.email);
                 this.showVehicleRegistrationRequired(this.userInfo);
             }
         } catch (err) {
