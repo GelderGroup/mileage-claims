@@ -1,6 +1,3 @@
-// Service for handling mileage-related business logic
-import { SwaAuth } from "./swaAuth.js";
-
 export class MileageService {
     static async getCurrentLocationPostcode() {
         if (!("geolocation" in navigator)) throw new Error("Geolocation is not supported by this browser");
@@ -52,10 +49,13 @@ export class MileageService {
 
     // GET: include cookies, no bearer
     static async getMileageEntries() {
-        // optional: ensure logged in (SWA cookie present)
-        const p = await SwaAuth.me();
-        if (!p) throw new Error("Not authenticated");
-        const res = await fetch("/api/getMileageEntries", { credentials: "include" });
+        const res = await fetch("/api/getMileageEntries", {
+            credentials: "include",
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+
         if (!res.ok) throw new Error(`Failed to fetch entries: ${res.status}`);
         return res.json();
     }

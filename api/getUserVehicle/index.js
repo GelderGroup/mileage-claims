@@ -19,7 +19,14 @@ export default async function (context, req) {
         const { resources } = await vehicles.items.query(query).fetchAll();
         return (context.res = {
             status: 200,
-            body: { hasVehicle: resources.length > 0, vehicle: resources[0] ?? null, user: { email: principal.email, name: principal.name } }
+            body: {
+                hasVehicle: resources.length > 0,
+                vehicle: resources[0] ?? null,
+                user: {
+                    email: principal.email,
+                    name: principal.name
+                }
+            }
         });
     } catch (err) {
         const status = /Missing x-ms-client-principal/.test(err.message) ? 401 : 500;

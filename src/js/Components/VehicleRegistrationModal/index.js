@@ -1,4 +1,5 @@
 import { el } from 'redom';
+import { VehiclesApi } from '../../../services/api/vehicles';
 
 export default class VehicleRegistrationModal {
     constructor() {
@@ -91,41 +92,17 @@ export default class VehicleRegistrationModal {
             this.submitButton.disabled = true;
             this.submitButton.textContent = 'Registering...';
 
-            // With EasyAuth, we don't need to send userId
-            // The server will extract user info from authentication headers
+            try {
+                await VehiclesApi.upsert({ registration, make, model });
 
-            // Save vehicle to database
-            const response = await fetch('/api/saveUserVehicle', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify({
-                    registration: registration,
-                    make: make,
-                    model: model
-                })
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
                 this.showMessage('Vehicle registered successfully!', 'success');
 
-                // Call callback after short delay
                 setTimeout(() => {
-                    if (this.onVehicleRegistered) {
-                        this.onVehicleRegistered({
-                            registration,
-                            make,
-                            model
-                        });
-                    }
+                    this.onVehicleRegistered?.({ registration, make, model });
                     this.close();
                 }, 1500);
-            } else {
-                throw new Error(result.error || 'Failed to register vehicle');
+            } catch (err) {
+                this.showMessage(err.message || 'Failed to register vehicle', 'error');
             }
 
         } catch (error) {
