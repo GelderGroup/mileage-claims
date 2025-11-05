@@ -5,11 +5,7 @@ const vehicles = getCosmosContainer("mileagedb", "vehicles");
 
 export default async function (context, req) {
     try {
-        // SWA already blocks unauthenticated at the edge; we still assert identity here
         const principal = getClientPrincipal(req);
-
-        // Optional: enforce an app role (uncomment if you add roles)
-        // if (!principal.roles.includes("vehicle-reader")) return (context.res = { status: 403, body: { error: "Forbidden" } });
 
         const query = {
             query: "SELECT * FROM c WHERE c.userId = @userId",
@@ -19,13 +15,11 @@ export default async function (context, req) {
         const { resources } = await vehicles.items.query(query).fetchAll();
         return (context.res = {
             status: 200,
+            headers: { 'Content-Type': 'application/json' },
             body: {
                 hasVehicle: resources.length > 0,
                 vehicle: resources[0] ?? null,
-                user: {
-                    email: principal.email,
-                    name: principal.name
-                }
+                user: { email: principal.email, name: principal.name }
             }
         });
     } catch (err) {
