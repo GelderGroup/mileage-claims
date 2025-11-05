@@ -59,12 +59,26 @@ export default class App {
     afterLogin = async (principal) => {
         this.userInfo = { name: SwaAuth.getName(principal), email: SwaAuth.getEmail(principal) };
         this.contentContainer.innerHTML = '';
-        this.contentContainer.appendChild(el('p', `Welcome, ${userInfo.name}! Checking your vehicle registration...`));
+        this.contentContainer.appendChild(
+            el('p', `Welcome, ${this.userInfo.name}! Checking your vehicle registration...`)
+        );
 
-        const res = await fetch("/api/getUserVehicle", { credentials: "include" });
-        const result = await res.json();
-        if (res.ok && result.hasVehicle) this.showMainApp(this.userInfo, result.vehicle);
-        else this.showVehicleRegistrationRequired(this.userInfo);
+        try {
+            const res = await fetch('/api/getUserVehicle', { credentials: 'include' });
+            const result = res.ok ? await res.json() : null;
+
+            if (res.ok && result?.hasVehicle) {
+                this.showMainApp(this.userInfo, result.vehicle);
+            } else if (res.status === 401) {
+                // not expected now, but just in case
+                window.location.href = '/.auth/login/aad?post_login_redirect_uri=/';
+            } else {
+                this.showVehicleRegistrationRequired(this.userInfo);
+            }
+        } catch (err) {
+            console.error('getUserVehicle failed:', err);
+            this.showVehicleRegistrationRequired(this.userInfo);
+        }
     };
 
     showMainApp = (userInfo, vehicle) => {
