@@ -64,6 +64,7 @@ export default class App {
 
         try {
             const result = await VehiclesApi.get(); // throws on non-2xx
+            console.log('getUserVehicle result:', result);
             if (result?.hasVehicle) {
                 this.showMainApp(this.userInfo, result.vehicle);
             } else {
