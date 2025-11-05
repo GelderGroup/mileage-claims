@@ -63,7 +63,11 @@ export default class App {
         this.contentContainer.appendChild(el('p', `Welcome, ${this.userInfo.name}! Checking your vehicle registration...`));
 
         try {
-            const { vehicle, hasVehicle } = await VehiclesApi.get();
+            const result = await VehiclesApi.get();
+            const { hasVehicle, vehicle } = result;
+
+            console.log(result);
+            console.log(typeof result);
 
             if (hasVehicle === true) {
                 this.showMainApp(this.userInfo, vehicle);
