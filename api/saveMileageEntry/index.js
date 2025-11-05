@@ -19,9 +19,13 @@ export default async function (context, req) {
         const entry = {
             id: `${user.email}_${Date.now()}`,
             userId: user.email,
-            startPostcode, endPostcode,
-            date, distance: Number(distance), reason,
-            submittedBy: user.email, submittedAt: new Date().toISOString(),
+            startPostcode,
+            endPostcode,
+            date,
+            distance: Number(distance),
+            reason,
+            submittedBy: user.email,
+            submittedAt: new Date().toISOString(),
             status: "submitted"
         };
 
