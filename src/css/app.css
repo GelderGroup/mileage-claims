@@ -50,7 +50,7 @@
     color: var(--pico-color);
 }
 
-/* Make the MILEAGE CLAIMS text less prominent using Pico's secondary color */
+/* Make the MILEAGE CLAIMS text more prominent */
 #gelder-logo path:nth-last-of-type(1),
 #gelder-logo path:nth-last-of-type(2),
 #gelder-logo path:nth-last-of-type(3) {
