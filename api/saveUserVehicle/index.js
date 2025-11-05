@@ -17,7 +17,7 @@ export default async function (context, req) {
         }
 
         // Create vehicle record using authenticated user's email
-        const vehicleRecord = {
+        const vehicle = {
             id: `vehicle-${user.email}`, // Unique ID for the vehicle record
             userId: user.email, // Use authenticated user's email
             registration: registration.toUpperCase(),
@@ -28,7 +28,7 @@ export default async function (context, req) {
         };
 
         // Save to Cosmos DB (this will create or replace)
-        const { resource } = await vehicles.items.upsert(vehicleRecord);
+        const { resource } = await vehicles.items.upsert(vehicle);
 
         context.res = { status: 201, body: { success: true, id: resource.id, message: "Vehicle saved successfully" } };
     } catch (error) {

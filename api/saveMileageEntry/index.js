@@ -29,7 +29,7 @@ export default async function (context, req) {
             status: "submitted"
         };
 
-        // Save to Cosmos DB (this will create or replace)
+        // Save to Cosmos DB
         const { resource } = await entries.items.create(entry);
 
         context.res = { status: 201, body: { success: true, id: resource.id, message: "Mileage entry saved" } };

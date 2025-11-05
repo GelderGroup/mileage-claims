@@ -35,12 +35,17 @@ export class MileageService {
     // POST: include cookies, no bearer
     static async saveMileageEntry(mileageData) {
         const submissionData = { ...mileageData, submittedAt: new Date().toISOString(), status: "submitted" };
-        const res = await fetch("/api/saveMileageEntryEasyAuth", {
+
+        const res = await fetch("/api/saveMileageEntry", {
             method: "POST",
             credentials: "include",
-            headers: { "Content-Type": "application/json" }, // no Authorization needed
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
             body: JSON.stringify(submissionData),
         });
+
         if (!res.ok) throw new Error((await res.text()) || `Server error: ${res.status}`);
         return res.json();
     }
