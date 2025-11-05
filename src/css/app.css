@@ -47,14 +47,14 @@
     /* if inside a flex bar */
     overflow: visible;
     /* keeps the underline from clipping */
-    color: var(--pico-primary-inverse);
+    color: var(--pico-color);
 }
 
 /* Make the MILEAGE CLAIMS text less prominent using Pico's secondary color */
 #gelder-logo path:nth-last-of-type(1),
 #gelder-logo path:nth-last-of-type(2),
 #gelder-logo path:nth-last-of-type(3) {
-    fill: var(--pico-secondary) !important;
+    fill: var(---pico-primary-inverse) !important;
 }
 
 /* Make the control compact instead of full-width */
