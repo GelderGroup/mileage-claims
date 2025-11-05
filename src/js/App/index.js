@@ -63,16 +63,17 @@ export default class App {
         this.contentContainer.appendChild(el('p', `Welcome, ${this.userInfo.name}! Checking your vehicle registration...`));
 
         try {
-            const res = await fetch('/api/getUserVehicle', { credentials: 'include' });
-            console.log('CT:', res.headers.get('content-type'));     // expect application/json; charset=utf-8
-            console.log('RAW:', await res.clone().text());           // should be valid JSON text
+            const result = await VehiclesApi.get();
+            const { hasVehicle, vehicle } = result;
 
+            console.log(result);
+            console.log(typeof result)
 
-            // if (hasVehicle === true) {
-            //     this.showMainApp(this.userInfo, vehicle);
-            // } else {
-            //     this.showVehicleRegistrationRequired(this.userInfo);
-            // }
+            if (hasVehicle === true) {
+                this.showMainApp(this.userInfo, vehicle);
+            } else {
+                this.showVehicleRegistrationRequired(this.userInfo);
+            }
         } catch (err) {
             // If you want to treat 401 specially, inspect the message or add a tiny helper in http()
             console.error('getUserVehicle failed:', err);
