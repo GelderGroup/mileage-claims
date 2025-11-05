@@ -64,7 +64,8 @@ export default class App {
 
         try {
             const result = await VehiclesApi.get(); // http() already parsed JSON
-            console.log('getUserVehicle result:', result);
+            console.log(result);
+            console.log(typeof result);
             const { vehicle, hasVehicle } = result;
 
             if (hasVehicle === true) {
