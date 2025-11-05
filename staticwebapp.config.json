@@ -15,5 +15,16 @@
                 "authenticated"
             ]
         }
-    ]
+    ],
+    "auth": {
+        "identityProviders": {
+            "azureActiveDirectory": {
+                "registration": {
+                    "openIdIssuer": "https://login.microsoftonline.com/009c4932-1b42-4c0f-ae49-eed8b8c9a26f/v2.0",
+                    "clientIdSettingName": "AZURE_CLIENT_ID",
+                    "clientSecretSettingName": "AZURE_CLIENT_SECRET"
+                }
+            }
+        }
+    }
 }
