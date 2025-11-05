@@ -1,4 +1,3 @@
-// api/_lib/http.js
 export const json = (c, status, body) => {
     c.res = { status, headers: { 'Content-Type': 'application/json; charset=utf-8' }, body };
 };
