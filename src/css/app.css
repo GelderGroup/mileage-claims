@@ -54,7 +54,7 @@
 #gelder-logo path:nth-last-of-type(1),
 #gelder-logo path:nth-last-of-type(2),
 #gelder-logo path:nth-last-of-type(3) {
-    fill: var(--pico-primary-inverse) !important;
+    fill: var(--pico-contrast) !important;
 }
 
 /* Make the control compact instead of full-width */
