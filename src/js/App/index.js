@@ -18,11 +18,6 @@ export default class App {
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
         this.el = el('',
-            el('header',
-                el('nav',
-                    el('h1', 'Mileage Claims')
-                )
-            ),
             el('main',
                 this.contentContainer = el('.container',
                     el('p', 'Please sign in with your Microsoft 365 account to submit mileage claims.'),

@@ -47,7 +47,7 @@
     /* if inside a flex bar */
     overflow: visible;
     /* keeps the underline from clipping */
-    color: var(--pico-color);
+    color: var(--pico-primary-inverse);
 }
 
 /* Make the MILEAGE CLAIMS text less prominent using Pico's secondary color */
