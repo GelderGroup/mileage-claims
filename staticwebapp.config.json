@@ -1,21 +1,12 @@
 {
     "navigationFallback": {
-        "rewrite": "/index.html",
+        "rewrite": "/app.html",
         "exclude": [
+            "/api/*",
+            "/.auth/*",
             "/images/*",
-            "/css/*",
-            "/*.css",
-            "/*.js",
-            "/favicon.ico",
-            "/lib/*",
-            "/assets/*"
+            "/css/*"
         ]
-    },
-    "responseOverrides": {
-        "401": {
-            "redirect": "/.auth/login/aad",
-            "statusCode": 302
-        }
     },
     "routes": [
         {
