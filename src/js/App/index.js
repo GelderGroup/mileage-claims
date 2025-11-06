@@ -6,6 +6,7 @@ import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
 import { SwaAuth } from "../services/swaAuth.js";
 import { VehiclesApi } from "../../services/vehicles.js";
 import VehicleLookup from "../Components/VehicleLookup/index.js";
+import { VehicleLookupApi } from "../../services/vehicleLookup.js";
 
 export default class App {
     constructor() {
@@ -19,7 +20,7 @@ export default class App {
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
         this.el = el('',
-            new VehicleLookup(),
+            new VehicleLookup(VehicleLookupApi),
             el('main',
                 this.contentContainer = el('.container',
                     el('p', 'Please sign in with your Microsoft 365 account to submit mileage claims.')
