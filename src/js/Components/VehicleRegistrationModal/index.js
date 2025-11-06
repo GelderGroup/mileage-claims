@@ -41,15 +41,13 @@ export default class VehicleRegistrationModal {
         this.lookup.el.removeEventListener('vehicle:found', this.handleVehicleFound);
     }
 
-    handleVehicleFound = (vehicle) => {
-        this.selected = vehicle;
+    handleVehicleFound = ({ detail }) => {
+        this.selected = detail;
         this.btnRegister.disabled = false;
-        this.renderSummary(vehicle);
+        this.renderSummary(detail);
     }
 
     renderSummary(v) {
-        console.log(v);
-        console.log(typeof v);
         const chip = (label, good) =>
             el('span', { class: 'contrast', style: `padding:.15rem .45rem;border-radius:.5rem;${good ? '' : 'background:var(--pico-muted-border-color);'}` }, label);
 
