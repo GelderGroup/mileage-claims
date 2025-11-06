@@ -36,23 +36,23 @@ export default class VehicleRegistrationModal {
     }
 
     setupEventListeners() {
-        // Auto-uppercase registration input
-        this.regInput.addEventListener('input', (e) => {
-            e.target.value = e.target.value.toUpperCase();
-        });
+        // // Auto-uppercase registration input
+        // this.regInput.addEventListener('input', (e) => {
+        //     e.target.value = e.target.value.toUpperCase();
+        // });
 
-        // Form submission
-        this.form.addEventListener('submit', this.handleSubmit);
+        // // Form submission
+        // this.form.addEventListener('submit', this.handleSubmit);
 
-        // Lookup button (for future government API integration)
-        this.lookupButton.addEventListener('click', this.handleLookup);
+        // // Lookup button (for future government API integration)
+        // this.lookupButton.addEventListener('click', this.handleLookup);
 
-        // Close modal when clicking outside
-        this.modal.addEventListener('click', (e) => {
-            if (e.target === this.modal) {
-                this.close();
-            }
-        });
+        // // Close modal when clicking outside
+        // this.modal.addEventListener('click', (e) => {
+        //     if (e.target === this.modal) {
+        //         this.close();
+        //     }
+        // });
     }
 
     handleSubmit = async (e) => {
