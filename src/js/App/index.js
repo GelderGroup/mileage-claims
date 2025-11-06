@@ -20,16 +20,17 @@ export default class App {
         this.el = el('',
             el('main',
                 this.contentContainer = el('.container',
-                    el('p', 'Please sign in with your Microsoft 365 account to submit mileage claims.'),
-                    this.showModalButton = el('button', {
-                        type: 'button',
-                        disabled: true
-                    }, 'Add Mileage Entry')
+                    el('p', 'Please sign in with your Microsoft 365 account to submit mileage claims.')
                 )
             ),
             this.entryModal,
             this.vehicleRegistrationModal
         );
+
+        this.showModalButton = el('button', {
+            type: 'button',
+            disabled: true
+        }, 'Add Mileage Entry')
     }
 
     onmount = async () => {
@@ -42,10 +43,7 @@ export default class App {
     };
 
     displayAppVersion = () => {
-        const versionElement = document.getElementById('app-version');
-        if (versionElement) {
-            versionElement.textContent = `v${pkg.version}`;
-        }
+        document.getElementById('ver').textContent = `v${pkg.version}`;
     }
 
     setupEventListeners = () => {
