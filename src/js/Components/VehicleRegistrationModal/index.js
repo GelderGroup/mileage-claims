@@ -1,9 +1,12 @@
 import { el } from 'redom';
 import { VehiclesApi } from '../../../services/vehicles.js';
+import VehicleLookup from '../VehicleLookup/index.js';
+import { VehicleLookupApi } from '../../../services/vehicleLookup.js';
 
 export default class VehicleRegistrationModal {
     constructor() {
         this.onVehicleRegistered = null; // Callback for when vehicle is registered
+
 
         this.modal = el('dialog', {
             style: 'max-width: 500px; padding: 2rem;'
@@ -14,36 +17,12 @@ export default class VehicleRegistrationModal {
                     el('p', 'Please register your vehicle details to continue.')
                 ),
                 this.form = el('form',
-                    el('label', 'Vehicle Registration Number:',
-                        this.regInput = el('input', {
-                            type: 'text',
-                            placeholder: 'e.g., AB12 XYZ',
-                            required: true,
-                            style: 'text-transform: uppercase;'
-                        })
-                    ),
-                    el('label', 'Make:',
-                        this.makeInput = el('input', {
-                            type: 'text',
-                            placeholder: 'e.g., Ford',
-                            required: true
-                        })
-                    ),
-                    el('label', 'Model:',
-                        this.modelInput = el('input', {
-                            type: 'text',
-                            placeholder: 'e.g., Focus',
-                            required: true
-                        })
-                    ),
+                    new VehicleLookup(VehicleLookupApi),
                     el('div', { style: 'display: flex; gap: 1rem; margin-top: 1rem;' },
                         this.submitButton = el('button', {
-                            type: 'submit'
-                        }, 'Register Vehicle'),
-                        this.lookupButton = el('button', {
-                            type: 'button',
-                            style: 'background-color: var(--secondary);'
-                        }, 'Lookup Details')
+                            type: 'submit',
+                            disabled: true
+                        }, 'Register Vehicle')
                     )
                 ),
                 this.messageDiv = el('div', {

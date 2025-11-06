@@ -5,8 +5,6 @@ import MileageModal from "../Components/MileageModal";
 import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
 import { SwaAuth } from "../services/swaAuth.js";
 import { VehiclesApi } from "../../services/vehicles.js";
-import VehicleLookup from "../Components/VehicleLookup/index.js";
-import { VehicleLookupApi } from "../../services/vehicleLookup.js";
 
 export default class App {
     constructor() {
@@ -20,7 +18,6 @@ export default class App {
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
         this.el = el('',
-            new VehicleLookup(VehicleLookupApi),
             el('main',
                 this.contentContainer = el('.container',
                     el('p', 'Please sign in with your Microsoft 365 account to submit mileage claims.')
@@ -30,7 +27,7 @@ export default class App {
             this.vehicleRegistrationModal
         );
 
-        this.showModalButton = el('button', {
+        this.showMileageModalButton = el('button', {
             type: 'button',
             disabled: true
         }, 'Add Mileage Entry')
@@ -50,7 +47,7 @@ export default class App {
     }
 
     setupEventListeners = () => {
-        this.showModalButton.addEventListener('click', this.openModal);
+        this.showMileageModalButton.addEventListener('click', this.openModal);
     }
 
     afterLogin = async (principal) => {
@@ -75,7 +72,7 @@ export default class App {
     };
 
     showMainApp = (userInfo, vehicle) => {
-        this.showModalButton.disabled = false;
+        this.showMileageModalButton.disabled = false;
         this.contentContainer.innerHTML = '';
 
         this.contentContainer.appendChild(
@@ -84,7 +81,7 @@ export default class App {
                 el('p', `Vehicle: ${vehicle.registration} - ${vehicle.make} ${vehicle.model}`)
             )
         );
-        this.contentContainer.appendChild(this.showModalButton);
+        this.contentContainer.appendChild(this.showMileageModalButton);
 
         // Add vehicle change button
         const changeVehicleButton = el('button', {
@@ -100,7 +97,7 @@ export default class App {
     }
 
     showVehicleRegistrationRequired = (userInfo) => {
-        this.showModalButton.disabled = true;
+        this.showMileageModalButton.disabled = true;
         this.contentContainer.innerHTML = '';
 
         this.contentContainer.appendChild(
@@ -131,7 +128,7 @@ export default class App {
                 style: 'color: var(--ins-color); padding: 1rem; margin: 1rem 0; border-left: 4px solid var(--ins-color);'
             }, message);
 
-            this.contentContainer.insertBefore(successMsg, this.showModalButton);
+            this.contentContainer.insertBefore(successMsg, this.showMileageModalButton);
 
             // Remove success message after 5 seconds
             setTimeout(() => {
@@ -149,6 +146,6 @@ export default class App {
     }
 
     onunmount = () => {
-        this.showModalButton.removeEventListener('click', this.openModal);
+        this.showMileageModalButton.removeEventListener('click', this.openModal);
     }
 }

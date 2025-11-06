@@ -30,7 +30,6 @@ export default class VehicleLookup {
         try {
             const result = await this.vehicleLookupApi.byReg(regNum);
             console.log('Lookup result:', result);
-            alert(`Vehicle Lookup Result:\nRegistration: ${result.registration}\nMake: ${result.make}\nModel: ${result.model}\nColour: ${result.colour}`);
         } catch (err) {
             console.error('Vehicle lookup failed:', err);
             alert(`Vehicle lookup failed: ${err.message}`);
