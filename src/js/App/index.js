@@ -5,6 +5,7 @@ import MileageModal from "../Components/MileageModal";
 import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
 import { SwaAuth } from "../services/swaAuth.js";
 import { VehiclesApi } from "../../services/vehicles.js";
+import { VehicleLookupApi } from "../../services/vehicleLookup.js";
 
 export default class App {
     constructor() {
@@ -20,7 +21,11 @@ export default class App {
         this.el = el('',
             el('main',
                 this.contentContainer = el('.container',
-                    el('p', 'Please sign in with your Microsoft 365 account to submit mileage claims.')
+                    el('p', 'Please sign in with your Microsoft 365 account to submit mileage claims.'),
+                    el('', { role: 'group' },
+                        this.regInput = el('input', { type: 'text' }),
+                        this.lookupVehicleBtn = el('button', { type: 'button' }, 'Test')
+                    )
                 )
             ),
             this.entryModal,
@@ -48,6 +53,20 @@ export default class App {
 
     setupEventListeners = () => {
         this.showModalButton.addEventListener('click', this.openModal);
+        this.lookupVehicleBtn.addEventListener('click', this.lookup);
+    }
+
+    lookup = async () => {
+        const regNum = this.regInput.value.trim();
+        if (!regNum) { return; }
+        try {
+            const result = await VehicleLookupApi.byReg(regNum);
+            console.log('Lookup result:', result);
+            alert(`Vehicle Lookup Result:\nRegistration: ${result.registration}\nMake: ${result.make}\nModel: ${result.model}\nColour: ${result.colour}`);
+        } catch (err) {
+            console.error('Vehicle lookup failed:', err);
+            alert(`Vehicle lookup failed: ${err.message}`);
+        }
     }
 
     afterLogin = async (principal) => {
