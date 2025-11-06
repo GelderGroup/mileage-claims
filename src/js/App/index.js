@@ -62,9 +62,6 @@ export default class App {
             const result = await VehiclesApi.get();
             const { hasVehicle, vehicle } = result;
 
-            console.log(result);
-            console.log(typeof result)
-
             if (hasVehicle === true) {
                 this.showMainApp(this.userInfo, vehicle);
             } else {

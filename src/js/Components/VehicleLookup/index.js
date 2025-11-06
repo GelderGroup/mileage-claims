@@ -17,15 +17,14 @@ export default class VehicleLookup {
     }
 
     onmount = () => {
-        this.form.addEventListener('submit', this.handleLookup);
+        this.lookupBtn.addEventListener('click', this.handleLookup);
     }
 
-    handleLookup = async (event) => {
-        event.preventDefault();
-        const regNum = this.regInput.value.trim();
+    onmount = () => {
+        this.lookupBtn.addEventListener('click', this.handleLookup);
     }
 
-    lookup = async () => {
+    handleLookup = async () => {
         const regNum = this.regInput.value.trim();
         if (!regNum) { return; }
         try {
