@@ -1,6 +1,6 @@
 import { el } from "redom";
 
-export default class VehicleLookup {
+export default class VehicleLookupInput {
     constructor(vehicleLookupApi) {
         this.vehicleLookupApi = vehicleLookupApi;
         this.el = el('.vehicle-lookup',

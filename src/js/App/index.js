@@ -5,11 +5,12 @@ import MileageModal from "../Components/MileageModal";
 import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
 import { SwaAuth } from "../services/swaAuth.js";
 import { VehiclesApi } from "../../services/vehicles.js";
+import { VehicleLookupApi } from "../../services/vehicleLookup.js";
 
 export default class App {
     constructor() {
         this.entryModal = new MileageModal();
-        this.vehicleRegistrationModal = new VehicleRegistrationModal();
+        this.vehicleRegistrationModal = new VehicleRegistrationModal(VehicleLookupApi);
 
         // Set up callback for mileage submission
         this.entryModal.onMileageSubmitted = this.handleMileageSubmitted;
