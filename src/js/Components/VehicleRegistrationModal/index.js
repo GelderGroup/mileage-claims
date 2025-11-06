@@ -73,7 +73,6 @@ export default class VehicleRegistrationModal {
 
     open() {
         this.el.showModal();
-        this.regInput.focus();
     }
 
     close() {
