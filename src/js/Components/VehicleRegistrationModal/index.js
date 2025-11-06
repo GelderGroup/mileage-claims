@@ -1,5 +1,5 @@
 import { el } from 'redom';
-import { VehiclesApi } from '../../../services/api/vehicles';
+import { VehiclesApi } from '../../../services/vehicles.js';
 
 export default class VehicleRegistrationModal {
     constructor() {
