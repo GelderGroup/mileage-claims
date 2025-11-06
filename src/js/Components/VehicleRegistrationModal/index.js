@@ -48,13 +48,15 @@ export default class VehicleRegistrationModal {
     }
 
     renderSummary(v) {
+        console.log(v);
+        console.log(typeof v);
         const chip = (label, good) =>
             el('span', { class: 'contrast', style: `padding:.15rem .45rem;border-radius:.5rem;${good ? '' : 'background:var(--pico-muted-border-color);'}` }, label);
 
         this.result.replaceWith(this.result = el('div', { style: 'margin-top:.75rem' },
             el('article', { style: 'margin:0' },
                 el('header',
-                    el('strong', `${v.registrationNumber} • ${v.make} ${v.model || ''}`.trim()),
+                    el('strong', `${v.registrationNumber} • ${v.make}`.trim()),
                     el('p', { style: 'margin:.25rem 0 0;color:var(--pico-muted-color)' }, `${v.colour} • ${v.yearOfManufacture}`)
                 ),
                 el('div', { class: 'grid', style: '--pico-grid-columns:2;gap:.5rem;margin:.5rem 0' },
