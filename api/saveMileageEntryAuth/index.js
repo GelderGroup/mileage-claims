@@ -20,7 +20,6 @@ async function extractUserFromToken(authHeader) {
         }
 
         const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString());
-        console.log('Token payload:', payload);
 
         // Extract user email from various possible fields
         const userEmail = payload.email || payload.preferred_username || payload.upn || payload.unique_name;

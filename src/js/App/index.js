@@ -78,9 +78,6 @@ export default class App {
             const result = await VehiclesApi.get();
             const { hasVehicle, vehicle } = result;
 
-            console.log(result);
-            console.log(typeof result)
-
             if (hasVehicle === true) {
                 this.showMainApp(this.userInfo, vehicle);
             } else {
@@ -94,28 +91,28 @@ export default class App {
     };
 
     showMainApp = (userInfo, vehicle) => {
-        this.showModalButton.disabled = false;
-        this.contentContainer.innerHTML = '';
+        // this.showModalButton.disabled = false;
+        // this.contentContainer.innerHTML = '';
 
-        this.contentContainer.appendChild(
-            el('div',
-                el('p', `Welcome, ${userInfo.name}!`),
-                el('p', `Vehicle: ${vehicle.registration} - ${vehicle.make} ${vehicle.model}`)
-            )
-        );
-        this.contentContainer.appendChild(this.showModalButton);
+        // this.contentContainer.appendChild(
+        //     el('div',
+        //         el('p', `Welcome, ${userInfo.name}!`),
+        //         el('p', `Vehicle: ${vehicle.registration} - ${vehicle.make} ${vehicle.model}`)
+        //     )
+        // );
+        // this.contentContainer.appendChild(this.showModalButton);
 
-        // Add vehicle change button
-        const changeVehicleButton = el('button', {
-            type: 'button',
-            style: 'margin-left: 1rem; background-color: var(--secondary);'
-        }, 'Change Vehicle');
+        // // Add vehicle change button
+        // const changeVehicleButton = el('button', {
+        //     type: 'button',
+        //     style: 'margin-left: 1rem; background-color: var(--secondary);'
+        // }, 'Change Vehicle');
 
-        changeVehicleButton.addEventListener('click', () => {
-            this.vehicleRegistrationModal.open();
-        });
+        // changeVehicleButton.addEventListener('click', () => {
+        //     this.vehicleRegistrationModal.open();
+        // });
 
-        this.contentContainer.appendChild(changeVehicleButton);
+        // this.contentContainer.appendChild(changeVehicleButton);
     }
 
     showVehicleRegistrationRequired = (userInfo) => {
