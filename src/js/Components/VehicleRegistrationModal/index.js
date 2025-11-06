@@ -13,31 +13,30 @@ export default class VehicleRegistrationModal {
     constructor() {
         this.onVehicleRegistered = null; // Callback for when vehicle is registered
 
-        this.el = el('dialog', { style: 'max-width:500px;padding:1.25rem' },
+        this.el = el('dialog',
             el('article',
                 el('header',
-                    el('h2', { style: 'display:flex;align-items:center;gap:.5rem;margin:0' },
-                        CarIcon(), 'Register vehicle'       // ← shorter, clearer
+                    el('h3', { style: 'display:flex;align-items:center;gap:.5rem;margin:0' },
+                        CarIcon(), 'Register vehicle'
                     ),
-                    el('p', { style: 'margin:.25rem 0 0;color:var(--muted-color)' },
+                    el('p', { style: 'margin:.25rem 0 0;color:var(--pico-muted-color)' },
                         'Enter your registration to continue.'
                     )
                 ),
                 this.form = el('form',
-                    // Subheading made subtle (not a heading)
-                    el('label', { for: 'vrm', style: 'display:block;margin:.75rem 0 .25rem;color:var(--muted-color);font-size:.9rem' },
+                    el('label', { for: 'vrm', style: 'display:block;margin:.75rem 0 .25rem;color:var(--pico-muted-color);font-size:.9rem' },
                         'Vehicle lookup'
                     ),
-                    this.vrm = el('input#vrm', {
-                        name: 'registrationNumber',
-                        placeholder: 'YS71 MBX',
-                        required: true,
-                        style: 'text-transform:uppercase;letter-spacing:.5px'
-                    }),
-                    el('div', { style: 'display:flex;gap:.5rem;margin-top:.75rem' },
-                        el('button', { type: 'button', class: 'secondary', onclick: () => this.testLookup?.() }, 'Test'),
-                        this.submitButton = el('button', { type: 'submit', disabled: true }, 'Register vehicle')
-                    )
+                    el('', { role: 'group' },
+                        this.vrm = el('input#vrm', {
+                            name: 'registrationNumber',
+                            placeholder: 'AB12CDE',
+                            required: true,
+                            style: 'text-transform:uppercase;letter-spacing:.5px'
+                        }),
+                        el('button', { type: 'button', class: 'secondary', onclick: () => this.testLookup?.() }, 'Search')
+                    ),
+                    this.submitButton = el('button', { type: 'submit', disabled: true }, 'Register vehicle')
                 ),
                 this.messageDiv = el('div', { style: 'margin-top:.75rem;display:none' })
             )
