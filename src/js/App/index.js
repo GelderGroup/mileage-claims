@@ -5,7 +5,7 @@ import MileageModal from "../Components/MileageModal";
 import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
 import { SwaAuth } from "../services/swaAuth.js";
 import { VehiclesApi } from "../../services/vehicles.js";
-import { VehicleLookupApi } from "../../services/vehicleLookup.js";
+import VehicleLookup from "../Components/VehicleLookup/index.js";
 
 export default class App {
     constructor() {
@@ -19,13 +19,10 @@ export default class App {
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
         this.el = el('',
+            new VehicleLookup(),
             el('main',
                 this.contentContainer = el('.container',
-                    el('p', 'Please sign in with your Microsoft 365 account to submit mileage claims.'),
-                    el('', { role: 'group' },
-                        this.regInput = el('input', { type: 'text' }),
-                        this.lookupVehicleBtn = el('button', { type: 'button' }, 'Test')
-                    )
+                    el('p', 'Please sign in with your Microsoft 365 account to submit mileage claims.')
                 )
             ),
             this.entryModal,
@@ -53,20 +50,6 @@ export default class App {
 
     setupEventListeners = () => {
         this.showModalButton.addEventListener('click', this.openModal);
-        this.lookupVehicleBtn.addEventListener('click', this.lookup);
-    }
-
-    lookup = async () => {
-        const regNum = this.regInput.value.trim();
-        if (!regNum) { return; }
-        try {
-            const result = await VehicleLookupApi.byReg(regNum);
-            console.log('Lookup result:', result);
-            alert(`Vehicle Lookup Result:\nRegistration: ${result.registration}\nMake: ${result.make}\nModel: ${result.model}\nColour: ${result.colour}`);
-        } catch (err) {
-            console.error('Vehicle lookup failed:', err);
-            alert(`Vehicle lookup failed: ${err.message}`);
-        }
     }
 
     afterLogin = async (principal) => {
@@ -77,6 +60,9 @@ export default class App {
         try {
             const result = await VehiclesApi.get();
             const { hasVehicle, vehicle } = result;
+
+            console.log(result);
+            console.log(typeof result)
 
             if (hasVehicle === true) {
                 this.showMainApp(this.userInfo, vehicle);
@@ -91,28 +77,28 @@ export default class App {
     };
 
     showMainApp = (userInfo, vehicle) => {
-        // this.showModalButton.disabled = false;
-        // this.contentContainer.innerHTML = '';
+        this.showModalButton.disabled = false;
+        this.contentContainer.innerHTML = '';
 
-        // this.contentContainer.appendChild(
-        //     el('div',
-        //         el('p', `Welcome, ${userInfo.name}!`),
-        //         el('p', `Vehicle: ${vehicle.registration} - ${vehicle.make} ${vehicle.model}`)
-        //     )
-        // );
-        // this.contentContainer.appendChild(this.showModalButton);
+        this.contentContainer.appendChild(
+            el('div',
+                el('p', `Welcome, ${userInfo.name}!`),
+                el('p', `Vehicle: ${vehicle.registration} - ${vehicle.make} ${vehicle.model}`)
+            )
+        );
+        this.contentContainer.appendChild(this.showModalButton);
 
-        // // Add vehicle change button
-        // const changeVehicleButton = el('button', {
-        //     type: 'button',
-        //     style: 'margin-left: 1rem; background-color: var(--secondary);'
-        // }, 'Change Vehicle');
+        // Add vehicle change button
+        const changeVehicleButton = el('button', {
+            type: 'button',
+            style: 'margin-left: 1rem; background-color: var(--secondary);'
+        }, 'Change Vehicle');
 
-        // changeVehicleButton.addEventListener('click', () => {
-        //     this.vehicleRegistrationModal.open();
-        // });
+        changeVehicleButton.addEventListener('click', () => {
+            this.vehicleRegistrationModal.open();
+        });
 
-        // this.contentContainer.appendChild(changeVehicleButton);
+        this.contentContainer.appendChild(changeVehicleButton);
     }
 
     showVehicleRegistrationRequired = (userInfo) => {
