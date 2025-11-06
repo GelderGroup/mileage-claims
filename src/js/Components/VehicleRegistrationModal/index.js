@@ -1,37 +1,49 @@
-import { el } from 'redom';
+import { el, svg } from 'redom';
 import { VehiclesApi } from '../../../services/vehicles.js';
 import VehicleLookup from '../VehicleLookup/index.js';
 import { VehicleLookupApi } from '../../../services/vehicleLookup.js';
 
+const CarIcon = () => svg('svg', { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' },
+    svg('path', { d: 'M3 13l2-5a2 2 0 0 1 2-1h10a2 2 0 0 1 2 1l2 5' }),
+    svg('path', { d: 'M5 16v2a2 2 0 0 0 2 2h0' }),
+    svg('path', { d: 'M19 16v2a2 2 0 0 1-2 2h0' }),
+    svg('circle', { cx: 7, cy: 16, r: 2 }),
+    svg('circle', { cx: 17, cy: 16, r: 2 })
+);
 export default class VehicleRegistrationModal {
     constructor() {
         this.onVehicleRegistered = null; // Callback for when vehicle is registered
 
-
-        this.modal = el('dialog', {
-            style: 'max-width: 500px; padding: 2rem;'
-        },
+        this.el = el('dialog', { style: 'max-width:500px;padding:1.25rem' },
             el('article',
                 el('header',
-                    el('h2', 'Vehicle Registration Required'),
-                    el('p', 'Please register your vehicle details to continue.')
-                ),
-                this.form = el('form',
-                    new VehicleLookup(VehicleLookupApi),
-                    el('div', { style: 'display: flex; gap: 1rem; margin-top: 1rem;' },
-                        this.submitButton = el('button', {
-                            type: 'submit',
-                            disabled: true
-                        }, 'Register Vehicle')
+                    el('h2', { style: 'display:flex;align-items:center;gap:.5rem;margin:0' },
+                        CarIcon(), 'Register vehicle'       // ← shorter, clearer
+                    ),
+                    el('p', { style: 'margin:.25rem 0 0;color:var(--muted-color)' },
+                        'Enter your registration to continue.'
                     )
                 ),
-                this.messageDiv = el('div', {
-                    style: 'margin-top: 1rem; padding: 1rem; border-radius: var(--border-radius); display: none;'
-                })
+                this.form = el('form',
+                    // Subheading made subtle (not a heading)
+                    el('label', { for: 'vrm', style: 'display:block;margin:.75rem 0 .25rem;color:var(--muted-color);font-size:.9rem' },
+                        'Vehicle lookup'
+                    ),
+                    this.vrm = el('input#vrm', {
+                        name: 'registrationNumber',
+                        placeholder: 'YS71 MBX',
+                        required: true,
+                        style: 'text-transform:uppercase;letter-spacing:.5px'
+                    }),
+                    el('div', { style: 'display:flex;gap:.5rem;margin-top:.75rem' },
+                        el('button', { type: 'button', class: 'secondary', onclick: () => this.testLookup?.() }, 'Test'),
+                        this.submitButton = el('button', { type: 'submit', disabled: true }, 'Register vehicle')
+                    )
+                ),
+                this.messageDiv = el('div', { style: 'margin-top:.75rem;display:none' })
             )
         );
 
-        this.el = this.modal;
         this.setupEventListeners();
     }
 
@@ -48,8 +60,8 @@ export default class VehicleRegistrationModal {
         // this.lookupButton.addEventListener('click', this.handleLookup);
 
         // // Close modal when clicking outside
-        // this.modal.addEventListener('click', (e) => {
-        //     if (e.target === this.modal) {
+        // this.el.addEventListener('click', (e) => {
+        //     if (e.target === this.el) {
         //         this.close();
         //     }
         // });
@@ -136,12 +148,12 @@ export default class VehicleRegistrationModal {
     }
 
     open() {
-        this.modal.showModal();
+        this.el.showModal();
         this.regInput.focus();
     }
 
     close() {
-        this.modal.close();
+        this.el.close();
         this.form.reset();
         this.messageDiv.style.display = 'none';
     }

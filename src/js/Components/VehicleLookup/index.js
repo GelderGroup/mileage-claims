@@ -9,7 +9,7 @@ export default class VehicleLookup {
                 el('label', { for: 'reg-input' }, 'Enter Vehicle Registration Number:'),
                 el('', { role: 'group' },
                     this.regInput = el('input', { type: 'text' }),
-                    this.lookupBtn = el('button', { type: 'button' }, 'Test')
+                    this.lookupBtn = el('button', { type: 'button' }, 'Search')
                 )
             ),
             this.resultContainer = el('.lookup-result')
