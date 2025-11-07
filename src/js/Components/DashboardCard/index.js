@@ -22,7 +22,7 @@ export default class DashboardCard {
 
     update(user, vehicle) {
         this.greet.textContent = `Welcome, ${user.name}!`;
-        this.vehicle.textContent = `Vehicle: ${vehicle.registration} — ${vehicle.make} ${vehicle.model}`;
+        this.vehicle.textContent = `Vehicle: ${vehicle.registration}`;
     }
 
     showToast(msg) { this.alert.textContent = msg; this.alert.hidden = false; setTimeout(() => (this.alert.hidden = true), 4000); }

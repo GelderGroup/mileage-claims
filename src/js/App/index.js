@@ -12,6 +12,7 @@ import LoadingCard from "../Components/LoadingCard";
 import ErrorCard from "../Components/ErrorCard";
 
 import "@picocss/pico/css/pico.min.css";
+import { mapVehicleLookupToCanonical } from "../../../api/_lib/mapVehicleLookupToCanonical.js";
 
 export default class App {
     constructor() {
@@ -64,10 +65,14 @@ export default class App {
         setChildren(this.content, [this.dashboardView]);
     };
 
-    handleVehicleRegistered = async (vehicleData) => {
-        await VehiclesApi.upsert(vehicleData);
-        this.showMainApp(vehicleData);
-        this.dashboardView.showToast("Vehicle registered successfully.");
+    handleVehicleRegistered = async (raw) => {
+        try {
+            const res = await VehiclesApi.confirmFromLookup(raw); // returns { vehicle: {...} }
+            this.showMainApp(res.vehicle);
+            this.dashboardView.showToast("Vehicle registered successfully.");
+        } catch (e) {
+            this.dashboardView.showToast("Couldn’t register vehicle. Please try again.");
+        }
     };
 
     handleMileageSubmitted = (evt) => {
