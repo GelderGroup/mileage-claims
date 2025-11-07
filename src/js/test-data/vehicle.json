@@ -1,0 +1,21 @@
+{
+    "artEndDate": "2025-02-28",
+    "co2Emissions": 126,
+    "colour": "GREY",
+    "engineCapacity": 999,
+    "fuelType": "PETROL",
+    "make": "FORD",
+    "markedForExport": false,
+    "monthOfFirstRegistration": "2021-12",
+    "motStatus": "Valid",
+    "registrationNumber": "ABC1234",
+    "revenueWeight": 1640,
+    "taxDueDate": "2007-01-01",
+    "taxStatus": "Taxed",
+    "typeApproval": "N1",
+    "wheelplan": "NON STANDARD",
+    "yearOfManufacture": 2004,
+    "euroStatus": "EURO 6 AD",
+    "realDrivingEmissions": "1",
+    "dateOfLastV5CIssued": "2016-12-25"
+}

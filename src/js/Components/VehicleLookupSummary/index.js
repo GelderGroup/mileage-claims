@@ -23,6 +23,7 @@ export default class VehicleLookupSummary {
     }
 
     update = vehicle => {
+        console.log(vehicle);
         this.vehicleTitle.textContent = `${vehicle.registrationNumber} • ${vehicle.make}`;
         this.vehicleSubtitle.textContent = `${vehicle.colour} • ${vehicle.yearOfManufacture}`;
         this.motChip.textContent = `MOT: ${vehicle.motStatus}`, vehicle.motStatus === 'Valid';
