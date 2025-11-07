@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 /**
  * Creates a new empty mileage line with default values
  * @returns {Object} A new mileage line object

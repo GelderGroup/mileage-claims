@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { getClientPrincipal } from "../_lib/auth.js";
 import { getCosmosContainer } from "../_lib/cosmos.js";
 import { mapVehicleLookupToCanonical } from "../_lib/mapVehicleLookupToCanonical.js";
