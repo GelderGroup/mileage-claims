@@ -1,152 +1,76 @@
-import { el } from "redom";
-import pkg from '../../../package.json' assert { type: 'json' };
-import '@picocss/pico/css/pico.min.css';
+import { el, setChildren } from "redom";
+import pkg from "../../../package.json" assert { type: "json" };
 import MileageModal from "../Components/MileageModal";
 import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
 import { SwaAuth } from "../services/swaAuth.js";
 import { VehiclesApi } from "../../services/vehicles.js";
 import { VehicleLookupApi } from "../../services/vehicleLookup.js";
 
+import WelcomeCard from "../Components/WelcomeCard";
+import DashboardCard from "../Components/DashboardCard";
+import LoadingCard from "../Components/LoadingCard";
+import ErrorCard from "../Components/ErrorCard";
+
+import "@picocss/pico/css/pico.min.css";
+
 export default class App {
     constructor() {
         this.entryModal = new MileageModal();
         this.vehicleRegistrationModal = new VehicleRegistrationModal(VehicleLookupApi);
-
-        // Set up callback for mileage submission
         this.entryModal.onMileageSubmitted = this.handleMileageSubmitted;
-
-        // Set up callback for vehicle registration
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
-        this.el = el('',
-            el('main',
-                this.contentContainer = el('.container',
-                    el('p', 'Please sign in with your Microsoft 365 account to submit mileage claims.')
-                )
-            ),
-            this.entryModal,
-            this.vehicleRegistrationModal
-        );
+        this.content = el(".container");
+        this.el = el("", el("main", this.content), this.entryModal, this.vehicleRegistrationModal);
 
-        this.showMileageModalButton = el('button', {
-            type: 'button',
-            disabled: true
-        }, 'Add Mileage Entry')
+        this.loadingView = new LoadingCard();
+        this.welcomeView = new WelcomeCard(() => this.vehicleRegistrationModal.open());
+        this.dashboardView = new DashboardCard({
+            onAddMileage: () => this.entryModal.open(),
+            onChangeVehicle: () => this.vehicleRegistrationModal.open()
+        });
     }
 
     onmount = async () => {
-        this.displayAppVersion();
-        this.setupEventListeners();
+        const ver = document.getElementById("ver"); if (ver) ver.textContent = `v${pkg.version}`;
+        await this.initAuth();
+    };
 
+    initAuth = async () => {
+        setChildren(this.content, [this.loadingView]);
         const principal = await SwaAuth.me();
-        if (!principal) { SwaAuth.login(); return; }        // <-- auto redirect
+        if (!principal) { SwaAuth.login(); return; }
         await this.afterLogin(principal);
     };
 
-    displayAppVersion = () => {
-        document.getElementById('ver').textContent = `v${pkg.version}`;
-    }
-
-    setupEventListeners = () => {
-        this.showMileageModalButton.addEventListener('click', this.openModal);
-    }
-
     afterLogin = async (principal) => {
         this.userInfo = { name: SwaAuth.getName(principal), email: SwaAuth.getEmail(principal) };
-        this.contentContainer.innerHTML = '';
-        this.contentContainer.appendChild(el('p', `Welcome, ${this.userInfo.name}! Checking your vehicle registration...`));
-
         try {
-            const result = await VehiclesApi.get();
-            const { hasVehicle, vehicle } = result;
-
-            if (hasVehicle === true) {
-                this.showMainApp(this.userInfo, vehicle);
-            } else {
-                this.showVehicleRegistrationRequired(this.userInfo);
-            }
-        } catch (err) {
-            // If you want to treat 401 specially, inspect the message or add a tiny helper in http()
-            console.error('getUserVehicle failed:', err);
-            this.showVehicleRegistrationRequired(this.userInfo);
+            const { hasVehicle, vehicle } = await VehiclesApi.get();
+            hasVehicle ? this.showMainApp(vehicle) : this.showNeedsVehicle();
+        } catch (e) {
+            console.error("VehiclesApi.get failed", e);
+            setChildren(this.content, [new ErrorCard("We couldn’t check your vehicle right now. Try again.", () => this.initAuth())]);
         }
     };
 
-    showMainApp = (userInfo, vehicle) => {
-        this.showMileageModalButton.disabled = false;
-        this.contentContainer.innerHTML = '';
+    showNeedsVehicle = () => {
+        this.welcomeView.update(this.userInfo.name);
+        setChildren(this.content, [this.welcomeView]);
+    };
 
-        this.contentContainer.appendChild(
-            el('div',
-                el('p', `Welcome, ${userInfo.name}!`),
-                el('p', `Vehicle: ${vehicle.registration} - ${vehicle.make} ${vehicle.model}`)
-            )
-        );
-        this.contentContainer.appendChild(this.showMileageModalButton);
+    showMainApp = (vehicle) => {
+        this.dashboardView.update(this.userInfo, vehicle);
+        setChildren(this.content, [this.dashboardView]);
+    };
 
-        // Add vehicle change button
-        const changeVehicleButton = el('button', {
-            type: 'button',
-            style: 'margin-left: 1rem; background-color: var(--secondary);'
-        }, 'Change Vehicle');
+    handleVehicleRegistered = (vehicleData) => {
+        this.showMainApp(vehicleData);
+        this.dashboardView.showToast("Vehicle registered successfully.");
+    };
 
-        changeVehicleButton.addEventListener('click', () => {
-            this.vehicleRegistrationModal.open();
-        });
-
-        this.contentContainer.appendChild(changeVehicleButton);
-    }
-
-    showVehicleRegistrationRequired = (userInfo) => {
-        this.showMileageModalButton.disabled = true;
-        this.contentContainer.innerHTML = '';
-
-        this.contentContainer.appendChild(
-            el('div',
-                el('p', `Welcome, ${userInfo.name}!`),
-                el('p', 'You need to register your vehicle details before you can submit mileage claims.'),
-                el('button', {
-                    type: 'button'
-                }, 'Register Vehicle')
-            )
-        );
-
-        // Set up register button click
-        const registerButton = this.contentContainer.querySelector('button');
-        registerButton.addEventListener('click', () => {
-            this.vehicleRegistrationModal.open();
-        });
-    }
-
-    handleVehicleRegistered = (vehicleData) => this.showMainApp(this.userInfo, vehicleData);
-
-    handleMileageSubmitted = (event) => {
-        const { success, message, error } = event.detail;
-
-        if (success) {
-            // Show success message
-            const successMsg = el('div', {
-                style: 'color: var(--ins-color); padding: 1rem; margin: 1rem 0; border-left: 4px solid var(--ins-color);'
-            }, message);
-
-            this.contentContainer.insertBefore(successMsg, this.showMileageModalButton);
-
-            // Remove success message after 5 seconds
-            setTimeout(() => {
-                if (successMsg.parentNode) {
-                    successMsg.parentNode.removeChild(successMsg);
-                }
-            }, 5000);
-        } else if (error) {
-            console.error('Mileage submission failed:', error);
-        }
-    }
-
-    openModal = () => {
-        this.entryModal.open();
-    }
-
-    onunmount = () => {
-        this.showMileageModalButton.removeEventListener('click', this.openModal);
-    }
+    handleMileageSubmitted = (evt) => {
+        const { success, message } = evt.detail || {};
+        if (success) this.dashboardView.showToast(message || "Mileage submitted.");
+    };
 }
