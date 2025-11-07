@@ -4,8 +4,8 @@ export default class DashboardCard {
     constructor({ onAddMileage, onChangeVehicle }) {
         this.greet = el("h4");
         this.vehicle = el("p");
-        this.addBtn = el("button", { type: "button", class: "primary" }, "Add Mileage Entry");
-        this.changeBtn = el("button", { type: "button", class: "secondary" }, "Change Vehicle");
+        this.addBtn = el("button.primary.me-2", { type: "button" }, "Add Mileage Entry");
+        this.changeBtn = el("button.secondary", { type: "button" }, "Change Vehicle");
         this.alert = el("p", { role: "status", hidden: true });
 
         this.el = el("section",
