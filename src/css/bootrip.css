@@ -1,0 +1,401 @@
+/* bootrip.css – Bootstrap 5-style spacing utilities, framework-agnostic */
+
+/* === Display === */
+.d-none {
+    display: none !important;
+}
+
+.d-inline {
+    display: inline !important;
+}
+
+.d-inline-block {
+    display: inline-block !important;
+}
+
+.d-block {
+    display: block !important;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.d-inline-flex {
+    display: inline-flex !important;
+}
+
+.d-grid {
+    display: grid !important;
+}
+
+/* === Visibility === */
+.hide {
+    display: none !important;
+}
+
+.unhide {
+    display: initial !important;
+}
+
+.visible {
+    visibility: visible !important;
+}
+
+.invisible {
+    visibility: hidden !important;
+}
+
+/* === Spacing scale === */
+:root {
+    --sp-0: 0;
+    --sp-1: 0.25rem;
+    --sp-2: 0.5rem;
+    --sp-3: 1rem;
+    --sp-4: 1.5rem;
+    --sp-5: 3rem;
+}
+
+/* === Margin === */
+.m-0 {
+    margin: var(--sp-0) !important;
+}
+
+.m-1 {
+    margin: var(--sp-1) !important;
+}
+
+.m-2 {
+    margin: var(--sp-2) !important;
+}
+
+.m-3 {
+    margin: var(--sp-3) !important;
+}
+
+.m-4 {
+    margin: var(--sp-4) !important;
+}
+
+.m-5 {
+    margin: var(--sp-5) !important;
+}
+
+/* Logical sides (start/end) */
+.ms-0 {
+    margin-inline-start: var(--sp-0) !important;
+}
+
+.ms-1 {
+    margin-inline-start: var(--sp-1) !important;
+}
+
+.ms-2 {
+    margin-inline-start: var(--sp-2) !important;
+}
+
+.ms-3 {
+    margin-inline-start: var(--sp-3) !important;
+}
+
+.ms-4 {
+    margin-inline-start: var(--sp-4) !important;
+}
+
+.ms-5 {
+    margin-inline-start: var(--sp-5) !important;
+}
+
+.me-0 {
+    margin-inline-end: var(--sp-0) !important;
+}
+
+.me-1 {
+    margin-inline-end: var(--sp-1) !important;
+}
+
+.me-2 {
+    margin-inline-end: var(--sp-2) !important;
+}
+
+.me-3 {
+    margin-inline-end: var(--sp-3) !important;
+}
+
+.me-4 {
+    margin-inline-end: var(--sp-4) !important;
+}
+
+.me-5 {
+    margin-inline-end: var(--sp-5) !important;
+}
+
+/* Block sides (top/bottom) */
+.mt-0 {
+    margin-block-start: var(--sp-0) !important;
+}
+
+.mt-1 {
+    margin-block-start: var(--sp-1) !important;
+}
+
+.mt-2 {
+    margin-block-start: var(--sp-2) !important;
+}
+
+.mt-3 {
+    margin-block-start: var(--sp-3) !important;
+}
+
+.mt-4 {
+    margin-block-start: var(--sp-4) !important;
+}
+
+.mt-5 {
+    margin-block-start: var(--sp-5) !important;
+}
+
+.mb-0 {
+    margin-block-end: var(--sp-0) !important;
+}
+
+.mb-1 {
+    margin-block-end: var(--sp-1) !important;
+}
+
+.mb-2 {
+    margin-block-end: var(--sp-2) !important;
+}
+
+.mb-3 {
+    margin-block-end: var(--sp-3) !important;
+}
+
+.mb-4 {
+    margin-block-end: var(--sp-4) !important;
+}
+
+.mb-5 {
+    margin-block-end: var(--sp-5) !important;
+}
+
+/* X/Y shorthand (logical inline/block axes) */
+.mx-0 {
+    margin-inline: var(--sp-0) !important;
+}
+
+.mx-1 {
+    margin-inline: var(--sp-1) !important;
+}
+
+.mx-2 {
+    margin-inline: var(--sp-2) !important;
+}
+
+.mx-3 {
+    margin-inline: var(--sp-3) !important;
+}
+
+.mx-4 {
+    margin-inline: var(--sp-4) !important;
+}
+
+.mx-5 {
+    margin-inline: var(--sp-5) !important;
+}
+
+.my-0 {
+    margin-block: var(--sp-0) !important;
+}
+
+.my-1 {
+    margin-block: var(--sp-1) !important;
+}
+
+.my-2 {
+    margin-block: var(--sp-2) !important;
+}
+
+.my-3 {
+    margin-block: var(--sp-3) !important;
+}
+
+.my-4 {
+    margin-block: var(--sp-4) !important;
+}
+
+.my-5 {
+    margin-block: var(--sp-5) !important;
+}
+
+/* === Padding === */
+.p-0 {
+    padding: var(--sp-0) !important;
+}
+
+.p-1 {
+    padding: var(--sp-1) !important;
+}
+
+.p-2 {
+    padding: var(--sp-2) !important;
+}
+
+.p-3 {
+    padding: var(--sp-3) !important;
+}
+
+.p-4 {
+    padding: var(--sp-4) !important;
+}
+
+.p-5 {
+    padding: var(--sp-5) !important;
+}
+
+/* Logical sides */
+.ps-0 {
+    padding-inline-start: var(--sp-0) !important;
+}
+
+.ps-1 {
+    padding-inline-start: var(--sp-1) !important;
+}
+
+.ps-2 {
+    padding-inline-start: var(--sp-2) !important;
+}
+
+.ps-3 {
+    padding-inline-start: var(--sp-3) !important;
+}
+
+.ps-4 {
+    padding-inline-start: var(--sp-4) !important;
+}
+
+.ps-5 {
+    padding-inline-start: var(--sp-5) !important;
+}
+
+.pe-0 {
+    padding-inline-end: var(--sp-0) !important;
+}
+
+.pe-1 {
+    padding-inline-end: var(--sp-1) !important;
+}
+
+.pe-2 {
+    padding-inline-end: var(--sp-2) !important;
+}
+
+.pe-3 {
+    padding-inline-end: var(--sp-3) !important;
+}
+
+.pe-4 {
+    padding-inline-end: var(--sp-4) !important;
+}
+
+.pe-5 {
+    padding-inline-end: var(--sp-5) !important;
+}
+
+/* Block sides */
+.pt-0 {
+    padding-block-start: var(--sp-0) !important;
+}
+
+.pt-1 {
+    padding-block-start: var(--sp-1) !important;
+}
+
+.pt-2 {
+    padding-block-start: var(--sp-2) !important;
+}
+
+.pt-3 {
+    padding-block-start: var(--sp-3) !important;
+}
+
+.pt-4 {
+    padding-block-start: var(--sp-4) !important;
+}
+
+.pt-5 {
+    padding-block-start: var(--sp-5) !important;
+}
+
+.pb-0 {
+    padding-block-end: var(--sp-0) !important;
+}
+
+.pb-1 {
+    padding-block-end: var(--sp-1) !important;
+}
+
+.pb-2 {
+    padding-block-end: var(--sp-2) !important;
+}
+
+.pb-3 {
+    padding-block-end: var(--sp-3) !important;
+}
+
+.pb-4 {
+    padding-block-end: var(--sp-4) !important;
+}
+
+.pb-5 {
+    padding-block-end: var(--sp-5) !important;
+}
+
+/* X/Y shorthand */
+.px-0 {
+    padding-inline: var(--sp-0) !important;
+}
+
+.px-1 {
+    padding-inline: var(--sp-1) !important;
+}
+
+.px-2 {
+    padding-inline: var(--sp-2) !important;
+}
+
+.px-3 {
+    padding-inline: var(--sp-3) !important;
+}
+
+.px-4 {
+    padding-inline: var(--sp-4) !important;
+}
+
+.px-5 {
+    padding-inline: var(--sp-5) !important;
+}
+
+.py-0 {
+    padding-block: var(--sp-0) !important;
+}
+
+.py-1 {
+    padding-block: var(--sp-1) !important;
+}
+
+.py-2 {
+    padding-block: var(--sp-2) !important;
+}
+
+.py-3 {
+    padding-block: var(--sp-3) !important;
+}
+
+.py-4 {
+    padding-block: var(--sp-4) !important;
+}
+
+.py-5 {
+    padding-block: var(--sp-5) !important;
+}

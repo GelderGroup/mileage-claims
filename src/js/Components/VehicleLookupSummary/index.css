@@ -1,0 +1,29 @@
+article.vehicle-summary {
+    margin: 0;
+}
+
+article.vehicle-summary header {
+    border-bottom: 1px solid var(--pico-border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+article.vehicle-summary p {
+    margin: .25rem 0 0;
+    color: var(--pico-muted-color)
+}
+
+article.vehicele-summary .grid {
+    --pico-grid-columns: 2;
+    gap: .5rem;
+    margin: .5rem 0;
+}
+
+article.vehicle-summary .chip {
+    padding: .15rem .45rem;
+    border-radius: .5rem
+}
+
+article.vehicle-summary .spec .value {
+    font-weight: 600;
+}
