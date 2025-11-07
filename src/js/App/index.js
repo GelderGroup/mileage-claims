@@ -47,7 +47,7 @@ export default class App {
     afterLogin = async (principal) => {
         this.userInfo = { name: SwaAuth.getName(principal), email: SwaAuth.getEmail(principal) };
         try {
-            const { hasVehicle, vehicle } = await VehiclesApi.get();
+            const { hasVehicle, vehicle } = await VehiclesApi.getActive();
             hasVehicle ? this.showMainApp(vehicle) : this.showNeedsVehicle();
         } catch (e) {
             console.error("VehiclesApi.get failed", e);
