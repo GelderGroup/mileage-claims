@@ -20,7 +20,7 @@ export default class App {
         this.entryModal.onMileageSubmitted = this.handleMileageSubmitted;
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
-        this.content = el(".container.mt-3");
+        this.content = el(".mt-3");
         this.el = el("", el("main", this.content), this.entryModal, this.vehicleRegistrationModal);
 
         this.loadingView = new LoadingCard();
@@ -64,7 +64,8 @@ export default class App {
         setChildren(this.content, [this.dashboardView]);
     };
 
-    handleVehicleRegistered = (vehicleData) => {
+    handleVehicleRegistered = async (vehicleData) => {
+        await VehiclesApi.upsert(vehicleData);
         this.showMainApp(vehicleData);
         this.dashboardView.showToast("Vehicle registered successfully.");
     };

@@ -1,11 +1,8 @@
-import { el } from "redom";
-import VehicleLookupInput from "../VehicleLookupInput/index.js";
-import { CarIcon } from "../../utils/icons.js";
-import "./index.css";
-import VehicleLookupSummary from "../VehicleLookupSummary/index.js";
-
 export default class VehicleRegistrationModal {
-    constructor(api) {
+    constructor(api, onVehicleRegistered) {
+        this.api = api;
+        this.onVehicleRegistered = onVehicleRegistered;
+
         this.el = el("dialog.vehicle-registration-modal",
             el("article",
                 el("header",
@@ -13,7 +10,7 @@ export default class VehicleRegistrationModal {
                     el("h3.heading", CarIcon(), "Register vehicle"),
                     el("p.subheading", "Enter your registration to continue.")
                 ),
-                el("form", { autocomplete: "off" },
+                this.form = el("form", { autocomplete: "off" },
                     this.lookup = new VehicleLookupInput(api),
                     this.summary = new VehicleLookupSummary(),
                     el("footer",
@@ -28,6 +25,7 @@ export default class VehicleRegistrationModal {
         this.lookup.el.addEventListener("vehicle:search", this.handleSearch);
         this.lookup.el.addEventListener("vehicle:found", this.handleVehicleFound);
         this.lookup.el.addEventListener("vehicle:error", this.handleVehicleError);
+        this.form.addEventListener("submit", this.handleSubmit);
         this.cancelButton.addEventListener("click", this.close);
     };
 
@@ -35,16 +33,18 @@ export default class VehicleRegistrationModal {
         this.lookup.el.removeEventListener("vehicle:search", this.handleSearch);
         this.lookup.el.removeEventListener("vehicle:found", this.handleVehicleFound);
         this.lookup.el.removeEventListener("vehicle:error", this.handleVehicleError);
+        this.form.removeEventListener("submit", this.handleSubmit);
         this.cancelButton.removeEventListener("click", this.close);
     };
 
     handleSearch = () => {
         this.btnRegister.disabled = true;
-        this.summary.setLoading();   // shows card with aria-busy
+        this.summary.setLoading();
     };
 
     handleVehicleFound = ({ detail }) => {
-        this.summary.update(detail);
+        this.selectedVehicle = detail;
+        this.summary.update(this.selectedVehicle);
         this.btnRegister.disabled = false;
     };
 
@@ -53,7 +53,16 @@ export default class VehicleRegistrationModal {
         this.btnRegister.disabled = true;
     };
 
-    update = (vehicle) => this.summary.update(vehicle);
+    handleSubmit = (e) => {
+        e.preventDefault();
+        if (this.onVehicleRegistered && !this.btnRegister.disabled) {
+            this.onVehicleRegistered(this.vehicleData);
+        }
+        this.close();
+    };
+
     open = () => this.el.showModal();
     close = () => { this.summary.clear(); this.el.close(); };
+
+    get vehicleData() { return this.selectedVehicle; }
 }
