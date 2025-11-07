@@ -1,3 +1,6 @@
+import { el } from "redom";
+import { CarIcon } from "../../utils/icons";
+
 export default class VehicleRegistrationModal {
     constructor(api, onVehicleRegistered) {
         this.api = api;
