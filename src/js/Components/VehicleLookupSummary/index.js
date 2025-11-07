@@ -1,34 +1,47 @@
 import { el } from "redom";
-import './index.css';
-
+import "./index.css";
 
 export default class VehicleLookupSummary {
     constructor() {
-        this.el = el('.mt-1',
-            el('article',
-                el('header',
-                    this.vehicleTitle = el('strong'),
-                    this.vehicleSubtitle = el('p')
+        this.el = el(".mt-1",
+            el("article.contrast.vehicle-card",
+                el("h6.section-title", "Identity"),
+                this.identityList = el("dl.kvlist",
+                    el("dt", "Make"), (this.makeVal = el("dd.pill muted")),
+                    el("dt", "Colour"), (this.colVal = el("dd.pill muted")),
+                    el("dt", "Year"), (this.yearVal = el("dd.pill muted"))
                 ),
-                el('.grid',
-                    this.motChip = el(''),
-                    this.taxChip = el('')
+                el("hr"),
+                el("h6.section-title", "Status"),
+                this.statusList = el("dl.kvlist",
+                    el("dt", "MOT"), (this.motVal = el("dd.pill")),
+                    el("dt", "Tax"), (this.taxVal = el("dd.pill"))
                 ),
-                el('.grid',
-                    this.engineChip = el(''),
-                    this.co2Chip = el('')
+                el("hr"),
+                el("h6.section-title", "Details"),
+                this.detailsList = el("dl.kvlist",
+                    el("dt", "Engine"), (this.engineVal = el("dd.pill muted")),
+                    el("dt", "CO₂"), (this.co2Val = el("dd.pill muted")),
+                    el("dt", "Fuel"), (this.fuelVal = el("dd.pill muted"))
                 )
             )
         );
     }
 
-    update = vehicle => {
-        console.log(vehicle);
-        this.vehicleTitle.textContent = `${vehicle.registrationNumber} • ${vehicle.make}`;
-        this.vehicleSubtitle.textContent = `${vehicle.colour} • ${vehicle.yearOfManufacture}`;
-        this.motChip.textContent = `MOT: ${vehicle.motStatus}`, vehicle.motStatus === 'Valid';
-        this.taxChip.textContent = `Tax: ${vehicle.taxStatus}`, vehicle.taxStatus === 'Taxed';
-        this.engineChip.textContent = `Engine: ${vehicle.engineCapacity} cc`;
-        this.co2Chip.textContent = `CO₂: ${vehicle.co2Emissions} g/km`;
-    }
+    update = v => {
+        const s = x => (x ?? "—");
+        this.makeVal.textContent = v?.make ?? "—";
+        this.colVal.textContent = v?.colour ?? "—";
+        this.yearVal.textContent = v?.yearOfManufacture ?? "—";
+
+        this.motVal.textContent = s(v.motStatus);
+        this.motVal.className = `pill ${v?.motStatus === "Valid" ? "success" : "warning"}`;
+
+        this.taxVal.textContent = s(v.taxStatus);
+        this.taxVal.className = `pill ${v?.taxStatus === "Taxed" ? "success" : "warning"}`;
+
+        this.engineVal.textContent = v?.engineCapacity ? `${v.engineCapacity}cc` : "—";
+        this.co2Val.textContent = v?.co2Emissions ? `${v.co2Emissions} g/km` : "—";
+        this.fuelVal.textContent = s(v.fuelType);
+    };
 }
