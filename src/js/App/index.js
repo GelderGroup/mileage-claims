@@ -20,7 +20,7 @@ export default class App {
         this.entryModal.onMileageSubmitted = this.handleMileageSubmitted;
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
-        this.content = el(".container");
+        this.content = el(".container.mt-3");
         this.el = el("", el("main", this.content), this.entryModal, this.vehicleRegistrationModal);
 
         this.loadingView = new LoadingCard();
