@@ -2,6 +2,7 @@ import { el } from "redom";
 import { CarIcon } from "../../utils/icons";
 import VehicleLookupInput from "../VehicleLookupInput";
 import VehicleLookupSummary from "../VehicleLookupSummary";
+import './index.css';
 
 export default class VehicleRegistrationModal {
     constructor(api, onVehicleRegistered) {
