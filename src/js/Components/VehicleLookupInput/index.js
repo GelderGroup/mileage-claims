@@ -1,13 +1,14 @@
 // VehicleLookupInput.js
 import { el } from "redom";
+import './index.css';
 
 export default class VehicleLookupInput {
     constructor(api) {
         this.api = api;
-        this.el = el('div',
-            el('label', { for: 'reg', style: 'display:block;margin:.5rem 0 .25rem;color:var(--pico-muted-color);font-size:.9rem' }, 'Vehicle lookup'),
-            el('div', { role: 'group' },
-                this.input = el('input#reg', { placeholder: 'AB12CDE', required: true, style: 'text-transform:uppercase;letter-spacing:.5px' }),
+        this.el = el('',
+            el('label', { for: 'reg' }, 'Vehicle lookup'),
+            el('', { role: 'group' },
+                this.input = el('input#reg', { placeholder: 'AB12 CDE', required: true, autocomplete: 'off', maxlength: 8, minlength: 2 }),
                 this.btn = el('button', { type: 'button' }, 'Search')
             )
         );
@@ -16,10 +17,6 @@ export default class VehicleLookupInput {
     onmount = () => {
         this.btn.addEventListener('click', this.lookup);
         this.input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); this.lookup(); } });
-        // enforce uppercase value
-        this.input.addEventListener('input', () => {
-            const p = this.input.selectionStart; this.input.value = this.input.value.toUpperCase(); this.input.setSelectionRange(p, p);
-        });
     };
 
     lookup = async () => {

@@ -13,7 +13,7 @@ export default class VehicleRegistrationModal {
                     el('h3.heading', CarIcon(), 'Register vehicle'),
                     el('p.subheading', 'Enter your registration to continue.')
                 ),
-                el('form',
+                el('form', { autocomplete: 'off' },
                     this.lookup = new VehicleLookupInput(api),
                     this.summary = new VehicleLookupSummary(),
                     el('footer',
