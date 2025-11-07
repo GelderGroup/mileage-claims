@@ -139,6 +139,16 @@ article.vehicle-summary .spec .value {
     color: var(--pico-muted-color);
 }
 
+.alert {
+    margin: var(--pico-spacing) 0;
+    padding: calc(var(--pico-spacing) * .75);
+    border-radius: var(--pico-border-radius);
+    border: 1px solid color-mix(in oklab, #ff6b6b 35%, var(--pico-muted-border-color));
+    background: color-mix(in oklab, #ff6b6b 18%, transparent);
+    color: color-mix(in oklab, #ff6b6b 75%, var(--pico-contrast));
+}
+
+
 /* Mobile: keep alignment but tighten */
 @media (max-width: 520px) {
     .kvlist {
