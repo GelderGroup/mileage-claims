@@ -1,17 +1,26 @@
 import { el } from "redom";
+import './index.css';
 
 export default class DashboardCard {
     constructor({ onAddMileage, onChangeVehicle }) {
         this.greet = el("h4");
-        this.vehicle = el("p");
-        this.addBtn = el("button.primary.me-2", { type: "button" }, "Add Mileage Entry");
-        this.changeBtn = el("button.secondary", { type: "button" }, "Change Vehicle");
+
+        // Inline vehicle row
+        this.vehicleLabel = el("strong", "Active vehicle:");
+        this.vehicleReg = el("span");
+        this.changeBtn = el("button.secondary", { type: "button" }, "Change");
+        this.vehicleRow = el(".vehicle-info",
+            this.vehicleLabel, this.vehicleReg, this.changeBtn
+        );
+
+        this.addBtn = el("button.primary", { type: "button" }, "Add Mileage Entry");
         this.alert = el("p", { role: "status", hidden: true });
 
         this.el = el("section",
             el("article.contrast",
-                this.greet, this.vehicle,
-                el("footer", this.addBtn, this.changeBtn),
+                this.greet,
+                this.vehicleRow,
+                el("footer", this.addBtn),
                 this.alert
             )
         );
@@ -22,10 +31,21 @@ export default class DashboardCard {
 
     update(user, vehicle) {
         this.greet.textContent = `Welcome, ${user.name}!`;
-        this.vehicle.textContent = `Vehicle: ${vehicle.registration}`;
+        this.vehicleReg.textContent = ` ${vehicle.registration}`;
     }
 
-    showToast(msg) { this.alert.textContent = msg; this.alert.hidden = false; setTimeout(() => (this.alert.hidden = true), 4000); }
-    onmount = () => { this.addBtn.addEventListener("click", this.onAddMileage); this.changeBtn.addEventListener("click", this.onChangeVehicle); };
-    onunmount = () => { this.addBtn.removeEventListener("click", this.onAddMileage); this.changeBtn.removeEventListener("click", this.onChangeVehicle); };
+    showToast(msg) {
+        this.alert.textContent = msg;
+        this.alert.hidden = false;
+        setTimeout(() => (this.alert.hidden = true), 4000);
+    }
+
+    onmount = () => {
+        this.addBtn.addEventListener("click", this.onAddMileage);
+        this.changeBtn.addEventListener("click", this.onChangeVehicle);
+    };
+    onunmount = () => {
+        this.addBtn.removeEventListener("click", this.onAddMileage);
+        this.changeBtn.removeEventListener("click", this.onChangeVehicle);
+    };
 }

@@ -1,0 +1,25 @@
+.vehicle-info {
+    display: flex;
+    align-items: center;
+    gap: .5rem .75rem;
+    flex-wrap: wrap;
+    /* stacks neatly on narrow screens */
+    margin-bottom: .5rem;
+}
+
+.vehicle-info strong {
+    font-weight: 600;
+}
+
+.vehicle-info button {
+    margin-left: auto;
+}
+
+/* pushes Change to the end on wide */
+@media (max-width: 520px) {
+    .vehicle-info button {
+        margin-left: 0;
+    }
+
+    /* on mobile it drops under the label/value */
+}
