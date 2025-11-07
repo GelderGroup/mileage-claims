@@ -28,8 +28,13 @@ export default class App {
         this.welcomeView = new WelcomeCard(() => this.vehicleRegistrationModal.open());
         this.dashboardView = new DashboardCard({
             onAddMileage: () => this.entryModal.open(),
-            onChangeVehicle: () => this.vehicleRegistrationModal.open()
+            onChangeVehicle: this.handleChangeVehicle
         });
+    }
+
+    handleChangeVehicle = e => {
+        e.preventDefault();
+        this.vehicleRegistrationModal.open();
     }
 
     onmount = async () => {

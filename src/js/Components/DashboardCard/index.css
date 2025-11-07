@@ -11,20 +11,6 @@
     font-weight: 600;
 }
 
-.vehicle-info button.secondary {
-    background: transparent;
-    color: var(--primary);
-    border: none;
-    padding: 0;
-    font-size: 0.9rem;
-    text-decoration: underline;
-}
-
-.vehicle-info button.secondary:hover {
-    text-decoration: none;
-}
-
-
 /* pushes Change to the end on wide */
 @media (max-width: 520px) {
     .vehicle-info button {

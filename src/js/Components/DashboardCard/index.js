@@ -8,9 +8,9 @@ export default class DashboardCard {
         // Inline vehicle row
         this.vehicleLabel = el("strong", "Active vehicle:");
         this.vehicleReg = el("span");
-        this.changeBtn = el("button.secondary", { type: "button" }, "Change");
+        this.changeLink = el("a.secondary", { href: "#", role: "button" }, "Change");
         this.vehicleRow = el(".vehicle-info",
-            this.vehicleLabel, this.vehicleReg, this.changeBtn
+            this.vehicleLabel, this.vehicleReg, this.changeLink
         );
 
         this.addBtn = el("button.primary", { type: "button" }, "Add Mileage Entry");
@@ -42,10 +42,10 @@ export default class DashboardCard {
 
     onmount = () => {
         this.addBtn.addEventListener("click", this.onAddMileage);
-        this.changeBtn.addEventListener("click", this.onChangeVehicle);
+        this.changeLink.addEventListener("click", this.onChangeVehicle);
     };
     onunmount = () => {
         this.addBtn.removeEventListener("click", this.onAddMileage);
-        this.changeBtn.removeEventListener("click", this.onChangeVehicle);
+        this.changeLink.removeEventListener("click", this.onChangeVehicle);
     };
 }
