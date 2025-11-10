@@ -10,7 +10,8 @@ export class PostcodeInput {
         } = props;
 
         // generate a unique, predictable base id if none supplied
-        const baseId = id || `postcode-${++uniqueIdCounter}`;
+        const baseId = id || crypto.randomUUID();
+
         this.name = name || baseId;
 
         this.el = el('', {}, [
