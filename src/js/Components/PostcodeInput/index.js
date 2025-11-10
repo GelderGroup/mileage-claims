@@ -7,39 +7,39 @@ export class PostcodeInput {
         // Store the name/id for event identification
         this.name = name;
 
-        this.el = el('',
-            el('', { role: 'group' }, [
+        this.el = el('', { role: 'group' }, [
+            el('.field',
                 this.input = el('input', {
                     type: 'text',
                     placeholder: placeholder,
                     value: value
                 }),
-                this.button = el('button', {
-                    class: 'secondary',
-                    title: 'Use current location',
-                    'aria-label': 'Use current location'
+                el('small', 'Enter a postcode or tap the target button to use your current location.')
+            ),
+            this.button = el('button', {
+                class: 'secondary',
+                title: 'Use current location',
+                'aria-label': 'Use current location'
+            }, [
+                svg('svg.lucide.lucide-locate-fixed', {
+                    width: "24",
+                    height: "24",
+                    viewBox: "0 0 24 24",
+                    fill: "none",
+                    stroke: "currentColor",
+                    "stroke-width": "2",
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round"
                 }, [
-                    svg('svg.lucide.lucide-locate-fixed', {
-                        width: "24",
-                        height: "24",
-                        viewBox: "0 0 24 24",
-                        fill: "none",
-                        stroke: "currentColor",
-                        "stroke-width": "2",
-                        "stroke-linecap": "round",
-                        "stroke-linejoin": "round"
-                    }, [
-                        svg('line', { x1: "2", x2: "5", y1: "12", y2: "12" }),
-                        svg('line', { x1: "19", x2: "22", y1: "12", y2: "12" }),
-                        svg('line', { x1: "12", x2: "12", y1: "2", y2: "5" }),
-                        svg('line', { x1: "12", x2: "12", y1: "19", y2: "22" }),
-                        svg('circle', { cx: "12", cy: "12", r: "7" }),
-                        svg('circle', { cx: "12", cy: "12", r: "3" })
-                    ])
+                    svg('line', { x1: "2", x2: "5", y1: "12", y2: "12" }),
+                    svg('line', { x1: "19", x2: "22", y1: "12", y2: "12" }),
+                    svg('line', { x1: "12", x2: "12", y1: "2", y2: "5" }),
+                    svg('line', { x1: "12", x2: "12", y1: "19", y2: "22" }),
+                    svg('circle', { cx: "12", cy: "12", r: "7" }),
+                    svg('circle', { cx: "12", cy: "12", r: "3" })
                 ])
-            ]),
-            el('small', 'Enter a postcode or tap the target button to use your current location.')
-        );
+            ])
+        ]);
     }
 
     onmount = () => {
