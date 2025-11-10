@@ -8,12 +8,12 @@ export default class DashboardCard {
         // Inline vehicle row
         this.vehicleLabel = el("strong", "Active vehicle:");
         this.vehicleReg = el("span");
-        this.changeLink = el("a.secondary", { href: "#" }, "Change");
+        this.changeLink = el("a.primary", { href: "#" }, "Change");
         this.vehicleRow = el(".vehicle-info",
             this.vehicleLabel, this.vehicleReg, this.changeLink
         );
 
-        this.addBtn = el("button.primary", { type: "button" }, "Add Mileage Entry");
+        this.addBtn = el("button.outline", { type: "button" }, "Add Mileage Entry");
         this.alert = el("p", { role: "status", hidden: true });
 
         this.el = el("section",
