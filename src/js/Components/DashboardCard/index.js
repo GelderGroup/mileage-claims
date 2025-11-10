@@ -8,7 +8,7 @@ export default class DashboardCard {
         // Inline vehicle row
         this.vehicleLabel = el("strong", "Active vehicle:");
         this.vehicleReg = el("span");
-        this.changeLink = el("a.secondary", { href: "#", role: "button" }, "Change");
+        this.changeLink = el("a.secondary", { href: "#" }, "Change");
         this.vehicleRow = el(".vehicle-info",
             this.vehicleLabel, this.vehicleReg, this.changeLink
         );
