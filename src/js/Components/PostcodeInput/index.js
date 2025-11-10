@@ -13,9 +13,11 @@ export class PostcodeInput {
                 placeholder: placeholder,
                 value: value
             }),
+            el('small', 'Enter a postcode or tap the target button to use your current location.'),
             this.button = el('button', {
                 class: 'secondary',
-                title: 'Use current location'
+                title: 'Use current location',
+                'aria-label': 'Use current location'
             }, [
                 svg('svg.lucide.lucide-locate-fixed', {
                     width: "24",

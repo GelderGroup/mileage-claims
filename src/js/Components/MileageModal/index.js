@@ -31,12 +31,6 @@ export default class MileageModal {
 
         this.milesInput = el('input', { type: 'number', placeholder: '0', step: '1', min: '0' });
 
-        this.reasonInput = el('input', {
-            type: 'text',
-            placeholder: 'Reason for travel (optional)',
-            value: 'Business travel'
-        });
-
         this.calculateBtn = new CalculateButton({
             name: 'calculate'
         });
@@ -65,8 +59,7 @@ export default class MileageModal {
                             this.milesInput,
                             this.calculateBtn
                         )
-                    ),
-                    el('label', 'Reason for Travel', this.reasonInput)
+                    )
                 ),
                 el('footer',
                     this.cancelBtn,
@@ -172,12 +165,13 @@ export default class MileageModal {
     }
 
     handleSave = async () => {
+        // will include reason for change (if chosen) and reason details
+        // also will include geocoded start/end postcodes
         const data = {
             date: this.dateInput.value,
             startPostcode: this.startPostcodeInput.value,
             endPostcode: this.endPostcodeInput.value,
-            distance: this.milesInput.value,
-            reason: this.reasonInput.value || 'Business travel'
+            distance: this.milesInput.value
         };
 
         // Validate the data using the service
