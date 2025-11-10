@@ -44,6 +44,7 @@ export default class DashboardCard {
         this.addBtn.addEventListener("click", this.onAddMileage);
         this.changeLink.addEventListener("click", this.onChangeVehicle);
     };
+
     onunmount = () => {
         this.addBtn.removeEventListener("click", this.onAddMileage);
         this.changeLink.removeEventListener("click", this.onChangeVehicle);
