@@ -1,0 +1,9 @@
+/* Pico-like helper utility */
+.help {
+    display: block;
+    width: 100%;
+    margin-top: calc(var(--pico-spacing)*-.75);
+    margin-bottom: var(--pico-spacing);
+    color: var(--pico-muted-color);
+    font-size: .875em;
+}

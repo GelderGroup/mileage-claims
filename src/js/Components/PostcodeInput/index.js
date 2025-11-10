@@ -1,44 +1,49 @@
 import { el, svg } from 'redom';
-
+import './index.css';
 export class PostcodeInput {
     constructor(props = {}) {
-        const { placeholder = '', value = '', name } = props;
+        const {
+            id,             // optional explicit id
+            name,           // optional name (for event IDs etc.)
+            placeholder = '',
+            value = ''
+        } = props;
 
-        // Store the name/id for event identification
-        this.name = name;
+        // generate a unique, predictable base id if none supplied
+        const baseId = id || `postcode-${++uniqueIdCounter}`;
+        this.name = name || baseId;
 
-        this.el = el('', { role: 'group' }, [
-            el('.field',
+        this.el = el('', {}, [
+            el('div', { role: 'group' }, [
                 this.input = el('input', {
+                    id: `${baseId}-input`,
                     type: 'text',
-                    placeholder: placeholder,
-                    value: value
+                    placeholder,
+                    value,
+                    'aria-describedby': `${baseId}-help`
                 }),
-                el('small', 'Enter a postcode or tap the target button to use your current location.')
-            ),
-            this.button = el('button', {
-                class: 'secondary',
-                title: 'Use current location',
-                'aria-label': 'Use current location'
-            }, [
-                svg('svg.lucide.lucide-locate-fixed', {
-                    width: "24",
-                    height: "24",
-                    viewBox: "0 0 24 24",
-                    fill: "none",
-                    stroke: "currentColor",
-                    "stroke-width": "2",
-                    "stroke-linecap": "round",
-                    "stroke-linejoin": "round"
+                this.button = el('button', {
+                    class: 'secondary',
+                    title: 'Use current location',
+                    'aria-label': 'Use current location'
                 }, [
-                    svg('line', { x1: "2", x2: "5", y1: "12", y2: "12" }),
-                    svg('line', { x1: "19", x2: "22", y1: "12", y2: "12" }),
-                    svg('line', { x1: "12", x2: "12", y1: "2", y2: "5" }),
-                    svg('line', { x1: "12", x2: "12", y1: "19", y2: "22" }),
-                    svg('circle', { cx: "12", cy: "12", r: "7" }),
-                    svg('circle', { cx: "12", cy: "12", r: "3" })
+                    svg('svg.lucide.lucide-locate-fixed', {
+                        width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none',
+                        stroke: 'currentColor', 'stroke-width': 2,
+                        'stroke-linecap': 'round', 'stroke-linejoin': 'round'
+                    }, [
+                        svg('line', { x1: 2, x2: 5, y1: 12, y2: 12 }),
+                        svg('line', { x1: 19, x2: 22, y1: 12, y2: 12 }),
+                        svg('line', { x1: 12, x2: 12, y1: 2, y2: 5 }),
+                        svg('line', { x1: 12, x2: 12, y1: 19, y2: 22 }),
+                        svg('circle', { cx: 12, cy: 12, r: 7 }),
+                        svg('circle', { cx: 12, cy: 12, r: 3 })
+                    ])
                 ])
-            ])
+            ]),
+            el('small', { id: `${baseId}-help` },
+                'Enter a postcode or tap the target button to use your current location.'
+            )
         ]);
     }
 
