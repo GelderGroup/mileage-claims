@@ -38,12 +38,12 @@ svg text {
 
 /* tighten label-input spacing */
 form label {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.25rem !important;
 }
 
 /* tighten input group spacing */
 form>*+* {
-    margin-top: 0.75rem;
+    margin-top: 0.75rem !important;
     /* default is 1.5rem */
 }
 
@@ -51,5 +51,5 @@ form>*+* {
 input,
 select,
 textarea {
-    padding-block: 0.4rem;
+    padding-block: 0.4rem !important;
 }
