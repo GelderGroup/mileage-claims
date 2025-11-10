@@ -35,21 +35,3 @@
 svg text {
     fill: var(--pico-secondary) !important;
 }
-
-/* tighten label-input spacing */
-form label {
-    margin-bottom: 0.25rem !important;
-}
-
-/* tighten input group spacing */
-form>*+* {
-    margin-top: 0.75rem !important;
-    /* default is 1.5rem */
-}
-
-/* optional: reduce field height slightly */
-input,
-select,
-textarea {
-    padding-block: 0.4rem !important;
-}
