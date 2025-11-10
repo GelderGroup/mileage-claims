@@ -40,4 +40,12 @@ export class DateInput {
     focus = () => {
         this.el.focus();
     }
+
+    addEventListener(event, handler) {
+        this.el.addEventListener(event, handler);
+    }
+
+    removeEventListener(event, handler) {
+        this.el.removeEventListener(event, handler);
+    }
 }

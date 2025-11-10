@@ -81,7 +81,7 @@ export default class MileageModal {
     }
 
     setupEventListeners = () => {
-        // Direct event handling - simple and clear
+        this.dateInput.addEventListener('pointerdown', this.handleDateInputPointerDown);
         this.el.addEventListener('uselocation', this.handleLocation);
         this.el.addEventListener('calculate', this.handleCalculate);
         this.closeBtn.addEventListener('click', this.handleClose);
@@ -94,7 +94,7 @@ export default class MileageModal {
     }
 
     teardownEventListeners = () => {
-        // Clean up all events
+        this.dateInput.removeEventListener('pointerdown', this.handleDateInputPointerDown);
         this.el.removeEventListener('uselocation', this.handleLocation);
         this.el.removeEventListener('calculate', this.handleCalculate);
         this.closeBtn.removeEventListener('click', this.handleClose);
@@ -117,6 +117,10 @@ export default class MileageModal {
         if (this.el.parentNode) {
             this.el.parentNode.removeChild(this.el);
         }
+    }
+
+    handleDateInputPointerDown = (e) => {
+        e.target.showPicker?.();
     }
 
     handleClose = () => {

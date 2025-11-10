@@ -13,7 +13,7 @@ export default class DashboardCard {
             this.vehicleLabel, this.vehicleReg, this.changeLink
         );
 
-        this.addBtn = el("button.outline", { type: "button" }, "Add Mileage Entry");
+        this.addBtn = el("button", { type: "button" }, "Add Mileage Entry");
         this.alert = el("p", { role: "status", hidden: true });
 
         this.el = el("section",
