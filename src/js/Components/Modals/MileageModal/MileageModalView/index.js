@@ -88,9 +88,9 @@ export default class MileageModalView {
     };
 
     open() {
-        this.logElStatus();
         if (!this.el.isConnected) mount(document.body, this.el);
         if (!this.el.open) this.el.showModal();
+        this.logElStatus();
         queueMicrotask(() => this.dateInput.focus());
     }
 
@@ -103,6 +103,7 @@ export default class MileageModalView {
     logElStatus = () => {
         console.log(`this.el.isConnected: ${this.el.isConnected}`);
         console.log(`this.el.open: ${this.el.open}`);
+        console.log(this.el.parentNode);
     }
 
     render = (state, { initial = false } = {}) => {
