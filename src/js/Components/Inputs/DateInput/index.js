@@ -19,12 +19,6 @@ export default class DateInput {
         this.resetValidity = resetValidity;
     }
 
-    onmount = () => this.el.addEventListener('pointerdown', this.handleDateInputPointerDown);
-
-    onunmount = () => this.el.removeEventListener('pointerdown', this.handleDateInputPointerDown);
-
-    handleDateInputPointerDown = e => e.target.showPicker?.();
-
     get value() { return this.el.value; }
     set value(v) { this.el.value = v; }
 

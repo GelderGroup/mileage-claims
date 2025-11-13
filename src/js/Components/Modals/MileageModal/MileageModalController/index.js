@@ -30,10 +30,9 @@ export default class MileageModalController {
         root.addEventListener('request-cancel', this.close);
         root.addEventListener('request-use-location', this.useLocation);
         root.addEventListener('request-calculate', this.calculate);
-        root.addEventListener('request-save', this.save);
+        root.addEventListener('request-save-mileage', this.save);
         root.addEventListener('field-input', (e) => {
             const { name, value } = e.detail;
-            // showSummary(false);
             touchField(name);
             setField(name, value);
             validateDebounced(250);
@@ -151,7 +150,8 @@ export default class MileageModalController {
         clearErrors();
         touchAll();
 
-        const data = { ...mileageStore.get() };
+        const data = getPayload();
+        console.log('Submitting mileage entry:', data);
         const v = validateMileageEntry(data);
 
         setValidation(v);

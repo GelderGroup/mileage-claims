@@ -111,12 +111,6 @@ export default class MileageModalView {
         // don’t unmount here; let the parent decide lifecycle
     }
 
-    logElStatus = () => {
-        console.log(`this.el.isConnected: ${this.el.isConnected}`);
-        console.log(`this.el.open: ${this.el.open}`);
-        console.log(this.el.parentNode);
-    }
-
     render = (state, { initial = false } = {}) => {
         // values
         for (const [key, comp] of Object.entries(this.fields)) {
@@ -160,7 +154,7 @@ export default class MileageModalView {
     handleOverrideToggle = (e) => this.dispatch('toggle-override', { checked: e.target.checked });
     handleClose = () => this.dispatch('request-close');
     handleCancel = () => this.dispatch('request-cancel');
-    handleSave = () => this.dispatch('request-save');
+    handleSave = () => this.dispatch('request-save-mileage');
 
     handleFieldInput = (e) => {
         const name = e.target?.name;

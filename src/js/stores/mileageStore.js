@@ -78,3 +78,18 @@ export const validateDebounced = (delay = 180) => {
     clearTimeout(_t);
     _t = setTimeout(validateNow, delay);
 };
+
+export function getPayload() {
+    const s = mileageStore.get();
+
+    return {
+        date: s.date,
+        startPostcode: s.startPostcode,
+        endPostcode: s.endPostcode,
+        distance:
+            typeof s.distance === 'number'
+                ? s.distance
+                : Number(s.distance || 0),
+        override: s.override ?? null
+    };
+}
