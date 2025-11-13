@@ -16,8 +16,6 @@ export async function calculateDistance(startPostcode, endPostcode) {
 
 // POST: include cookies, no bearer
 export async function saveMileageEntry(mileageData) {
-    const submissionData = { ...mileageData, submittedAt: new Date().toISOString(), status: "submitted" };
-
     const res = await fetch("/api/saveMileageEntry", {
         method: "POST",
         credentials: "include",
@@ -25,7 +23,7 @@ export async function saveMileageEntry(mileageData) {
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: JSON.stringify(submissionData),
+        body: JSON.stringify(mileageData),
     });
 
     if (!res.ok) throw new Error((await res.text()) || `Server error: ${res.status}`);

@@ -6,12 +6,12 @@ const entries = getCosmosContainer("mileagedb", "mileageEntries");
 export default async function (context, req) {
     try {
         const user = getClientPrincipal(req);
-        const { startPostcode, endPostcode, date, distance, reason } = req.body;
+        const { startPostcode, endPostcode, date, distance } = req.body;
 
-        if (!startPostcode || !endPostcode || !date || !distance || !reason) {
+        if (!startPostcode || !endPostcode || !date || !distance) {
             context.res = {
                 status: 400,
-                body: { error: 'Missing required fields: startPostcode, endPostcode, date, distance, reason' }
+                body: { error: 'Missing required fields: startPostcode, endPostcode, date, distance' }
             };
             return;
         }
@@ -23,7 +23,6 @@ export default async function (context, req) {
             endPostcode,
             date,
             distance: Number(distance),
-            reason,
             submittedBy: user.email,
             submittedAt: new Date().toISOString(),
             status: "submitted"
