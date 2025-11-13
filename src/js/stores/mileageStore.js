@@ -2,20 +2,38 @@ import { map } from 'nanostores';
 import { validateMileageEntry } from '../utils/Validation/validateMileageEntry.js';
 
 export const mileageStore = map({
+    id: null,                 // NEW
+
     date: '',
     startPostcode: '',
     endPostcode: '',
     distance: '',
-    override: null,
+
+    distanceOverride: '',
+    distanceOverrideReason: '',
+    distanceOverrideDetails: '',
+
     busy: false,
     calcBusy: false,
-    errors: {},                 // { field: message }
-    errorList: [],              // <-- array of messages
-    aria: { date: false, startPostcode: false, endPostcode: false, distance: false },
-    touched: { date: false, startPostcode: false, endPostcode: false, distance: false },
-    showSummary: false,
-    geoBusy: false
+    geoBusy: false,
+    touched: {},
+    aria: {},
+    errors: {},
+    errorList: [],
+    showSummary: false
 });
+
+// used when opening a fresh modal
+export const resetDataForNewEntry = () => {
+    mileageStore.setKey('id', null);
+    mileageStore.setKey('date', '');
+    mileageStore.setKey('startPostcode', '');
+    mileageStore.setKey('endPostcode', '');
+    mileageStore.setKey('distance', '');
+    mileageStore.setKey('distanceOverride', '');
+    mileageStore.setKey('distanceOverrideReason', '');
+    mileageStore.setKey('distanceOverrideDetails', '');
+}
 
 export const setGeoBusy = (v) => {
     mileageStore.setKey('geoBusy', !!v);
@@ -82,14 +100,28 @@ export const validateDebounced = (delay = 180) => {
 export function getPayload() {
     const s = mileageStore.get();
 
+    const distance =
+        typeof s.distance === 'number'
+            ? s.distance
+            : Number(s.distance || 0);
+
+    const distanceOverride =
+        s.distanceOverride === '' || s.distanceOverride == null
+            ? null
+            : Number(s.distanceOverride);
+
     return {
+        id: s.id || null,  // NEW — store should have this when editing
+
         date: s.date,
         startPostcode: s.startPostcode,
         endPostcode: s.endPostcode,
-        distance:
-            typeof s.distance === 'number'
-                ? s.distance
-                : Number(s.distance || 0),
-        override: s.override ?? null
+        distance,
+
+        distanceOverride,
+        distanceOverrideReason: s.distanceOverrideReason?.trim() || null,
+        distanceOverrideDetails: s.distanceOverrideDetails?.trim() || null
     };
 }
+
+

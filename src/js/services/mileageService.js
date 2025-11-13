@@ -18,10 +18,8 @@ export async function calculateDistance(startPostcode, endPostcode) {
 export async function saveMileageEntry(mileageData) {
     const res = await fetch("/api/saveMileageEntry", {
         method: "POST",
-        credentials: "include",
         headers: {
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(mileageData),
     });
@@ -33,7 +31,6 @@ export async function saveMileageEntry(mileageData) {
 // GET: include cookies, no bearer
 export async function getMileageEntries() {
     const res = await fetch("/api/getMileageEntries", {
-        credentials: "include",
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
         }

@@ -6,6 +6,8 @@ export const validateMileageEntry = (data) => {
     if (!data.endPostcode?.trim()) errors.endPostcode = "End postcode is required";
     if (!data.distance || data.distance <= 0) errors.distance = "Miles must be greater than 0";
 
+    //TODO Add validation for override distance, reason, details
+
     const isValid = Object.keys(errors).length === 0;
 
     return {

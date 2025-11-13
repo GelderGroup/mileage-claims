@@ -1,39 +1,98 @@
 import { getCosmosContainer } from "../_lib/cosmos.js";
 import { getClientPrincipal } from "../_lib/auth.js";
+import { geocodePostcode } from "../_lib/locationCore.js";
 
 const entries = getCosmosContainer("mileagedb", "mileageEntries");
 
 export default async function (context, req) {
     try {
         const user = getClientPrincipal(req);
-        const { startPostcode, endPostcode, date, distance } = req.body;
-
-        if (!startPostcode || !endPostcode || !date || !distance) {
+        if (!user?.email) {
             context.res = {
-                status: 400,
-                body: { error: 'Missing required fields: startPostcode, endPostcode, date, distance' }
+                status: 401,
+                body: { error: "unauthorised", details: "User context is missing" }
             };
             return;
         }
 
-        const entry = {
-            id: `${user.email}_${Date.now()}`,
-            userId: user.email,
+        const {
+            id,
+            date,
             startPostcode,
             endPostcode,
+            distance,
+            distanceOverride,
+            distanceOverrideReason,
+            distanceOverrideDetails
+        } = req.body || {};
+
+        if (!startPostcode || !endPostcode || !date || distance == null) {
+            context.res = {
+                status: 400,
+                body: { error: 'bad_request', details: 'Missing required fields' }
+            };
+            return;
+        }
+
+        // 1) Geocode both postcodes server-side
+        const [from, to] = await Promise.all([
+            geocodePostcode(startPostcode),
+            geocodePostcode(endPostcode)
+        ]);
+
+        // 2) New vs existing
+        const isNew = !id;
+        const entryId = isNew ? crypto.randomUUID() : id;
+        const nowIso = new Date().toISOString();
+
+        // 3) Build entry document
+        const entry = {
+            id: entryId,
+            userId: user.email,
+
             date,
+
+            startPostcode: from.postcode,
+            endPostcode: to.postcode,
+            startLat: from.lat,
+            startLng: from.lng,
+            endLat: to.lat,
+            endLng: to.lng,
+
             distance: Number(distance),
-            submittedBy: user.email,
-            submittedAt: new Date().toISOString(),
-            status: "submitted"
+
+            distanceOverride:
+                distanceOverride === '' || distanceOverride == null
+                    ? null
+                    : Number(distanceOverride),
+            distanceOverrideReason: distanceOverrideReason?.trim() || null,
+            distanceOverrideDetails: distanceOverrideDetails?.trim() || null,
+
+            status: "draft",
+            createdAt: nowIso,
+            submittedAt: null
         };
 
-        // Save to Cosmos DB
-        const { resource } = await entries.items.create(entry);
+        // 4) Upsert into Cosmos (create or replace)
+        const { resource } = await entries.items.upsert(entry);
 
-        context.res = { status: 201, body: { success: true, id: resource.id, message: "Mileage entry saved" } };
+        context.res = {
+            status: isNew ? 201 : 200,
+            body: {
+                success: true,
+                entry: resource,
+                message: isNew ? "Mileage entry created" : "Mileage entry updated"
+            }
+        };
     } catch (err) {
+        context.log.error(err);
         const status = /x-ms-client-principal/.test(err.message) ? 401 : 500;
-        context.res = { status, body: { error: status === 401 ? "Authentication failed" : "Internal server error", details: err.message } };
+        context.res = {
+            status,
+            body: {
+                error: status === 401 ? "Authentication failed" : "Internal server error",
+                details: err.message
+            }
+        };
     }
 }

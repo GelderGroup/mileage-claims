@@ -5,6 +5,7 @@ import {
     clearErrors,
     getPayload,
     mileageStore,
+    resetDataForNewEntry,
     resetTouches,
     setBanner,
     setBusy,
@@ -61,11 +62,13 @@ export default class MileageModalController {
 
     reset = () => {
         const today = new Date().toISOString().split('T')[0];
-        setData({ date: today, startPostcode: '', endPostcode: '', distance: '' });
+
+        resetDataForNewEntry();
+        setData({ date: today });   // keep your default date logic
         resetTouches();
         clearErrors();
         showSummary(false);
-    }
+    };
 
     useLocation = async (e) => {
         // don’t start another lookup if one is already in progress
@@ -152,7 +155,6 @@ export default class MileageModalController {
         touchAll();
 
         const data = getPayload();
-        console.log('Submitting mileage entry:', data);
         const v = validateMileageEntry(data);
 
         setValidation(v);
