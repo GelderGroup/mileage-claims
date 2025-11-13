@@ -43,3 +43,5 @@ secrets.md
 credentials.md
 AZURE_DEPLOYMENT.md
 /deps.json
+/.dependency-cruiser.cli.json
+/.dependency-cruiser.json
