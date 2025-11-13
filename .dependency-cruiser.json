@@ -43,8 +43,8 @@
     ],
     "options": {
         "outputType": "dot",
-        "doNotFollow": {
-            "path": "node_modules"
-        }
+        "collapsePattern": "index\\.(js|css)$",
+        "doNotFollow": "node_modules",
+        "graphDirection": "TB"
     }
 }
