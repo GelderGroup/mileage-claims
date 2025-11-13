@@ -88,16 +88,14 @@ export default class MileageModalView {
     };
 
     open() {
-        if (!this.el.isConnected) mount(document.body, this.el);
+        // assume this.el is already in the DOM (mounted by parent)
         if (!this.el.open) this.el.showModal();
-        this.logElStatus();
         queueMicrotask(() => this.dateInput.focus());
     }
 
     close() {
-        this.logElStatus();
         if (this.el.open) this.el.close();
-        if (this.el.isConnected) unmount(document.body, this.el);
+        // don’t unmount here; let the parent decide lifecycle
     }
 
     logElStatus = () => {
