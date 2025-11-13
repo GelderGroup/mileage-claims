@@ -1,6 +1,7 @@
 import { getCosmosContainer } from "../_lib/cosmos.js";
 import { getClientPrincipal } from "../_lib/auth.js";
 import { geocodePostcode } from "../_lib/locationCore.js";
+import crypto from "node:crypto";
 
 const entries = getCosmosContainer("mileagedb", "mileageEntries");
 
