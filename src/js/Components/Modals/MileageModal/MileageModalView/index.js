@@ -88,9 +88,22 @@ export default class MileageModalView {
     };
 
     open() {
-        // assume this.el is already in the DOM (mounted by parent)
-        if (!this.el.open) this.el.showModal();
-        queueMicrotask(() => this.dateInput.focus());
+        mount(document.body, this.el);
+        this.el.showModal();
+
+        queueMicrotask(() => {
+            const isTouch =
+                (typeof window !== 'undefined' && 'ontouchstart' in window) ||
+                (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0);
+
+            if (!isTouch) {
+                // desktop / laptop → ok to focus date input
+                this.dateInput.focus();
+            } else {
+                // mobile → just focus the dialog or close button to avoid auto picker
+                this.closeBtn.focus();
+            }
+        });
     }
 
     close() {
