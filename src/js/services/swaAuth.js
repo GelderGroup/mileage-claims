@@ -1,5 +1,4 @@
-// services/swaAuth.js
-export const SwaAuth = {
+export const AuthApi = {
     async me() {
         const r = await fetch("/.auth/me", { credentials: "include" });
         if (!r.ok) return null;

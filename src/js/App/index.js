@@ -1,15 +1,18 @@
 import { el, setChildren } from "../ui/dom.js";
-import pkg from "../../../package.json" assert { type: "json" };
-import MileageModal from "../Components/MileageModal/MileageModalView/index.js";
-import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
-import { SwaAuth } from "../services/swaAuth.js";
+import { AuthApi } from "../services/swaAuth.js";
 import { VehiclesApi } from "../services/vehicles.js";
 import { VehicleLookupApi } from "../services/vehicleLookup.js";
 
-import WelcomeCard from "../Components/WelcomeCard";
-import DashboardCard from "../Components/DashboardCard";
-import LoadingCard from "../Components/LoadingCard";
-import ErrorCard from "../Components/ErrorCard";
+import {
+    MileageModal,
+    VehicleRegistrationModal,
+    WelcomeCard,
+    DashboardCard,
+    LoadingCard,
+    ErrorCard
+} from "../Components/index.js";
+
+import { appVersion } from "../config/appInfo.js";
 
 import "@picocss/pico/css/pico.min.css";
 
@@ -37,19 +40,19 @@ export default class App {
     }
 
     onmount = async () => {
-        const ver = document.getElementById("ver"); if (ver) ver.textContent = `v${pkg.version}`;
+        const ver = document.getElementById("ver"); if (ver) ver.textContent = `v${appVersion}`;
         await this.initAuth();
     };
 
     initAuth = async () => {
         setChildren(this.content, [this.loadingView]);
-        const principal = await SwaAuth.me();
-        if (!principal) { SwaAuth.login(); return; }
+        const principal = await AuthApi.me();
+        if (!principal) { AuthApi.login(); return; }
         await this.afterLogin(principal);
     };
 
     afterLogin = async (principal) => {
-        this.userInfo = { name: SwaAuth.getName(principal), email: SwaAuth.getEmail(principal) };
+        this.userInfo = { name: AuthApi.getName(principal), email: AuthApi.getEmail(principal) };
         try {
             const { hasVehicle, vehicle } = await VehiclesApi.getActive();
             hasVehicle ? this.showMainApp(vehicle) : this.showNeedsVehicle();

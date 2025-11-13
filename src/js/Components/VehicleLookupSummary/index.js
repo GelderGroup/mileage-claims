@@ -1,6 +1,11 @@
 import { el } from "../../ui/dom.js";
 import "./index.css";
 
+const safe = x => (x ?? "—");
+
+const motClass = status => `pill ${status === "Valid" ? "success" : "warning"}`;
+const taxClass = status => `pill ${status === "Taxed" ? "success" : "warning"}`;
+
 export default class VehicleLookupSummary {
     constructor() {
         this.alert = el("p.alert", { role: "alert", hidden: true });
@@ -48,20 +53,24 @@ export default class VehicleLookupSummary {
     }
 
     update = v => {
-        const s = x => (x ?? "—");
-        this.makeVal.textContent = s(v.make);
-        this.colVal.textContent = s(v.colour);
-        this.yearVal.textContent = s(v.yearOfManufacture);
+        if (!v) {
+            this.clear();
+            return;
+        }
 
-        this.motVal.textContent = s(v.motStatus);
-        this.motVal.className = `pill ${v?.motStatus === "Valid" ? "success" : "warning"}`;
+        this.makeVal.textContent = safe(v.make);
+        this.colVal.textContent = safe(v.colour);
+        this.yearVal.textContent = safe(v.yearOfManufacture);
 
-        this.taxVal.textContent = s(v.taxStatus);
-        this.taxVal.className = `pill ${v?.taxStatus === "Taxed" ? "success" : "warning"}`;
+        this.motVal.textContent = safe(v.motStatus);
+        this.motVal.className = motClass(v.motStatus);
 
-        this.engineVal.textContent = v?.engineCapacity ? `${v.engineCapacity}cc` : "—";
-        this.co2Val.textContent = v?.co2Emissions ? `${v.co2Emissions} g/km` : "—";
-        this.fuelVal.textContent = s(v.fuelType);
+        this.taxVal.textContent = safe(v.taxStatus);
+        this.taxVal.className = taxClass(v.taxStatus);
+
+        this.engineVal.textContent = v.engineCapacity ? `${v.engineCapacity}cc` : "—";
+        this.co2Val.textContent = v.co2Emissions ? `${v.co2Emissions} g/km` : "—";
+        this.fuelVal.textContent = safe(v.fuelType);
 
         this.alert.hidden = true;
         this.card.hidden = false;

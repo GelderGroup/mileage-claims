@@ -1,6 +1,6 @@
 import { mount } from '../js/ui/dom.js';
 import App from "./App";
-import MileageModal from "./Components/MileageModal";
+import { MileageModal } from './Components/index.js';
 
 const contentElement = document.getElementById('content-wrapper');
 // const app = new App();
