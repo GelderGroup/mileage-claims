@@ -1,6 +1,6 @@
 import { el, setChildren } from "redom";
 import pkg from "../../../package.json" assert { type: "json" };
-import MileageModal from "../Components/MileageModal";
+import MileageModal from "../Components/MileageModal/MileageModalView/index.js";
 import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
 import { SwaAuth } from "../services/swaAuth.js";
 import { VehiclesApi } from "../../services/vehicles.js";
@@ -12,7 +12,6 @@ import LoadingCard from "../Components/LoadingCard";
 import ErrorCard from "../Components/ErrorCard";
 
 import "@picocss/pico/css/pico.min.css";
-import { mapVehicleLookupToCanonical } from "../../../api/_lib/mapVehicleLookupToCanonical.js";
 
 export default class App {
     constructor() {

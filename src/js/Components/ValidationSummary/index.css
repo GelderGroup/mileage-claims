@@ -1,0 +1,23 @@
+aside.form-errors {
+    border-color: var(--pico-form-element-invalid-border-color);
+    background-color: color-mix(in srgb, var(--pico-form-element-invalid-border-color) 10%, transparent);
+    color: var(--pico-form-element-invalid-active-border-color);
+    border-radius: var(--pico-border-radius);
+    padding: var(--pico-spacing);
+    margin-top: var(--pico-spacing);
+}
+
+aside.form-errors strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--pico-form-element-invalid-active-border-color);
+}
+
+aside.form-errors ul {
+    margin: 0;
+    padding-left: 1rem;
+}
+
+aside.form-errors li {
+    margin-bottom: 0;
+}

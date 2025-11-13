@@ -1,51 +1,36 @@
 import { el } from 'redom';
+import { attachValidity } from '../../utils/Validation/a11y/inputValidity';
 
 export class DateInput {
     constructor(props = {}) {
-        this.props = props;
-        this.createElement();
-    }
+        const id = props.id || crypto.randomUUID();
 
-    createElement = () => {
-        // Get today's date in YYYY-MM-DD format
-        const today = new Date().toISOString().split('T')[0];
-
-        // Use provided value or default to today
-        const value = this.props.value || today;
-
-        this.el = el('input', {
+        this.input = el('input', {
+            id: `${id}-input`,
             type: 'date',
-            value: value,
-            name: this.props.name || 'date'
+            name: props.name || 'date'
         });
+
+        this.el = this.input;
+
+        const { setValidity, resetValidity } = attachValidity({ inputEl: this.input });
+
+        this.setValidity = setValidity;
+        this.resetValidity = resetValidity;
     }
 
-    // Getter for value
-    get value() {
-        return this.el.value;
-    }
+    onmount = () => this.el.addEventListener('pointerdown', this.handleDateInputPointerDown);
 
-    // Setter for value
-    set value(newValue) {
-        this.el.value = newValue;
-    }
+    onunmount = () => this.el.removeEventListener('pointerdown', this.handleDateInputPointerDown);
 
-    // Method to reset to today's date
-    resetToToday = () => {
-        const today = new Date().toISOString().split('T')[0];
-        this.value = today;
-    }
+    handleDateInputPointerDown = e => e.target.showPicker?.();
 
-    // Method to focus the input
-    focus = () => {
-        this.el.focus();
-    }
+    get value() { return this.el.value; }
+    set value(v) { this.el.value = v; }
 
-    addEventListener(event, handler) {
-        this.el.addEventListener(event, handler);
-    }
+    resetToToday = () => this.value = new Date().toISOString().split('T')[0];
 
-    removeEventListener(event, handler) {
-        this.el.removeEventListener(event, handler);
-    }
+    focus = () => this.el.focus();
+    addEventListener(ev, fn) { this.el.addEventListener(ev, fn); }
+    removeEventListener(ev, fn) { this.el.removeEventListener(ev, fn); }
 }

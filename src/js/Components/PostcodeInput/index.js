@@ -1,51 +1,27 @@
 import { el, svg } from 'redom';
 import './index.css';
+import { LocateFixedIcon } from '../../utils/icons';
+import { attachValidity } from '../../utils/Validation/a11y/inputValidity';
 export class PostcodeInput {
     constructor(props = {}) {
-        const {
-            id,             // optional explicit id
-            name,           // optional name (for event IDs etc.)
-            placeholder = '',
-            value = ''
-        } = props;
+        const baseId = props.id || crypto.randomUUID();
+        const inputId = `${baseId}-input`;
+        const helpId = `${baseId}-help`;
+        const buttonDescription = 'Use current location';
+        const helpDescription = 'Enter a postcode or tap the target button to use your current location.';
 
-        // generate a unique, predictable base id if none supplied
-        const baseId = id || crypto.randomUUID();
+        this.el = el('',
+            el('.postcode-group', { role: 'group' },
+                this.input = el('input', { id: inputId, type: 'text', name: props.name || 'postcode', 'aria-describedby': helpId, autocomplete: 'off' }),
+                this.button = el('button.secondary', { title: buttonDescription, 'aria-label': buttonDescription }, LocateFixedIcon())
+            ),
+            this.help = el('small.help', { id: helpId }, helpDescription)
+        );
 
-        this.name = name || baseId;
+        const { setValidity, resetValidity } = attachValidity({ inputEl: this.input });
 
-        this.el = el('', {}, [
-            el('div', { role: 'group' }, [
-                this.input = el('input', {
-                    id: `${baseId}-input`,
-                    type: 'text',
-                    placeholder,
-                    value,
-                    'aria-describedby': `${baseId}-help`
-                }),
-                this.button = el('button', {
-                    class: 'secondary',
-                    title: 'Use current location',
-                    'aria-label': 'Use current location'
-                }, [
-                    svg('svg.lucide.lucide-locate-fixed', {
-                        width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none',
-                        stroke: 'currentColor', 'stroke-width': 2,
-                        'stroke-linecap': 'round', 'stroke-linejoin': 'round'
-                    }, [
-                        svg('line', { x1: 2, x2: 5, y1: 12, y2: 12 }),
-                        svg('line', { x1: 19, x2: 22, y1: 12, y2: 12 }),
-                        svg('line', { x1: 12, x2: 12, y1: 2, y2: 5 }),
-                        svg('line', { x1: 12, x2: 12, y1: 19, y2: 22 }),
-                        svg('circle', { cx: 12, cy: 12, r: 7 }),
-                        svg('circle', { cx: 12, cy: 12, r: 3 })
-                    ])
-                ])
-            ]),
-            el('small', { id: `${baseId}-help` },
-                'Enter a postcode or tap the target button to use your current location.'
-            )
-        ]);
+        this.setValidity = setValidity;
+        this.resetValidity = resetValidity;
     }
 
     onmount = () => {
@@ -66,11 +42,13 @@ export class PostcodeInput {
 
     // Event dispatch proxy methods
     addEventListener(type, listener, options) {
-        this.el.addEventListener(type, listener, options);
+        if (type === 'input' || type === 'change') this.input.addEventListener(type, listener, options);
+        else this.el.addEventListener(type, listener, options);
     }
 
     removeEventListener(type, listener, options) {
-        this.el.removeEventListener(type, listener, options);
+        if (type === 'input' || type === 'change') this.input.removeEventListener(type, listener, options);
+        else this.el.removeEventListener(type, listener, options);
     }
 
     dispatchEvent(event) {
@@ -81,8 +59,7 @@ export class PostcodeInput {
         this.dispatchEvent(new CustomEvent('uselocation', {
             bubbles: true,
             detail: {
-                component: this,
-                name: this.name
+                component: this
             }
         }));
     }
