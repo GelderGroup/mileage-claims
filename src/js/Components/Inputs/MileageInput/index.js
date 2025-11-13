@@ -3,9 +3,13 @@ import { attachValidity } from "../../../utils/Validation/a11y/inputValidity.js"
 import CalculateButton from "../CalculateButton/index.js";
 
 export default class MileageInput {
-    constructor() {
+    constructor(props = {}) {
+        const baseId = props.id || crypto.randomUUID();
+        const inputId = `${baseId}-input`;
+
         this.input = el('input', {
             type: 'number',
+            id: inputId,
             placeholder: '0',
             step: '1',
             min: '0',

@@ -11,7 +11,7 @@ export default class PostcodeInput {
         const buttonDescription = 'Use current location';
         const helpDescription = 'Enter a postcode or tap the target button to use your current location.';
 
-        this.el = el('',
+        this.el = el('.postcode-input',
             el('.postcode-group', { role: 'group' },
                 this.input = el('input', { id: inputId, type: 'text', name: props.name || 'postcode', 'aria-describedby': helpId, autocomplete: 'off' }),
                 this.button = el('button.secondary', { title: buttonDescription, 'aria-label': buttonDescription }, LocateFixedIcon())
