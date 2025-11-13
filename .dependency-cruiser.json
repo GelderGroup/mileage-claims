@@ -1,0 +1,50 @@
+{
+    "forbidden": [
+        {
+            "name": "no-service-to-components",
+            "severity": "error",
+            "from": {
+                "path": "^src/js/services"
+            },
+            "to": {
+                "path": "^src/js/Components"
+            }
+        },
+        {
+            "name": "no-low-level-to-high-level",
+            "severity": "error",
+            "from": {
+                "path": "^src/js/(utils|Validation|ui)"
+            },
+            "to": {
+                "path": "^src/js/(Components|App)"
+            }
+        },
+        {
+            "name": "no-components-to-app",
+            "severity": "warn",
+            "from": {
+                "path": "^src/js/Components"
+            },
+            "to": {
+                "path": "^src/js/App"
+            }
+        },
+        {
+            "name": "no-circular",
+            "severity": "warn",
+            "from": {
+                "path": "^src"
+            },
+            "to": {
+                "circular": true
+            }
+        }
+    ],
+    "options": {
+        "outputType": "dot",
+        "doNotFollow": {
+            "path": "node_modules"
+        }
+    }
+}

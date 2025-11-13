@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api } from "../services/api.js";
 
 export const VehiclesApi = {
     // current/active vehicle for the signed-in user

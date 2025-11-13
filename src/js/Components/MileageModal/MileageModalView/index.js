@@ -1,10 +1,9 @@
-import { el, mount, unmount } from 'redom';
+import { el, mount, unmount, syncInput } from '../../../ui/dom.js';
 import { PostcodeInput } from '../../PostcodeInput';
 import { DateInput } from '../../DateInput';
 import MileageOverride from '../../MileageOverride';
 import MileageInput from '../../MileageInput';
 import { ValidationSummary } from '../../ValidationSummary';
-import { syncInput } from '../../../../ui/dom.js';
 
 export default class MileageModalView {
     constructor() {

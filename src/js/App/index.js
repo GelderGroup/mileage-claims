@@ -1,10 +1,10 @@
-import { el, setChildren } from "redom";
+import { el, setChildren } from "../ui/dom.js";
 import pkg from "../../../package.json" assert { type: "json" };
 import MileageModal from "../Components/MileageModal/MileageModalView/index.js";
 import VehicleRegistrationModal from "../Components/VehicleRegistrationModal";
 import { SwaAuth } from "../services/swaAuth.js";
-import { VehiclesApi } from "../../services/vehicles.js";
-import { VehicleLookupApi } from "../../services/vehicleLookup.js";
+import { VehiclesApi } from "../services/vehicles.js";
+import { VehicleLookupApi } from "../services/vehicleLookup.js";
 
 import WelcomeCard from "../Components/WelcomeCard";
 import DashboardCard from "../Components/DashboardCard";

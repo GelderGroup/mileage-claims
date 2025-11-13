@@ -1,4 +1,4 @@
-import { mount } from "redom";
+import { mount } from '../js/ui/dom.js';
 import App from "./App";
 import MileageModal from "./Components/MileageModal";
 

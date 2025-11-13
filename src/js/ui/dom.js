@@ -1,3 +1,6 @@
+import { el, mount, unmount, setChildren, list, svg } from "redom";
+export { el, mount, unmount, setChildren, list, svg };
+
 export const getInputEl = (comp) =>
     comp?.input ?? comp?.inputEl ?? comp?.el?.querySelector?.('input') ?? comp?.el ?? comp;
 

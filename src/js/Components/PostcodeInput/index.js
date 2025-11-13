@@ -1,4 +1,4 @@
-import { el, svg } from 'redom';
+import { el } from '../../ui/dom.js';
 import './index.css';
 import { LocateFixedIcon } from '../../utils/icons';
 import { attachValidity } from '../../utils/Validation/a11y/inputValidity';

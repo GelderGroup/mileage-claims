@@ -1,4 +1,4 @@
-import { el } from "redom";
+import { el } from "../../ui/dom.js";
 import { CarIcon } from "../../utils/icons";
 import VehicleLookupInput from "../VehicleLookupInput";
 import VehicleLookupSummary from "../VehicleLookupSummary";
