@@ -1,5 +1,5 @@
 import { formatPostcode } from '../../../../utils/Formatting/formatPostcode.js';
-import { calculateDistance, getCurrentLocationPostcode, saveMileageEntry } from '../../../../services/mileageService.js';
+import { calculateDistance, saveMileageEntry } from '../../../../services/mileageService.js';
 import { validateMileageEntry } from '../../../../utils/Validation/validateMileageEntry.js';
 import {
     clearErrors,
@@ -17,6 +17,7 @@ import {
     validateDebounced,
     validateNow
 } from '../../../../stores/mileageStore.js';
+import { getCurrentLocationPostcode } from '../../../../services/postcodeService.js';
 
 export default class MileageModalController {
     constructor(view, { onSubmitted } = {}) {

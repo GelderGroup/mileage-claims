@@ -1,10 +1,3 @@
-export async function getCurrentLocationPostcode() {
-    if (!("geolocation" in navigator)) throw new Error("Geolocation is not supported by this browser");
-    const position = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej));
-    console.log("Would reverse-geocode", position);
-    return "SW1A 1AA"; // TODO: replace with real reverse-geocode
-}
-
 export async function calculateDistance(startPostcode, endPostcode) {
     if (!startPostcode?.trim() || !endPostcode?.trim()) throw new Error("Both start and end postcodes are required");
     const miles = Math.floor(Math.random() * 100) + 10;
