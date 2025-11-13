@@ -112,11 +112,23 @@ export default class MileageModalView {
         // flags
         this.setBusy(state.busy);
         this.setCalcBusy(state.calcBusy);
+        this.setGeoBusy(state.geoBusy);
         // validity + summary
         this.applyValidity(state);
         if (state.showSummary && state.errorList?.length) this.showErrors(state.errorList);
         else this.clearErrors();
     };
+
+    setGeoBusy(b) {
+        // disable inputs while geocoding
+        this.startPostcodeInput.disabled = b;
+        this.endPostcodeInput.disabled = b;
+
+        // show spinner on the "Use my location" buttons (if you have them)
+        this.startPostcodeInput.setGeoBusy?.(b);
+        this.endPostcodeInput.setGeoBusy?.(b);
+    }
+
 
     setBusy(b) { this.saveBtn.disabled = b; this.saveBtn.textContent = b ? 'Saving…' : 'Save Entry'; }
     setCalcBusy(b) { this.mileageInput.calculateBtn.disabled = b; }

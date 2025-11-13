@@ -3,7 +3,7 @@ import './index.css';
 import ValidationSummaryItem from '../ValidationSummaryItem/index.js';
 
 export default class ValidationSummary {
-    constructor({ title = 'Please fix the following:' } = {}) {
+    constructor({ title = 'There was a problem:' } = {}) {
         this.validationList = list('ul', ValidationSummaryItem);
 
         this.el = el(

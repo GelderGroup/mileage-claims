@@ -10,6 +10,7 @@ import {
     setCalcBusy,
     setData,
     setField,
+    setGeoBusy,
     setValidation,
     showSummary,
     touchAll,
@@ -67,22 +68,31 @@ export default class MileageModalController {
     }
 
     useLocation = async (e) => {
+        // don’t start another lookup if one is already in progress
+        if (mileageStore.get().geoBusy) return;
+
+        setGeoBusy(true);
+        showSummary(false); // okay to hide old validation summary before starting
+
         try {
             const pc = await getCurrentLocationPostcode();
+
             const target = e.detail.component;
             if (target === this.view.startPostcodeInput) {
                 setData({ startPostcode: pc });
                 touchField('startPostcode');
-            }
-            else if (target === this.view.endPostcodeInput) {
+            } else if (target === this.view.endPostcodeInput) {
                 setData({ endPostcode: pc });
                 touchField('endPostcode');
             }
-            showSummary(false);
+
             const v = validateNow();
             setValidation(v);
+
+            setGeoBusy(false); // <- success path: clear busy, THEN exit
         } catch (err) {
-            this.view.showError(err?.message || 'Could not get your location.');
+            setGeoBusy(false); // <- clear busy FIRST
+            this.view.showError(err?.message || 'Could not get your location.'); // <- and don’t touch store after this
         }
     };
 

@@ -41,6 +41,19 @@ export default class PostcodeInput {
         this.input.value = val || '';
     }
 
+    get disabled() {
+        return this.input.disabled;
+    }
+
+    set disabled(val) {
+        this.input.disabled = val;
+    }
+
+    setGeoBusy(state) {
+        this.el.classList.toggle('busy', state);
+        this.input.disabled = state;
+    }
+
     // Event dispatch proxy methods
     addEventListener(type, listener, options) {
         if (type === 'input' || type === 'change') this.input.addEventListener(type, listener, options);

@@ -13,8 +13,13 @@ export const mileageStore = map({
     errorList: [],              // <-- array of messages
     aria: { date: false, startPostcode: false, endPostcode: false, distance: false },
     touched: { date: false, startPostcode: false, endPostcode: false, distance: false },
-    showSummary: false
+    showSummary: false,
+    geoBusy: false
 });
+
+export const setGeoBusy = (v) => {
+    mileageStore.setKey('geoBusy', !!v);
+}
 
 export const showSummary = (b) => mileageStore.setKey('showSummary', !!b);
 

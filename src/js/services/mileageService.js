@@ -1,10 +1,17 @@
 export async function calculateDistance(startPostcode, endPostcode) {
-    if (!startPostcode?.trim() || !endPostcode?.trim()) throw new Error("Both start and end postcodes are required");
-    const miles = Math.floor(Math.random() * 100) + 10;
-    // would use service like postcodes.io or Google Maps API here
-    console.log(`Calculated ${miles} miles from ${startPostcode} to ${endPostcode}`);
-    await new Promise(r => setTimeout(r, 500));
-    return miles;
+    const res = await fetch('/api/routeMiles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ startPostcode, endPostcode })
+    });
+
+    const json = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+        throw new Error(json.detail || json.error || 'Failed to calculate distance');
+    }
+
+    return json.miles;
 }
 
 // POST: include cookies, no bearer
