@@ -1,26 +1,23 @@
+// MileageDraftCard
 import { el } from 'redom';
 
 export default class MileageDraftCard {
     constructor() {
-        this.el = el('.draft-card',
-            this.header = el('.draft-card__header',
+        this.el = el('.draft-row',
+            this.main = el('.draft-main',
                 this.title = el('strong'),
-                this.dateEl = el('span.draft-card__date')
+                this.subLine = el('small')
             ),
-            this.meta = el('.draft-card__meta',
-                this.routeLine = el('div.draft-card__route'),
-                this.distanceEl = el('div.draft-card__distance')
-            ),
-            this.actions = el('.draft-card__actions',
-                this.editBtn = el('button.secondary', 'Edit'),
-                // keep room for future actions (submit/delete)
+            this.meta = el('.draft-meta',
+                this.dateEl = el('small.draft-date'),
+                this.distanceEl = el('small.draft-distance'),
+                this.editBtn = el('button.secondary', 'Edit')
             )
         );
     }
 
     update(entry) {
         const {
-            id,
             date,
             startLabel,
             endLabel,
@@ -29,17 +26,17 @@ export default class MileageDraftCard {
             distance
         } = entry;
 
-        // Header
-        this.title.textContent = `${startLabel || startPostcode} → ${endLabel || endPostcode}`;
+        this.title.textContent =
+            `${startLabel || startPostcode} → ${endLabel || endPostcode}`;
+
+        this.subLine.textContent =
+            `${startPostcode} → ${endPostcode}`;
+
         this.dateEl.textContent = date || '';
 
-        // Meta
-        this.routeLine.textContent =
-            `${startPostcode} → ${endPostcode}`;
         this.distanceEl.textContent =
-            (distance != null ? `${distance} miles` : 'Distance not set');
+            distance != null ? `${distance} miles` : 'Distance not set';
 
-        // Actions
         this.editBtn.onclick = () => {
             this.el.dispatchEvent(new CustomEvent('edit-draft', {
                 bubbles: true,

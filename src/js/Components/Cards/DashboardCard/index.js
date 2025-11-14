@@ -13,16 +13,18 @@ export default class DashboardCard {
         );
 
         this.addBtn = el("button", { type: "button" }, "Add Mileage Entry");
+        this.submitBtn = el("button", { type: "button" }, "Submit All Drafts");
         this.alert = el("p", { role: "status", hidden: true });
 
         this.el = el("section",
-            el("article",
+            el("article.dashboard-card",
                 el('header',
                     this.greet,
-                    this.vehicleRow
+                    this.vehicleRow,
+                    this.addBtn
                 ),
                 this.draftsView = new MileageDraftList(),
-                el("footer", this.addBtn),
+                el("footer", this.submitBtn),
                 this.alert
             )
         );
@@ -31,10 +33,9 @@ export default class DashboardCard {
         this.onChangeVehicle = onChangeVehicle;
     }
 
-    update(user, vehicle, drafts) {
+    update(user, vehicle) {
         this.greet.textContent = `Welcome, ${user.name}!`;
         this.vehicleReg.textContent = ` ${vehicle.registration}`;
-        this.draftsView.update(drafts);
     }
 
     showToast(msg) {
