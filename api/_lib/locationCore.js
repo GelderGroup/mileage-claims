@@ -1,50 +1,50 @@
-// api/locationCore.js
-const POSTCODES_BASE = 'https://api.postcodes.io';
+const BASE_URL = 'https://api.postcodes.io';
 
 function normalisePostcode(pc) {
-    return pc.trim().toUpperCase();
+    return pc?.trim().toUpperCase() || '';
 }
 
+// postcode -> { postcode, lat, lng, label }
 export async function geocodePostcode(postcode) {
     const pc = normalisePostcode(postcode);
-    if (!pc) throw new Error('Postcode is required');
+    if (!pc) {
+        throw new Error('Postcode is required');
+    }
 
-    const res = await fetch(`${POSTCODES_BASE}/postcodes/${encodeURIComponent(pc)}`);
-    const json = await res.json();
+    const res = await fetch(`${BASE_URL}/postcodes/${encodeURIComponent(pc)}`);
+    const json = await res.json().catch(() => ({}));
 
     if (!res.ok || json.status !== 200 || !json.result) {
-        throw new Error(json.error || 'Postcode not found');
+        throw new Error(json.error || `Postcode lookup failed (${res.status})`);
     }
 
-    const { postcode: canonical, latitude, longitude } = json.result;
-    return { postcode: canonical, lat: latitude, lng: longitude };
-}
+    const r = json.result;
 
-export async function reverseGeocodeToPostcode(lat, lng) {
-    if (lat == null || lng == null) {
-        throw new Error('Latitude and longitude are required');
+    const canonical = r.postcode;
+    const lat = r.latitude;
+    const lng = r.longitude;
+
+    // Build a human-friendly label, e.g. "Lincoln, England (LN2 1AB)"
+    const parts = [];
+
+    if (r.admin_district) parts.push(r.admin_district);
+    else if (r.parish) parts.push(r.parish);
+    else if (r.admin_county) parts.push(r.admin_county);
+
+    if (r.country && !parts.includes(r.country)) {
+        parts.push(r.country);
     }
 
-    const url = `${POSTCODES_BASE}/postcodes?lon=${encodeURIComponent(lng)}&lat=${encodeURIComponent(lat)}`;
-    const res = await fetch(url);
-    const json = await res.json();
-
-    if (!res.ok) {
-        throw new Error(json.error || `Reverse geocoding failed (${res.status})`);
-    }
-
-    const result = json.result?.[0];
-    if (!result) {
-        throw new Error('We couldn’t match your current location to a postcode. Please enter it manually.');
-    }
+    const locationPart = parts.length ? parts.join(', ') : null;
+    const label = locationPart ? `${locationPart} (${canonical})` : canonical;
 
     return {
-        postcode: result.postcode,
-        lat: result.latitude,
-        lng: result.longitude
+        postcode: canonical,
+        lat,
+        lng,
+        label
     };
 }
-
 // --- Mapbox routing
 const MAPBOX_TOKEN = process.env.MAPBOX_TOKEN;
 

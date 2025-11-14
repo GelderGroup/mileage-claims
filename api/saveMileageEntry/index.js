@@ -35,7 +35,7 @@ export default async function (context, req) {
             return;
         }
 
-        // 1) Geocode both postcodes server-side
+        // 1) Geocode both postcodes server-side (gives us canonical pc + lat/lng + label)
         const [from, to] = await Promise.all([
             geocodePostcode(startPostcode),
             geocodePostcode(endPostcode)
@@ -53,12 +53,15 @@ export default async function (context, req) {
 
             date,
 
+            // Canonical postcodes + coords + pretty labels
             startPostcode: from.postcode,
             endPostcode: to.postcode,
             startLat: from.lat,
             startLng: from.lng,
             endLat: to.lat,
             endLng: to.lng,
+            startLabel: from.label,
+            endLabel: to.label,
 
             distance: Number(distance),
 
