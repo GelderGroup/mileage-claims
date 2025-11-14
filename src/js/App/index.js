@@ -15,11 +15,13 @@ import {
 import { appVersion } from "../config/appInfo.js";
 
 import "@picocss/pico/css/pico.min.css";
+import { MileageDraftList } from "../Components/Cards/MileageCard/MileageDraftList/index.js";
 
 export default class App {
     constructor() {
         this.entryModal = new MileageModal();
         this.vehicleRegistrationModal = new VehicleRegistrationModal(VehicleLookupApi);
+        this.draftsView = new MileageDraftList();
         this.entryModal.onMileageSubmitted = this.handleMileageSubmitted;
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
@@ -69,7 +71,8 @@ export default class App {
 
     showMainApp = (vehicle) => {
         this.dashboardView.update(this.userInfo, vehicle);
-        setChildren(this.content, [this.dashboardView]);
+        this.refreshDrafts();
+        setChildren(this.content, [this.dashboardView, this.draftsView]);
     };
 
     handleVehicleRegistered = async (raw) => {
@@ -85,5 +88,32 @@ export default class App {
     handleMileageSubmitted = (evt) => {
         const { success, message } = evt.detail || {};
         if (success) this.dashboardView.showToast(message || "Mileage submitted.");
+
+        this.refreshDrafts();
     };
+
+    refreshDrafts = async () => {
+        try {
+            const drafts = await loadMileageDrafts();
+            this.draftsView.update(drafts);
+        } catch (err) {
+            console.error(err);
+            // optionally show a toast
+        }
+    };
+
+    handleEditDraft = (e) => {
+        const entry = e.detail;
+        // populate store (including id) then open modal
+        setData({
+            id: entry.id,
+            date: entry.date,
+            startPostcode: entry.startPostcode,
+            endPostcode: entry.endPostcode,
+            distance: entry.distance,
+            // and any override fields, if they exist in the entry
+        });
+        this.entryModal.open();
+    };
+
 }

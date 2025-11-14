@@ -39,3 +39,14 @@ export async function getMileageEntries() {
     if (!res.ok) throw new Error(`Failed to fetch entries: ${res.status}`);
     return res.json();
 }
+
+export async function loadMileageDrafts() {
+    const res = await fetch('/api/mileage-drafts');
+    const json = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+        throw new Error(json.details || json.error || 'Failed to load mileage drafts');
+    }
+
+    return json; // array of entries
+}
