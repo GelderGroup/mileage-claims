@@ -13,16 +13,15 @@ import {
 } from "../Components/index.js";
 
 import { appVersion } from "../config/appInfo.js";
+import { loadMileageDrafts } from "../services/mileageService.js";
 
 import "@picocss/pico/css/pico.min.css";
-import { MileageDraftList } from "../Components/Cards/MileageCard/MileageDraftList/index.js";
-import { loadMileageDrafts } from "../services/mileageService.js";
 
 export default class App {
     constructor() {
         this.entryModal = new MileageModal();
         this.vehicleRegistrationModal = new VehicleRegistrationModal(VehicleLookupApi);
-        this.draftsView = new MileageDraftList();
+
         this.entryModal.onMileageSubmitted = this.handleMileageSubmitted;
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
@@ -61,7 +60,7 @@ export default class App {
             hasVehicle ? this.showMainApp(vehicle) : this.showNeedsVehicle();
         } catch (e) {
             console.error("VehiclesApi.get failed", e);
-            setChildren(this.content, [new ErrorCard("We couldn’t check your vehicle right now. Try again.", () => this.initAuth())]);
+            setChildren(this.content, [new ErrorCard("We couldn't check your vehicle right now. Try again.", () => this.initAuth())]);
         }
     };
 
@@ -73,7 +72,7 @@ export default class App {
     showMainApp = (vehicle) => {
         this.dashboardView.update(this.userInfo, vehicle);
         this.refreshDrafts();
-        setChildren(this.content, [this.dashboardView, this.draftsView]);
+        setChildren(this.content, [this.dashboardView]);
     };
 
     handleVehicleRegistered = async (raw) => {
@@ -90,14 +89,13 @@ export default class App {
         const { success, message } = evt.detail || {};
         if (success) this.dashboardView.showToast(message || "Mileage submitted.");
 
-        console.log("Mileage submitted, refreshing drafts");
         this.refreshDrafts();
     };
 
     refreshDrafts = async () => {
         try {
             const drafts = await loadMileageDrafts();
-            this.draftsView.update(drafts);
+            this.dashboardView.draftsView.update(drafts);
         } catch (err) {
             console.error(err);
             // optionally show a toast

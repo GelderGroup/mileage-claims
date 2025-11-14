@@ -1,11 +1,10 @@
 import { el } from "../../../ui/dom.js";
+import { MileageDraftList } from "../MileageCard/MileageDraftList/index.js";
 import './index.css';
 
 export default class DashboardCard {
     constructor({ onAddMileage, onChangeVehicle }) {
         this.greet = el("h4");
-
-        // Inline vehicle row
         this.vehicleLabel = el("strong", "Active vehicle:");
         this.vehicleReg = el("span");
         this.changeLink = el("a.primary", { href: "#" }, "Change");
@@ -17,9 +16,12 @@ export default class DashboardCard {
         this.alert = el("p", { role: "status", hidden: true });
 
         this.el = el("section",
-            el("article.contrast",
-                this.greet,
-                this.vehicleRow,
+            el("article",
+                el('header',
+                    this.greet,
+                    this.vehicleRow
+                ),
+                this.draftsView = new MileageDraftList(),
                 el("footer", this.addBtn),
                 this.alert
             )
@@ -29,9 +31,10 @@ export default class DashboardCard {
         this.onChangeVehicle = onChangeVehicle;
     }
 
-    update(user, vehicle) {
+    update(user, vehicle, drafts) {
         this.greet.textContent = `Welcome, ${user.name}!`;
         this.vehicleReg.textContent = ` ${vehicle.registration}`;
+        this.draftsView.update(drafts);
     }
 
     showToast(msg) {
