@@ -90,6 +90,7 @@ export default class App {
         const { success, message } = evt.detail || {};
         if (success) this.dashboardView.showToast(message || "Mileage submitted.");
 
+        console.log("Mileage submitted, refreshing drafts");
         this.refreshDrafts();
     };
 
