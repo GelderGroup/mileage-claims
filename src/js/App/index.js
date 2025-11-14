@@ -16,6 +16,7 @@ import { appVersion } from "../config/appInfo.js";
 
 import "@picocss/pico/css/pico.min.css";
 import { MileageDraftList } from "../Components/Cards/MileageCard/MileageDraftList/index.js";
+import { loadMileageDrafts } from "../services/mileageService.js";
 
 export default class App {
     constructor() {
