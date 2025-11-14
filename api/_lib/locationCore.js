@@ -27,13 +27,7 @@ export async function geocodePostcode(postcode) {
     // Build a human-friendly label, e.g. "Lincoln, England (LN2 1AB)"
     const parts = [];
 
-    if (r.admin_district) parts.push(r.admin_district);
-    else if (r.parish) parts.push(r.parish);
-    else if (r.admin_county) parts.push(r.admin_county);
-
-    if (r.country && !parts.includes(r.country)) {
-        parts.push(r.country);
-    }
+    if (r.parish) parts.push(r.parish);
 
     const locationPart = parts.length ? parts.join(', ') : null;
     const label = locationPart ? `${locationPart} (${canonical})` : canonical;
