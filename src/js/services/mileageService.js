@@ -41,7 +41,7 @@ export async function getMileageEntries() {
 }
 
 export async function loadMileageDrafts() {
-    const res = await fetch('/api/mileage-drafts');
+    const res = await fetch('/api/getMileageDrafts');
     const json = await res.json().catch(() => ({}));
 
     if (!res.ok) {
