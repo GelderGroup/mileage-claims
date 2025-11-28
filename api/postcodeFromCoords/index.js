@@ -10,6 +10,18 @@ export default async function (context, req) {
         }
         const result = await reverseGeocodeToPostcode(latitude, longitude);
         context.log.info('Reverse geocoding result:', result);
+        if (!result || !result.postcode) {
+            context.log.warn('No postcode found for coordinates:', { latitude, longitude });
+            context.res = {
+                status: 404,
+                body: {
+                    error: 'postcode_not_found',
+                    detail: 'No postcode found for the provided coordinates.',
+                    received: req.body || null
+                }
+            };
+            return;
+        }
         context.res = { status: 200, body: { postcode: result.postcode } };
     } catch (err) {
         context.log.error('Reverse geocoding error:', err);
