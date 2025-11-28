@@ -45,3 +45,4 @@ AZURE_DEPLOYMENT.md
 /deps.json
 /.dependency-cruiser.cli.json
 /.dependency-cruiser.json
+/src/js/test-data/vehicle.json
