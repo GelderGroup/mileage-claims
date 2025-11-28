@@ -1,4 +1,4 @@
-import { reverseGeocodeToPostcode } from '../_lib/locationCore.js';
+import { postcodeFromCoords } from '../_lib/locationCore.js';
 
 export default async function (context, req) {
     try {
@@ -6,7 +6,7 @@ export default async function (context, req) {
         if (typeof latitude !== 'number' || typeof longitude !== 'number') {
             throw new Error('Latitude and longitude must be numbers. Received: ' + JSON.stringify({ latitude, longitude }));
         }
-        const result = await reverseGeocodeToPostcode(latitude, longitude);
+        const result = await postcodeFromCoords(latitude, longitude);
         if (!result || !result.postcode) {
             context.res = {
                 status: 404,
