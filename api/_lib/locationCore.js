@@ -4,6 +4,18 @@ function normalisePostcode(pc) {
     return pc?.trim().toUpperCase() || '';
 }
 
+export async function postcodeFromCoords(latitude, longitude) {
+    if (typeof latitude !== 'number' || typeof longitude !== 'number') {
+        throw new Error('Latitude and longitude must be numbers');
+    }
+    const res = await fetch(`${BASE_URL}/postcodes?lon=${longitude}&lat=${latitude}`);
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || json.status !== 200 || !json.result || !json.result[0]) {
+        throw new Error(json.error || 'No postcode found for these coordinates');
+    }
+    return { postcode: json.result[0].postcode };
+}
+
 // postcode -> { postcode, lat, lng, label }
 export async function geocodePostcode(postcode) {
     const pc = normalisePostcode(postcode);
