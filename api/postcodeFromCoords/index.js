@@ -12,7 +12,7 @@ export default async function (context, req) {
                 status: 404,
                 body: {
                     error: 'postcode_not_found',
-                    detail: 'No postcode found for the provided coordinates.',
+                    detail: 'No postcode found for your location. Please enter it manually.',
                     received: req.body || null
                 }
             };
