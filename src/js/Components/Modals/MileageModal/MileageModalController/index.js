@@ -23,9 +23,9 @@ import {
 import { getCurrentLocationPostcode } from '../../../../services/postcodeService.js';
 
 export default class MileageModalController {
-    constructor(view, { onSubmitted } = {}) {
+    constructor(view, { onMileageSubmitted } = {}) {
         this.view = view;
-        this.onSubmitted = onSubmitted;
+        this.onMileageSubmitted = onMileageSubmitted;
 
         const root = this.view.el;
         root.addEventListener('request-close', this.close);
@@ -169,11 +169,11 @@ export default class MileageModalController {
             setBusy(true);
             await saveMileageEntry(data);
             console.log(this.onSubmitted);
-            this.onSubmitted?.({ success: true, data, message: 'Mileage claim submitted successfully!' });
+            this.onMileageSubmitted?.({ success: true, data, message: 'Mileage claim submitted successfully!' });
             this.close();
         } catch (err) {
             this.view.showError(err?.message || 'Failed to submit mileage claim. Please try again.');
-            this.onSubmitted?.({ success: false, error: err?.message, data });
+            this.onMileageSubmitted?.({ success: false, error: err?.message, data });
         } finally {
             setBusy(false);
         }
