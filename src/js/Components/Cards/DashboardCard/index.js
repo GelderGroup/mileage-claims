@@ -5,31 +5,30 @@ import "./index.css";
 export default class DashboardCard {
     constructor({ onAddMileage, onChangeVehicle }) {
         // header text
-        this.greet = el("p", { class: "dashboard-greeting" });
-        this.vehicleLabel = el("span", { class: "vehicle-label" }, "Active vehicle:");
-        this.vehicleReg = el("span", { class: "vehicle-reg" });
+        this.greet = el("p.dashboard-greeting");
+        this.vehicleLabel = el("span.vehicle-label", "Active vehicle:");
+        this.vehicleReg = el("span.vehicle-reg");
         this.changeLink = el(
-            "button",
-            { type: "button", class: "secondary outline change-vehicle" },
+            "button.secondary.outline.change-vehicle",
+            { type: "button" },
             "Change"
         );
 
         // actions
         this.addBtn = el(
-            "button",
-            { type: "button", class: "primary add-mileage" },
+            "button.primary.add-mileage",
+            { type: "button" },
             "Add Mileage Entry"
         );
         this.submitBtn = el(
-            "button",
-            { type: "button", class: "secondary submit-drafts" },
+            "button.secondary.submit-drafts",
+            { type: "button" },
             "Submit All Drafts"
         );
 
-        this.alert = el("p", {
+        this.alert = el("p.dashboard-toast", {
             role: "status",
-            hidden: true,
-            class: "dashboard-toast"
+            hidden: true
         });
 
         // ROOT: this is now the “app”, not a Pico <article> card
@@ -40,10 +39,9 @@ export default class DashboardCard {
                 "header.dashboard-header",
                 el(
                     "div.dashboard-brand",
-                    el("img", {
+                    el("img.dashboard-logo", {
                         src: "images/gelder-logo.min.svg",
-                        alt: "Gelder Mileage Claims",
-                        class: "dashboard-logo"
+                        alt: "Gelder Mileage Claims"
                     })
                 ),
                 el(
