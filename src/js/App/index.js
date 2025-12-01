@@ -24,8 +24,8 @@ export default class App {
 
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
-        this.el = el('',
-            this.content = el('.mt-3'),
+        this.el = el('.mt-3',
+            this.content = el(''),
             this.entryModal,
             this.vehicleRegistrationModal
         );
