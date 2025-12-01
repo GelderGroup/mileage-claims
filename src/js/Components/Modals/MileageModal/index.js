@@ -4,7 +4,7 @@ import MileageModalView from "./MileageModalView";
 export default class MileageModal {
     constructor(opts = {}) {
         this.view = new MileageModalView();
-        this.controller = new MileageModalController(this.view, { onSubmitted: opts.onSubmitted });
+        this.controller = new MileageModalController(this.view, { onSubmitted: opts.onMileageSubmitted });
         this.el = this.view.el;
     }
     onmount = () => this.view.onmount?.();
