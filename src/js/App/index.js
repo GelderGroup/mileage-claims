@@ -6,7 +6,6 @@ import { VehicleLookupApi } from "../services/vehicleLookup.js";
 import {
     MileageModal,
     VehicleRegistrationModal,
-    WelcomeCard,
     DashboardCard,
     LoadingCard,
     ErrorCard
@@ -24,51 +23,67 @@ export default class App {
 
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
-        this.el = el('.mt-3',
-            this.content = el(''),
+        this.el = el(
+            ".mt-3",
+            this.content = el(""),
             this.entryModal,
             this.vehicleRegistrationModal
         );
 
         this.loadingView = new LoadingCard();
-        this.welcomeView = new WelcomeCard(() => this.vehicleRegistrationModal.open());
+
+        // single main view for both "needs vehicle" and "has vehicle"
         this.dashboardView = new DashboardCard({
             onAddMileage: () => this.entryModal.open(),
             onChangeVehicle: this.handleChangeVehicle
         });
     }
 
-    handleChangeVehicle = e => {
+    handleChangeVehicle = (e) => {
         e.preventDefault();
         this.vehicleRegistrationModal.open();
-    }
+    };
 
     onmount = async () => {
-        const ver = document.getElementById("ver"); if (ver) ver.textContent = `v${appVersion}`;
+        const ver = document.getElementById("ver");
+        if (ver) ver.textContent = `v${appVersion}`;
         await this.initAuth();
     };
 
     initAuth = async () => {
         setChildren(this.content, [this.loadingView]);
         const principal = await AuthApi.me();
-        if (!principal) { AuthApi.login(); return; }
+        if (!principal) {
+            AuthApi.login();
+            return;
+        }
         await this.afterLogin(principal);
     };
 
     afterLogin = async (principal) => {
-        this.userInfo = { name: AuthApi.getName(principal), email: AuthApi.getEmail(principal) };
+        this.userInfo = {
+            name: AuthApi.getName(principal),
+            email: AuthApi.getEmail(principal)
+        };
+
         try {
             const { hasVehicle, vehicle } = await VehiclesApi.getActive();
             hasVehicle ? this.showMainApp(vehicle) : this.showNeedsVehicle();
         } catch (e) {
             console.error("VehiclesApi.get failed", e);
-            setChildren(this.content, [new ErrorCard("We couldn't check your vehicle right now. Try again.", () => this.initAuth())]);
+            setChildren(this.content, [
+                new ErrorCard(
+                    "We couldn't check your vehicle right now. Try again.",
+                    () => this.initAuth()
+                )
+            ]);
         }
     };
 
+    // 👉 now uses DashboardCard in a "no vehicle yet" mode
     showNeedsVehicle = () => {
-        this.welcomeView.update(this.userInfo.name);
-        setChildren(this.content, [this.welcomeView]);
+        this.dashboardView.showNeedsVehicle(this.userInfo.name);
+        setChildren(this.content, [this.dashboardView]);
     };
 
     showMainApp = (vehicle) => {
@@ -113,10 +128,9 @@ export default class App {
             date: entry.date,
             startPostcode: entry.startPostcode,
             endPostcode: entry.endPostcode,
-            distance: entry.distance,
+            distance: entry.distance
             // and any override fields, if they exist in the entry
         });
         this.entryModal.open();
     };
-
 }
