@@ -24,8 +24,11 @@ export default class App {
 
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
-        this.content = el(".mt-3");
-        this.el = el("", el("main", this.content), this.entryModal, this.vehicleRegistrationModal);
+        this.el = el('',
+            this.content = el('.mt-3'),
+            this.entryModal,
+            this.vehicleRegistrationModal
+        );
 
         this.loadingView = new LoadingCard();
         this.welcomeView = new WelcomeCard(() => this.vehicleRegistrationModal.open());

@@ -11,7 +11,6 @@
     justify-content: space-between;
     gap: .75rem;
     padding-bottom: .75rem;
-    border-bottom: 1px solid var(---pico-muted-border-color);
 }
 
 .dashboard-card>footer {
