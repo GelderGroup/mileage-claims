@@ -19,7 +19,7 @@ import "@picocss/pico/css/pico.min.css";
 
 export default class App {
     constructor() {
-        this.entryModal = new MileageModal(opts = { onMileageSubmitted: this.handleMileageSubmitted });
+        this.entryModal = new MileageModal({ onMileageSubmitted: this.handleMileageSubmitted });
         this.vehicleRegistrationModal = new VehicleRegistrationModal(VehicleLookupApi);
 
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
