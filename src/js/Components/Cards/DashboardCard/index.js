@@ -16,17 +16,15 @@ export default class DashboardCard {
         this.submitBtn = el("button", { type: "button" }, "Submit All Drafts");
         this.alert = el("p", { role: "status", hidden: true });
 
-        this.el = el("section",
-            el("article.dashboard-card",
-                el('header',
-                    this.greet,
-                    this.vehicleRow,
-                    this.addBtn
-                ),
-                this.draftsView = new MileageDraftList(),
-                el("footer", this.submitBtn),
-                this.alert
-            )
+        this.el = el("article.dashboard-card",
+            el('header',
+                this.greet,
+                this.vehicleRow,
+                this.addBtn
+            ),
+            this.draftsView = new MileageDraftList(),
+            el("footer", this.submitBtn),
+            this.alert
         );
 
         this.onAddMileage = onAddMileage;
