@@ -2,6 +2,8 @@
 .dashboard-card {
     margin-block: 1.5rem;
     border: 1px solid var(--pico-muted-border-color);
+    box-shadow: none;
+    /* override pico shadow */
 }
 
 .dashboard-card>header {
