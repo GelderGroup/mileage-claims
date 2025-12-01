@@ -168,6 +168,7 @@ export default class MileageModalController {
         try {
             setBusy(true);
             await saveMileageEntry(data);
+            console.log(this.onSubmitted);
             this.onSubmitted?.({ success: true, data, message: 'Mileage claim submitted successfully!' });
             this.close();
         } catch (err) {

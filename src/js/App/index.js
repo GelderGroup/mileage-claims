@@ -86,6 +86,7 @@ export default class App {
     };
 
     handleMileageSubmitted = (evt) => {
+        console.log("Mileage submitted:", evt);
         const { success, message } = evt.detail || {};
         if (success) this.dashboardView.showToast(message || "Mileage submitted.");
 
