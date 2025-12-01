@@ -1,4 +1,4 @@
-export default async function (context, req) {
+export default async function vehicleLookup(context, req) {
     try {
         const registrationNumber = req.body?.registrationNumber?.toUpperCase().replace(/\s+/g, '');
         const ctrl = new AbortController();

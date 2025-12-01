@@ -13,7 +13,7 @@ import {
 } from "../Components/index.js";
 
 import { appVersion } from "../config/appInfo.js";
-import { loadMileageDrafts } from "../services/mileageService.js";
+import { getMileageDrafts } from "../services/mileageService.js";
 
 import "@picocss/pico/css/pico.min.css";
 
@@ -94,7 +94,7 @@ export default class App {
 
     refreshDrafts = async () => {
         try {
-            const drafts = await loadMileageDrafts();
+            const drafts = await getMileageDrafts();
             this.dashboardView.draftsView.update(drafts);
         } catch (err) {
             console.error(err);

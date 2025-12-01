@@ -17,7 +17,7 @@ const fingerprint = (c) => [
     c?.firstRegistered ?? "", c?.co2Gkm ?? ""
 ].join("|");
 
-export default async function (context, req) {
+export default async function saveUserVehicle(context, req) {
     try {
         const user = getClientPrincipal(req);
         if (!user?.email) throw new Error("unauthorized");

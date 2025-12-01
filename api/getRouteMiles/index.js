@@ -1,6 +1,6 @@
 import { calculateRouteMiles } from '../_lib/locationCore.js';
 
-export default async function (context, req) {
+export default async function getRouteMiles(context, req) {
     try {
         const { startPostcode, endPostcode } = req.body || {};
 

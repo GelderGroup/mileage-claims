@@ -3,7 +3,7 @@ import { getClientPrincipal } from "../_lib/auth.js";
 
 const entries = getCosmosContainer("mileagedb", "mileageEntries");
 
-export default async function (context, req) {
+export default async function getMileageDrafts(context, req) {
     try {
         const user = getClientPrincipal(req);
         if (!user?.email) {

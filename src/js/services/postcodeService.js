@@ -8,7 +8,7 @@ export function getCurrentLocationPostcode() {
             async pos => {
                 const { latitude, longitude } = pos.coords;
                 try {
-                    const res = await fetch('/api/postcodeFromCoords', {
+                    const res = await fetch('/api/getPostcodeFromCoords', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ latitude, longitude })

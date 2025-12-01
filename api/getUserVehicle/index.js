@@ -7,7 +7,7 @@ const readIfExists = async (container, id, pk) => {
     try { return (await container.item(id, pk).read()).resource || null; } catch { return null; }
 };
 
-export default async function (context, req) {
+export default async function getUserVehicle(context, req) {
     try {
         const principal = getClientPrincipal(req);
         const ownerId = principal.email.toLowerCase();

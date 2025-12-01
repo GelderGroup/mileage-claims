@@ -1,5 +1,5 @@
 export async function calculateDistance(startPostcode, endPostcode) {
-    const res = await fetch('/api/routeMiles', {
+    const res = await fetch('/api/getRouteMiles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ startPostcode, endPostcode })
@@ -40,7 +40,7 @@ export async function getMileageEntries() {
     return res.json();
 }
 
-export async function loadMileageDrafts() {
+export async function getMileageDrafts() {
     const res = await fetch('/api/getMileageDrafts');
     const json = await res.json().catch(() => ({}));
 

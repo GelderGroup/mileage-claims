@@ -5,7 +5,7 @@ import crypto from "node:crypto";
 
 const entries = getCosmosContainer("mileagedb", "mileageEntries");
 
-export default async function (context, req) {
+export default async function saveMileageEntry(context, req) {
     try {
         const user = getClientPrincipal(req);
         if (!user?.email) {

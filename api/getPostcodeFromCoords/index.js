@@ -1,6 +1,6 @@
 import { postcodeFromCoords } from '../_lib/locationCore.js';
 
-export default async function (context, req) {
+export default async function getPostcodeFromCoords(context, req) {
     try {
         const { latitude, longitude } = req.body || {};
         if (typeof latitude !== 'number' || typeof longitude !== 'number') {
