@@ -31,40 +31,28 @@ export default class DashboardCard {
             hidden: true
         });
 
-        // ROOT: this is now the “app”, not a Pico <article> card
+        // ROOT: app body (no logo here)
         this.el = el(
             "section.dashboard",
-            // HEADER: logo + welcome + vehicle info + add button
+
+            // HEADER: welcome + vehicle info + add button
             el(
                 "header.dashboard-header",
+                this.greet,
                 el(
-                    "div.dashboard-brand",
-                    el("img.dashboard-logo", {
-                        src: "images/gelder-logo.min.svg",
-                        alt: "Gelder Mileage Claims"
-                    })
+                    "div.vehicle-info",
+                    this.vehicleLabel,
+                    this.vehicleReg,
+                    this.changeLink
                 ),
-                el(
-                    "div.dashboard-header-main",
-                    this.greet,
-                    el(
-                        "div.vehicle-info",
-                        this.vehicleLabel,
-                        this.vehicleReg,
-                        this.changeLink
-                    ),
-                    this.addBtn
-                )
+                this.addBtn
             ),
 
             // BODY: drafts list
             this.draftsView = new MileageDraftList(),
 
             // FOOTER: submit button
-            el(
-                "footer.dashboard-footer",
-                this.submitBtn
-            ),
+            el("footer.dashboard-footer", this.submitBtn),
 
             // TOAST
             this.alert
