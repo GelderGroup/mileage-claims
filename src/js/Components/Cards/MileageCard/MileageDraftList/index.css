@@ -1,7 +1,7 @@
 /* Dashboard card chrome (Pico card already gives bg + radius) */
 .dashboard-card {
     margin-block: 1.5rem;
-    border: 1px solid var(--pico-card-border-color);
+    border: 1px solid var(--pico-muted-border-color);
 }
 
 .dashboard-card>header {
@@ -11,12 +11,12 @@
     justify-content: space-between;
     gap: .75rem;
     padding-bottom: .75rem;
-    border-bottom: 1px solid var(---pico-card-border-color);
+    border-bottom: 1px solid var(---pico-muted-border-color);
 }
 
 .dashboard-card>footer {
     padding-top: .75rem;
-    border-top: 1px solid var(--pico-card-border-color);
+    border-top: 1px solid var(--pico-muted-border-color);
 }
 
 /* vehicle row tweak */
@@ -58,8 +58,8 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 1rem;
-    padding: .75rem .25rem;
-    border-top: 1px solid var(--pico-card-border-color);
+    padding: .75rem calc(2 * var(--pico-spacing));
+    border-top: 1px solid var(--pico-muted-border-color);
     margin-left: calc(-1 * var(--pico-spacing));
     margin-right: calc(-1 * var(--pico-spacing));
 }
