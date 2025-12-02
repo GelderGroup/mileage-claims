@@ -4,10 +4,16 @@ import "./index.css";
 
 export default class DashboardCard {
     constructor({ onAddMileage, onChangeVehicle }) {
-        // header text
-        this.greet = el("p.dashboard-greeting");
-        this.vehicleLabel = el("span.vehicle-label", "Active vehicle:");
+        this.userName = el("span.user-name");
+        this.metaSeparator = el("span.meta-sep", " · ");
         this.vehicleRegLink = el('a', { href: "#" });
+
+        this.metaLine = el(
+            "p.dashboard-meta",
+            this.userName,
+            this.metaSeparator,
+            this.vehicleRegLink
+        );
 
         // actions
         this.addBtn = el(
@@ -30,10 +36,10 @@ export default class DashboardCard {
             "section.dashboard",
             el(
                 "header.dashboard-header",
-                this.greet,
-                el("div.vehicle-info", this.vehicleLabel, this.vehicleRegLink),
+                this.metaLine,
                 this.addBtn
             ),
+
             this.draftsView = new MileageDraftList(),
             el("footer.dashboard-footer", this.submitBtn),
             this.alert
@@ -45,8 +51,7 @@ export default class DashboardCard {
 
     // normal "has vehicle" state
     update(user, vehicle) {
-        this.greet.textContent = `Welcome, ${user.name}!`;
-        this.vehicleLabel.textContent = "Active vehicle:";
+        this.userName.textContent = `Welcome, ${user.name}!`;
         this.vehicleRegLink.textContent = ` ${vehicle.registration}`;
 
         this.addBtn.hidden = false;
@@ -56,10 +61,8 @@ export default class DashboardCard {
 
     // "no active vehicle yet" state (used by App.showNeedsVehicle)
     showNeedsVehicle(name) {
-        this.greet.textContent = `Welcome, ${name}!`;
-        this.vehicleLabel.textContent = "Active vehicle:";
-        this.vehicleReg.textContent = " None set";
-        this.changeLink.textContent = "Register Vehicle";
+        this.userName.textContent = `Welcome, ${name}!`;
+        this.vehicleRegLink.textContent = " Register Vehicle";
 
         this.addBtn.hidden = true;
         this.submitBtn.hidden = true;

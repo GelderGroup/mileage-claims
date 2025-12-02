@@ -11,24 +11,10 @@
     gap: 0.5rem;
 }
 
-.vehicle-info {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.vehicle-reg {
-    padding: 0;
-    border: 0;
-    background: none;
-    text-decoration: underline;
-    font: inherit;
-    cursor: pointer;
-}
-
-.dashboard-greeting {
+.dashboard-meta {
     margin: 0;
-    font-weight: 500;
+    font-size: 0.85rem;
+    opacity: 0.8;
 }
 
 /* toast */
@@ -36,15 +22,10 @@
     margin-top: 0.5rem;
 }
 
-/* optional: side-by-side layout on wider screens */
 @media (min-width: 600px) {
     .dashboard-header {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-    }
-
-    .dashboard-header-main {
-        align-items: flex-end;
     }
 }
