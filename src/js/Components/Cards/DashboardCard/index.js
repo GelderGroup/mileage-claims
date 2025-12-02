@@ -31,7 +31,7 @@ export default class DashboardCard {
             el(
                 "header.dashboard-header",
                 this.greet,
-                el("div.vehicle-info", this.vehicleLabel, this.vehicleReg),
+                el("div.vehicle-info", this.vehicleLabel, this.vehicleRegLink),
                 this.addBtn
             ),
             this.draftsView = new MileageDraftList(),
