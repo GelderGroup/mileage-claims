@@ -1,5 +1,17 @@
-// MileageDraftCard
 import { el } from 'redom';
+
+const UNPARISHED_RE = /,\s*unparished area/gi;
+
+function cleanLabel(label) {
+    if (!label) return "";
+    return label.replace(UNPARISHED_RE, "").trim();
+}
+
+function formatLocation(label, postcode) {
+    const name = cleanLabel(label);
+    if (name && postcode) return `${name} (${postcode})`;
+    return name || postcode || "";
+}
 
 export default class MileageDraftCard {
     constructor() {
@@ -26,11 +38,19 @@ export default class MileageDraftCard {
             distance
         } = entry;
 
-        this.title.textContent =
-            `${startLabel || startPostcode} → ${endLabel || endPostcode}`;
+        const fromText = formatLocation(startLabel, startPostcode);
+        const toText = formatLocation(endLabel, endPostcode);
 
-        this.subLine.textContent =
-            `${startPostcode} → ${endPostcode}`;
+        // Uniform main line
+        this.title.textContent = `${fromText} → ${toText}`;
+
+        // Optional secondary line – always just postcodes if present
+        if (startPostcode || endPostcode) {
+            this.subLine.textContent = `${startPostcode || ''} → ${endPostcode || ''}`.trim();
+            this.subLine.hidden = false;
+        } else {
+            this.subLine.hidden = true;
+        }
 
         this.dateEl.textContent = date || '';
 
