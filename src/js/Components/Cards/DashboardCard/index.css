@@ -14,13 +14,30 @@
     margin: 0;
     font-size: 0.85rem;
     opacity: 0.8;
-    margin-bottom: var(--pico-spacing)
+    margin-bottom: 0.25rem;
 }
+
+.dashboard h4 {
+    letter-spacing: 0.02em;
+    opacity: 0.85;
+    margin-bottom: 0.4rem;
+}
+
 
 /* toast */
 .dashboard-toast {
     margin-top: 0.5rem;
 }
+
+.add-mileage-entry {
+    padding-block: 0.5rem;
+    /* slightly slimmer */
+    font-size: 0.9rem;
+    /* less shouty */
+    margin-bottom: 0.75rem;
+    /* reduce gap to the heading */
+}
+
 
 @media (min-width: 600px) {
     .dashboard-header {

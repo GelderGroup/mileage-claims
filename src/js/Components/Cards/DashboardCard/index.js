@@ -18,7 +18,7 @@ export default class DashboardCard {
         // actions
         this.addBtn = el(
             "button",
-            { type: "button", 'aria-label': "Add Mileage Entry" },
+            { type: "button.add-mileage-entry", 'aria-label': "Add Mileage Entry" },
             "Add Mileage Entry"
         );
         this.submitBtn = el(
