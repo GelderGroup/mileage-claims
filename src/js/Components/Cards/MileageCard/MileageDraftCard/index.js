@@ -9,8 +9,18 @@ function cleanLabel(label) {
 
 function formatLocation(label, postcode) {
     const name = cleanLabel(label);
-    if (name && postcode) return `${name} (${postcode})`;
-    return name || postcode || "";
+    if (!name && postcode) return postcode;
+    if (!postcode) return name;
+
+    // If label ALREADY contains the postcode, do not append it
+    const normalized = name.toUpperCase();
+    const normalizedPC = postcode.toUpperCase();
+
+    if (normalized.includes(normalizedPC)) {
+        return name;             // e.g. "Scampton (LN1 2DS)"
+    }
+
+    return `${name} (${postcode})`;
 }
 
 export default class MileageDraftCard {
