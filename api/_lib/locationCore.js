@@ -36,13 +36,13 @@ export async function geocodePostcode(postcode) {
     const lat = r.latitude;
     const lng = r.longitude;
 
-    // Build a human-friendly label, e.g. "Lincoln, England (LN2 1AB)"
-    const parts = [];
-
-    if (r.parish) parts.push(r.parish);
-
-    const locationPart = parts.length ? parts.join(', ') : null;
-    const label = locationPart ? `${locationPart} (${canonical})` : canonical;
+    // Prefer town/city/village for label, fallback as needed
+    let label =
+        r.admin_district || // often the town/city
+        r.parish ||
+        r.admin_ward ||
+        r.primary_care_trust ||
+        canonical;
 
     return {
         postcode: canonical,
