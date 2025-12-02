@@ -9,20 +9,21 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    margin-bottom: 0.75rem;
-}
-
-.dashboard-header-main {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
 }
 
 .vehicle-info {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem;
     align-items: center;
+    gap: 0.25rem;
+}
+
+.vehicle-reg {
+    padding: 0;
+    border: 0;
+    background: none;
+    text-decoration: underline;
+    font: inherit;
+    cursor: pointer;
 }
 
 .dashboard-greeting {

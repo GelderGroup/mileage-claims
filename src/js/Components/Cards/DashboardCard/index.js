@@ -7,12 +7,7 @@ export default class DashboardCard {
         // header text
         this.greet = el("p.dashboard-greeting");
         this.vehicleLabel = el("span.vehicle-label", "Active vehicle:");
-        this.vehicleReg = el("span.vehicle-reg");
-        this.changeLink = el(
-            "button.secondary.outline.change-vehicle",
-            { type: "button" },
-            "Change"
-        );
+        this.vehicleRegLink = el('a', { href: "#" });
 
         // actions
         this.addBtn = el(
@@ -31,30 +26,16 @@ export default class DashboardCard {
             hidden: true
         });
 
-        // ROOT: app body (no logo here)
         this.el = el(
             "section.dashboard",
-
-            // HEADER: welcome + vehicle info + add button
             el(
                 "header.dashboard-header",
                 this.greet,
-                el(
-                    "div.vehicle-info",
-                    this.vehicleLabel,
-                    this.vehicleReg,
-                    this.changeLink
-                ),
+                el("div.vehicle-info", this.vehicleLabel, this.vehicleReg),
                 this.addBtn
             ),
-
-            // BODY: drafts list
             this.draftsView = new MileageDraftList(),
-
-            // FOOTER: submit button
             el("footer.dashboard-footer", this.submitBtn),
-
-            // TOAST
             this.alert
         );
 
@@ -66,8 +47,7 @@ export default class DashboardCard {
     update(user, vehicle) {
         this.greet.textContent = `Welcome, ${user.name}!`;
         this.vehicleLabel.textContent = "Active vehicle:";
-        this.vehicleReg.textContent = ` ${vehicle.registration}`;
-        this.changeLink.textContent = "Change";
+        this.vehicleRegLink.textContent = ` ${vehicle.registration}`;
 
         this.addBtn.hidden = false;
         this.submitBtn.hidden = false;
@@ -94,15 +74,11 @@ export default class DashboardCard {
 
     onmount = () => {
         this.addBtn.addEventListener("click", this.onAddMileage);
-        this.changeLink.addEventListener("click", this.onChangeVehicle);
-        this.submitBtn.addEventListener("click", () => {
-            // hook up "submit all drafts" here when ready
-        });
+        this.vehicleRegLink.addEventListener("click", this.onChangeVehicle);
     };
 
     onunmount = () => {
         this.addBtn.removeEventListener("click", this.onAddMileage);
-        this.changeLink.removeEventListener("click", this.onChangeVehicle);
-        // same for submitBtn if you attach a real handler above
+        this.vehicleRegLink.removeEventListener("click", this.onChangeVehicle);
     };
 }

@@ -1,6 +1,6 @@
 {
     "name": "mileage-claims",
-    "version": "1.0.13",
+    "version": "1.0.14",
     "scripts": {
         "clean": "rimraf dist",
         "build": "npm run clean && parcel build src/index.html --no-source-maps && cpx \"staticwebapp.config.json\" dist",
