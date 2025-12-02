@@ -46,7 +46,6 @@ export default class App {
 
     onmount = async () => {
         const ver = document.getElementById("ver");
-        console.log(ver);
         if (ver) ver.textContent = `v${appVersion}`;
         await this.initAuth();
     };
@@ -104,7 +103,6 @@ export default class App {
     };
 
     handleMileageSubmitted = (evt) => {
-        console.log("Mileage submitted:", evt);
         const { success, message } = evt.detail || {};
         if (success) this.dashboardView.showToast(message || "Mileage submitted.");
 
@@ -114,7 +112,6 @@ export default class App {
     refreshDrafts = async () => {
         try {
             const drafts = await getMileageDrafts();
-            console.log("Drafts refreshed:", drafts);
             this.dashboardView.draftsView.update(drafts);
         } catch (err) {
             console.error(err);

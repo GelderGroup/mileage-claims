@@ -36,12 +36,11 @@ export async function geocodePostcode(postcode) {
     const lat = r.latitude;
     const lng = r.longitude;
 
-    // Prefer town/city/village for label, fallback as needed
+    // Prefer parish (village/town), then admin_ward, then admin_district, then postcode
     let label =
-        r.admin_district || // often the town/city
-        r.parish ||
-        r.admin_ward ||
-        r.primary_care_trust ||
+        (r.parish && r.parish.trim()) ||
+        (r.admin_ward && r.admin_ward.trim()) ||
+        (r.admin_district && r.admin_district.trim()) ||
         canonical;
 
     return {
