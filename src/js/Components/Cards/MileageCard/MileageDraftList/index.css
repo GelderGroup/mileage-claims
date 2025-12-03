@@ -6,19 +6,41 @@
 }
 
 /* Draft list area */
+
 .draft-list {
-    margin-top: .75rem;
+    margin-top: 0.5rem;
+    background: var(--pico-card-background, #fff);
+    border-radius: 10px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+    padding-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
 }
 
-.draft-list>h4 {
+.draft-list-header {
+    padding: 0.75rem 0.5rem 0.25rem 0.5rem;
+    border-bottom: 1px solid var(--pico-muted-border-color);
+    background: none;
+    border-radius: 10px 10px 0 0;
+}
+
+
+.draft-list>h4,
+.draft-list-header h4 {
     font-size: 1.1rem;
     margin: 0 0 .5rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
 }
+
 
 
 .draft-list__items {
     margin: 0;
-    padding: 0;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
 /* Empty state */
@@ -33,42 +55,13 @@
 }
 
 /* Individual rows, GitHub-ish */
-.draft-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: .75rem var(--pico-spacing);
-    border-top: 1px solid var(--pico-muted-border-color);
-    margin-left: calc(-1 * var(--pico-spacing));
-    margin-right: calc(-1 * var(--pico-spacing));
-}
 
-.draft-row:hover {
-    background: var(--pico-muted-background);
-}
+/* .draft-row now styled in MileageDraftCard/index.css */
 
 /* Left side of row */
-.draft-main {
-    display: flex;
-    flex-direction: column;
-    gap: .25rem;
-}
 
-.draft-main small {
-    opacity: .75;
-}
+/* .draft-main now styled in MileageDraftCard/index.css */
 
 /* Right side of row */
-.draft-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: .25rem;
-    font-size: .85rem;
-}
 
-.draft-meta small {
-    opacity: .75;
-    white-space: nowrap;
-}
+/* .draft-meta now styled in MileageDraftCard/index.css */
