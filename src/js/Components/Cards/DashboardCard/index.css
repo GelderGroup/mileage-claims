@@ -1,6 +1,36 @@
 /* main surface */
+/* main surface */
 .dashboard {
     padding: 0.75rem 0 1rem;
+    position: relative;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Fixed footer for submit button */
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: var(--pico-card-background, #fff);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+    padding: 1rem 1.5rem;
+    z-index: 10;
+}
+
+footer button {
+    width: 100%;
+    margin: 0;
+}
+
+/* Make the list area scrollable above the footer */
+.dashboard .draft-list {
+    max-height: calc(100vh - 12rem);
+    /* adjust for header/footer height */
+    overflow-y: auto;
+    margin-bottom: 2rem;
+}
 }
 
 /* logo + welcome in one row on bigger screens, stacked on mobile */
