@@ -17,8 +17,8 @@ export default class DashboardCard {
 
         // actions
         this.addBtn = el(
-            "button",
-            { type: "button.secondary", 'aria-label': "Add Mileage Entry" },
+            "button.secondary",
+            { type: "button", 'aria-label': "Add Mileage Entry" },
             "Add Mileage Entry"
         );
         this.submitBtn = el(
@@ -41,7 +41,7 @@ export default class DashboardCard {
             ),
 
             this.draftsView = new MileageDraftList(),
-            el("footer.dashboard-footer", this.submitBtn),
+            el("footer", this.submitBtn),
             this.alert
         );
 
