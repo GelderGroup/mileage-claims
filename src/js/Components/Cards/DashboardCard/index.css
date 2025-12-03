@@ -36,16 +36,6 @@
     margin-top: 0.5rem;
 }
 
-.add-mileage-entry {
-    padding-block: 0.5rem;
-    /* slightly slimmer */
-    font-size: 0.9rem;
-    /* less shouty */
-    margin-bottom: 0.75rem;
-    /* reduce gap to the heading */
-}
-
-
 @media (min-width: 600px) {
     .dashboard-header {
         flex-direction: row;
