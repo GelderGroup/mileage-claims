@@ -8,7 +8,7 @@ export class MileageDraftList {
         this.emptyState = el('.draft-list__empty', 'No draft mileage entries.');
 
         this.el = el('.draft-list',
-            el('h4', 'Drafts'),
+            el('h6', 'Drafts'),
             this.cardList,
             this.emptyState
         );
