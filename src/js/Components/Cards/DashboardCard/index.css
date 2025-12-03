@@ -1,25 +1,14 @@
 /* main surface */
-
 .dashboard {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    padding: 0.75rem 0 0;
-    box-sizing: border-box;
+    padding: 0.75rem 0 1rem;
 }
 
 /* logo + welcome in one row on bigger screens, stacked on mobile */
-
 .dashboard-header {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 0 1rem 0.5rem 1rem;
-    border-bottom: 1px solid var(--pico-muted-border-color);
-    background: var(--pico-card-background, #fff);
-    z-index: 2;
 }
-
 
 .dashboard-meta {
     font-size: 0.85rem;
@@ -35,73 +24,22 @@
 }
 
 
-
 .dashboard h4 {
     letter-spacing: 0.02em;
     opacity: 0.85;
     margin-bottom: 0.3rem;
 }
 
-.dashboard-list-container {
-    flex: 1 1 auto;
-    overflow-y: auto;
-    min-height: 0;
-    padding: 0 1rem;
-    background: var(--pico-background, #f8f9fa);
-    display: flex;
-    flex-direction: column;
-}
-
-.dashboard-footer {
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: var(--pico-card-background, #fff);
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
-    padding: 1rem 1rem 1.25rem 1rem;
-    z-index: 3;
-    display: flex;
-    justify-content: center;
-    border-top: 1px solid var(--pico-muted-border-color);
-}
-
-.draft-list-header {
-    background: none;
-    padding: 0.5rem 0 0.25rem 0;
-    border-bottom: 1px solid var(--pico-muted-border-color);
-    margin-bottom: 0.5rem;
-}
-
 
 /* toast */
-
 .dashboard-toast {
     margin-top: 0.5rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
 }
-
 
 @media (min-width: 600px) {
     .dashboard-header {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-    }
-
-    .dashboard-list-container {
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
-
-    .dashboard-footer {
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
-
-    .dashboard-toast {
-        margin-left: 2rem;
-        margin-right: 2rem;
     }
 }

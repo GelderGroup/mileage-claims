@@ -3,7 +3,7 @@ import { MileageDraftList } from "../MileageCard/MileageDraftList/index.js";
 import "./index.css";
 
 export default class DashboardCard {
-    constructor({ onAddMileage, onChangeVehicle, onDeleteDraft }) {
+    constructor({ onAddMileage, onChangeVehicle }) {
         this.userName = el("span.user-name");
         this.metaSeparator = el("span.meta-sep", " · ");
         this.vehicleRegLink = el('a', { href: "#" });
@@ -32,13 +32,6 @@ export default class DashboardCard {
             hidden: true
         });
 
-        // Main layout: header, scrollable list, fixed footer
-        this.draftsView = new MileageDraftList();
-
-        this.listContainer = el('div.dashboard-list-container', this.draftsView.el);
-
-        this.footer = el("footer.dashboard-footer", this.submitBtn);
-
         this.el = el(
             "section.dashboard",
             el(
@@ -46,22 +39,14 @@ export default class DashboardCard {
                 this.metaLine,
                 this.addBtn
             ),
-            this.listContainer,
-            this.footer,
+
+            this.draftsView = new MileageDraftList(),
+            el("footer", this.submitBtn),
             this.alert
         );
 
         this.onAddMileage = onAddMileage;
         this.onChangeVehicle = onChangeVehicle;
-        this.onDeleteDraft = onDeleteDraft;
-
-        // Listen for edit/delete events from draftsView
-        this.draftsView.el.addEventListener('edit-draft', (e) => {
-            if (this.onEditDraft) this.onEditDraft(e.detail);
-        });
-        this.draftsView.el.addEventListener('delete-draft', (e) => {
-            if (this.onDeleteDraft) this.onDeleteDraft(e.detail);
-        });
     }
 
     // normal "has vehicle" state
@@ -72,8 +57,6 @@ export default class DashboardCard {
         this.addBtn.hidden = false;
         this.submitBtn.hidden = false;
         this.draftsView.el.hidden = false;
-        this.listContainer.hidden = false;
-        this.footer.hidden = false;
     }
 
     // "no active vehicle yet" state (used by App.showNeedsVehicle)
@@ -84,8 +67,6 @@ export default class DashboardCard {
         this.addBtn.hidden = true;
         this.submitBtn.hidden = true;
         this.draftsView.el.hidden = true;
-        this.listContainer.hidden = true;
-        this.footer.hidden = true;
     }
 
     showToast(msg) {
