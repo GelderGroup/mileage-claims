@@ -13,6 +13,7 @@
 .draft-list>h4 {
     font-size: 1.1rem;
     margin: 0 0 .5rem;
+    text-transform: uppercase;
 }
 
 
@@ -39,13 +40,12 @@
     align-items: flex-start;
     gap: 1rem;
     padding: .75rem var(--pico-spacing);
-    border-top: 1px solid var(--pico-muted-border-color);
     margin-left: calc(-1 * var(--pico-spacing));
     margin-right: calc(-1 * var(--pico-spacing));
 }
 
-.draft-row:hover {
-    background: var(--pico-muted-background);
+.draft-row:not(:first-child) {
+    border-top: 1px solid var(--pico-muted-border-color);
 }
 
 /* Left side of row */
