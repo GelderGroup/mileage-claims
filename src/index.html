@@ -28,8 +28,7 @@
 
 <body>
     <main class="container">
-        <!-- APP HEADER: logo + welcome/vehicle info will share this row -->
-        <header class="app-header">
+        <header class="appbar">
             <a class="brand" href="#">
                 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -64,7 +63,12 @@
                     </g>
                 </svg>
             </a>
-            <div id="app-welcome"></div>
+            <button id="theme-btn" class="p-2" aria-label="Toggle dark/light"></button>
+            <div class="app-meta-row">
+                <span id="user-name" class="user-name"></span>
+                <span class="meta-sep"> · </span>
+                <a id="vehicle-reg" class="secondary" href="#"></a>
+            </div>
         </header>
 
         <div id="content-wrapper"></div>

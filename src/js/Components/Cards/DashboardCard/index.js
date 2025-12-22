@@ -1,65 +1,62 @@
+// Dashboard component
 import { el } from "../../../ui/dom.js";
+import { PlusIcon } from "../../../utils/icons.js";
 import { MileageDraftList } from "../MileageCard/MileageDraftList/index.js";
 import "./index.css";
 
 export default class DashboardCard {
-    constructor({ onAddMileage, onChangeVehicle }) {
-        this.userName = el("span.user-name");
-        this.metaSeparator = el("span.meta-sep", " · ");
-        this.vehicleRegLink = el('a', { href: "#" });
+    constructor({ onAddMileage, onChangeVehicle, onEditDraft }) {
+        this.userName = document.getElementById("user-name");
+        this.vehicleRegLink = document.getElementById("vehicle-reg");
 
-        this.metaLine = el(
-            "p.dashboard-meta",
-            this.userName,
-            this.metaSeparator,
-            this.vehicleRegLink
-        );
+        this.addBtn = el("button#add-mileage-btn.p-2.mb-0", {
+            type: "button",
+            "aria-label": "Add Mileage Entry",
+            hidden: true
+        }, PlusIcon());
 
-        // actions
-        this.addBtn = el(
-            "button.secondary",
-            { type: "button", 'aria-label': "Add Mileage Entry" },
-            "Add Mileage Entry"
-        );
-        this.submitBtn = el(
-            "button",
-            { type: "button", 'aria-label': "Submit All Drafts" },
-            "Submit All Drafts"
-        );
+        this.submitBtn = el("button", {
+            type: "button",
+            "aria-label": "Submit All Drafts",
+            disabled: true
+        }, "Submit All Drafts");
 
         this.alert = el("p.dashboard-toast", {
             role: "status",
-            hidden: true
+            hidden: true,
         });
 
-        this.el = el(
-            "section.dashboard",
-            el(
-                "header.dashboard-header",
-                this.metaLine,
+        this.draftsView = new MileageDraftList();
+
+        this.el = el("section.dashboard",
+            el("header.dashboard-header",
+                el('.draft-label', 'Drafts'),
                 this.addBtn
             ),
-
-            this.draftsView = new MileageDraftList(),
-            el("footer", this.submitBtn),
+            el("div.dashboard-body", this.draftsView),
+            el("footer.dashboard-footer", this.submitBtn),
             this.alert
         );
 
         this.onAddMileage = onAddMileage;
         this.onChangeVehicle = onChangeVehicle;
+        this.onEditDraft = onEditDraft;
     }
 
-    // normal "has vehicle" state
     update(user, vehicle) {
-        this.userName.textContent = `Welcome, ${user.name}!`;
-        this.vehicleRegLink.textContent = ` ${vehicle.registration}`;
+        this.userName.textContent = `Nick Adkinson`; // user.name;
+        this.vehicleRegLink.textContent = vehicle.registration;
 
         this.addBtn.hidden = false;
         this.submitBtn.hidden = false;
         this.draftsView.el.hidden = false;
     }
 
-    // "no active vehicle yet" state (used by App.showNeedsVehicle)
+    updateDrafts = (drafts) => {
+        this.submitBtn.disabled = drafts.length === 0;
+        this.draftsView.update(drafts);
+    };
+
     showNeedsVehicle(name) {
         this.userName.textContent = `Welcome, ${name}!`;
         this.vehicleRegLink.textContent = " Register Vehicle";
@@ -78,10 +75,12 @@ export default class DashboardCard {
     onmount = () => {
         this.addBtn.addEventListener("click", this.onAddMileage);
         this.vehicleRegLink.addEventListener("click", this.onChangeVehicle);
+        this.el.addEventListener("edit-draft", this.onEditDraft);
     };
 
     onunmount = () => {
         this.addBtn.removeEventListener("click", this.onAddMileage);
         this.vehicleRegLink.removeEventListener("click", this.onChangeVehicle);
+        this.el.removeEventListener("edit-draft", this.onEditDraft);
     };
 }

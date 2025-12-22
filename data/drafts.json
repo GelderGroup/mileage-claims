@@ -1,0 +1,35 @@
+[
+    {
+        "id": "12345698-b70c-4731-9d3a-61f666a59d09",
+        "date": "2025-12-01",
+        "startLabel": "Asgarby and Howell",
+        "endLabel": "Scampton",
+        "startPostcode": "NG34 9PX",
+        "endPostcode": "LN1 2DS",
+        "distance": 32.7,
+        "status": "draft",
+        "createdAt": "2025-12-03T09:05:28.758Z"
+    },
+    {
+        "id": "34283697-a75a-4762-b869-37e497e48584",
+        "date": "2025-12-02",
+        "startLabel": "Eastbourne, unparished area",
+        "endLabel": "Kingston upon Hull, City of, unparished area",
+        "startPostcode": "BN23 7RU",
+        "endPostcode": "HU8 9EJ",
+        "distance": 260,
+        "status": "draft",
+        "createdAt": "2025-12-03T09:08:27.751Z"
+    },
+    {
+        "id": "23694d69-b70c-4731-9d3a-61f666a59d09",
+        "date": "2025-12-03",
+        "startLabel": "North Cave",
+        "endLabel": "Scampton",
+        "startPostcode": "HU15 2NW",
+        "endPostcode": "LN1 2DS",
+        "distance": 51,
+        "status": "draft",
+        "createdAt": "2025-12-03T09:05:28.758Z"
+    }
+]

@@ -1,21 +1,7 @@
-/* vehicle row tweak */
-.vehicle-info {
-    display: flex;
-    gap: .25rem;
-    align-items: baseline;
-}
-
 /* Draft list area */
 .draft-list {
     margin-top: .75rem;
 }
-
-.draft-list>h4 {
-    font-size: 1.1rem;
-    margin: 0 0 .5rem;
-    text-transform: uppercase;
-}
-
 
 .draft-list__items {
     margin: 0;
@@ -33,42 +19,74 @@
     display: none;
 }
 
-/* Individual rows, GitHub-ish */
+/* Individual rows */
 .draft-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: .75rem var(--pico-spacing);
-    margin-left: calc(-1 * var(--pico-spacing));
-    margin-right: calc(-1 * var(--pico-spacing));
+    padding: .75rem 0;
+    font-size: 0.9rem;
+    background-color: var(--pico-background-color);
 }
 
 .draft-row:not(:first-child) {
     border-top: 1px solid var(--pico-muted-border-color);
 }
 
-/* Left side of row */
 .draft-main {
+    width: 100%;
+}
+
+/* ===== Collapsed summary ==================================== */
+
+.draft-summary-header {
     display: flex;
-    flex-direction: column;
-    gap: .25rem;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-bottom: 0.15rem;
 }
 
-.draft-main small {
-    opacity: .75;
-}
-
-/* Right side of row */
-.draft-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: .25rem;
-    font-size: .85rem;
-}
-
-.draft-meta small {
-    opacity: .75;
+.draft-summary-miles {
     white-space: nowrap;
+}
+
+.draft-summary-route {
+    display: flex;
+    justify-content: space-between;
+    gap: .5rem;
+    font-weight: 600;
+}
+
+/* "Details…" link under summary */
+.draft-toggle {
+    display: inline-block;
+    margin-top: 0.15rem;
+    font-size: 0.85rem;
+}
+
+/* ===== Expanded section ===================================== */
+.draft-extra {
+    display: none;
+    margin-top: var(--pico-spacing);
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--pico-primary);
+    /* or muted border colour */
+}
+
+.draft-row--open .draft-extra {
+    display: block;
+}
+
+.draft-extra-row {
+    margin-bottom: 0.15rem;
+}
+
+.draft-extra-row strong {
+    margin-right: 0.35rem;
+}
+
+.draft-extra-actions {
+    margin-top: var(--pico-spacing);
+    display: flex;
+    gap: 1rem;
+    font-size: 0.85rem;
 }

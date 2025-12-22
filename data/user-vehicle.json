@@ -1,0 +1,66 @@
+{
+    "hasVehicle": true,
+    "vehicle": {
+        "id": "vehicle|nick.adkinson@gelder.co.uk|3e8eaa26-0cdf-4877-811b-6ea3c5e25068",
+        "ownerId": "nick.adkinson@gelder.co.uk",
+        "vehicleId": "3e8eaa26-0cdf-4877-811b-6ea3c5e25068",
+        "registration": "YL65YGJ",
+        "registrationNormalized": "YL65YGJ",
+        "canonical": {
+            "make": "AUDI",
+            "colour": "BLACK",
+            "year": 2016,
+            "fuelType": "PETROL",
+            "engineCc": 1395,
+            "co2Gkm": 110,
+            "motStatus": "Valid",
+            "taxStatus": "Taxed",
+            "firstRegistered": "2016-01-01T00:00:00.000Z",
+            "taxDueDate": "2026-11-01T00:00:00.000Z",
+            "artEndDate": null,
+            "dateOfLastV5CIssued": "2021-03-28T00:00:00.000Z",
+            "isMotValid": true,
+            "isTaxed": true,
+            "wheelplan": "2 AXLE RIGID BODY",
+            "typeApproval": "M1",
+            "revenueWeightKg": 1790
+        },
+        "source": {
+            "name": "vehicleLookup",
+            "schemaVersion": "v1",
+            "fetchedAt": "2025-11-14T09:40:58.370Z",
+            "raw": {
+                "registrationNumber": "YL65YGJ",
+                "taxStatus": "Taxed",
+                "taxDueDate": "2026-11-01",
+                "motStatus": "Valid",
+                "make": "AUDI",
+                "yearOfManufacture": 2016,
+                "engineCapacity": 1395,
+                "co2Emissions": 110,
+                "fuelType": "PETROL",
+                "markedForExport": false,
+                "colour": "BLACK",
+                "typeApproval": "M1",
+                "revenueWeight": 1790,
+                "dateOfLastV5CIssued": "2021-03-28",
+                "motExpiryDate": "2026-10-21",
+                "wheelplan": "2 AXLE RIGID BODY",
+                "monthOfFirstRegistration": "2016-01"
+            }
+        },
+        "_type": "vehicle_latest",
+        "_v": 1,
+        "createdAt": "2025-11-07T14:42:57.985Z",
+        "updatedAt": "2025-11-14T09:40:58.371Z",
+        "_rid": "PJo+ANOZ0AoDAAAAAAAAAA==",
+        "_self": "dbs/PJo+AA==/colls/PJo+ANOZ0Ao=/docs/PJo+ANOZ0AoDAAAAAAAAAA==/",
+        "_etag": "\"6a07ea36-0000-1100-0000-6916f92a0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1763113258
+    },
+    "user": {
+        "email": "nick.adkinson@gelder.co.uk",
+        "name": "nick.adkinson@gelder.co.uk"
+    }
+}

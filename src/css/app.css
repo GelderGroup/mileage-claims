@@ -1,21 +1,25 @@
 :root {
     font-family: 'DM Sans', sans-serif;
+    --app-header-height: 146px;
 }
 
 .appbar {
     position: sticky;
-    top: 0;
+    top: var(--pico-spacing);
     z-index: 10;
-    /* display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: .75rem;
-    padding-block: .5rem; */
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.5rem;
+
     padding-left: var(--pico-spacing);
     padding-right: var(--pico-spacing);
     padding-bottom: 0.5rem;
+
     margin-left: calc(var(--pico-spacing) * -1);
     margin-right: calc(var(--pico-spacing) * -1);
+
     background: var(--pico-background-color);
     border-bottom: 1px solid var(--pico-muted-border-color);
 }
@@ -34,4 +38,50 @@
 
 svg text {
     fill: var(--pico-secondary) !important;
+}
+
+.appbar .brand {
+    flex: 0 0 auto;
+}
+
+/* theme button on the same row, pushed to the right */
+#theme-btn {
+    margin-left: auto;
+    border: none;
+    ;
+}
+
+#theme-btn.dark {
+    background: var(--pico-dark-button-background);
+    color: var(--pico-dark-button-color);
+}
+
+#theme-btn.light {
+    background: var(--pico-light-button-background);
+    color: var(--pico-light-button-color);
+}
+
+/* meta row takes its own full-width line below */
+.app-meta-row {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+}
+
+.meta-sep {
+    margin: 0 0.25rem;
+    opacity: 0.6;
+}
+
+html,
+body {
+    height: auto;
+    margin: 0;
+}
+
+body {
+    overflow: auto;
+    /* allow normal page scroll again */
 }

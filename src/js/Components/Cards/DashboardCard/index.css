@@ -1,38 +1,75 @@
-/* main surface */
-/* main surface */
 .dashboard {
-    padding: 0.75rem 0 1rem;
+    padding: 0;
+    padding-bottom: 6rem;
+    /* room above fixed footer */
 }
 
-/* logo + welcome in one row on bigger screens, stacked on mobile */
 .dashboard-header {
+    /* make it a horizontal bar */
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0.5rem var(--pico-spacing);
+    margin: 0 calc(-1 * var(--pico-spacing));
+    /* full-bleed like rows */
+
+    /* make it stick just under the app header */
+    position: sticky;
+    top: calc(var(--pico-spacing) + var(--app-header-height));
+    /* if app-header is above in normal flow */
+    z-index: 5;
+
+    background-color: #909EBE;
 }
 
-.dashboard-meta {
-    font-size: 0.85rem;
-    line-height: 1.2;
-    margin-top: 0.2rem;
-    opacity: 0.7;
-    margin-bottom: 0.25rem;
+/* Use theme aware to change dashboard-header background */
+
+html[data-theme="dark"] .dashboard-header {
+    background-color: #3D475C;
 }
 
-.meta-sep {
-    margin: 0 0.25rem;
-    opacity: 0.6;
+#add-mileage-btn {
+    background-color: #687899;
+    border-color: #687899;
 }
 
-
-.dashboard h4 {
-    letter-spacing: 0.02em;
-    opacity: 0.85;
-    margin-bottom: 0.3rem;
+.dashboard-header>.draft-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0;
+    text-transform: uppercase;
 }
 
+html[data-theme="dark"] .dashboard-header>.draft-label {
+    color: #E1E5EB;
+}
 
-/* toast */
+html[data-theme="light"] .dashboard-header>.draft-label {
+    color: #3D475C;
+}
+
+.dashboard-body {
+    padding: 0;
+}
+
+.dashboard-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem;
+    text-align: center;
+    background: var(--pico-background-color);
+    border-top: 1px solid var(--pico-muted-border-color);
+}
+
+.dashboard-footer button {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 0;
+}
+
 .dashboard-toast {
     margin-top: 0.5rem;
 }

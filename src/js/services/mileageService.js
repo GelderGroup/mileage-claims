@@ -1,3 +1,5 @@
+import drafts from '../../../data/drafts.json' assert { type: `json` };
+
 export async function calculateDistance(startPostcode, endPostcode) {
     const res = await fetch('/api/getRouteMiles', {
         method: 'POST',
@@ -28,25 +30,15 @@ export async function saveMileageEntry(mileageData) {
     return res.json();
 }
 
-// GET: include cookies, no bearer
-export async function getMileageEntries() {
-    const res = await fetch("/api/getMileageEntries", {
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    });
-
-    if (!res.ok) throw new Error(`Failed to fetch entries: ${res.status}`);
-    return res.json();
-}
-
 export async function getMileageDrafts() {
-    const res = await fetch('/api/getMileageDrafts');
-    const json = await res.json().catch(() => ({}));
+    // const res = await fetch('/api/getMileageDrafts');
+    // const json = await res.json().catch(() => ({}));
 
-    if (!res.ok) {
-        throw new Error(json.details || json.error || 'Failed to load mileage drafts');
-    }
+    // if (!res.ok) {
+    //     throw new Error(json.details || json.error || 'Failed to load mileage drafts');
+    // }
 
-    return json; // array of entries
+    // return json; // array of entries
+
+    return Promise.resolve(drafts);
 }

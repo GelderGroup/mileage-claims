@@ -28,3 +28,24 @@ export const CalculatorIcon = () => svg('svg.lucide.lucide-calculator', { width:
     svg('path', { d: "M12 18h.01" }),
     svg('path', { d: "M8 18h.01" })
 );
+
+export const SunIcon = () => svg('svg.lucide.lucide-sun-icon.lucide-sun', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' },
+    svg('circle', { cx: 12, cy: 12, r: 5 }),
+    svg('line', { x1: 12, x2: 12, y1: 1, y2: 3 }),
+    svg('line', { x1: 12, x2: 12, y1: 21, y2: 23 }),
+    svg('line', { x1: 4.22, x2: 5.64, y1: 4.22, y2: 5.64 }),
+    svg('line', { x1: 18.36, x2: 19.78, y1: 18.36, y2: 19.78 }),
+    svg('line', { x1: 1, x2: 3, y1: 12, y2: 12 }),
+    svg('line', { x1: 21, x2: 23, y1: 12, y2: 12 }),
+    svg('line', { x1: 4.22, x2: 5.64, y1: 19.78, y2: 18.36 }),
+    svg('line', { x1: 18.36, x2: 19.78, y1: 5.64, y2: 4.22 })
+);
+
+export const MoonIcon = () => svg('svg.lucide.lucide-moon-icon.lucide-moon', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' },
+    svg('path', { d: "M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" })
+);
+
+export const PlusIcon = () => svg('svg.lucide.lucide-plus-icon.lucide-plus', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' },
+    svg('path', { d: 'M5 12h14' }),
+    svg('path', { d: 'M12 5v14' })
+);

@@ -15,6 +15,7 @@ import { appVersion } from "../config/appInfo.js";
 import { getMileageDrafts } from "../services/mileageService.js";
 
 import "@picocss/pico/css/pico.min.css";
+import { setData } from "../stores/mileageStore.js";
 
 export default class App {
     constructor() {
@@ -35,6 +36,7 @@ export default class App {
         // single main view for both "needs vehicle" and "has vehicle"
         this.dashboardView = new DashboardCard({
             onAddMileage: () => this.entryModal.open(),
+            onEditDraft: this.handleEditDraft,
             onChangeVehicle: this.handleChangeVehicle
         });
     }
@@ -52,19 +54,20 @@ export default class App {
 
     initAuth = async () => {
         setChildren(this.content, [this.loadingView]);
-        const principal = await AuthApi.me();
-        if (!principal) {
-            AuthApi.login();
-            return;
-        }
-        await this.afterLogin(principal);
+        // const principal = await AuthApi.me();
+        // if (!principal) {
+        //     AuthApi.login();
+        //     return;
+        // }
+        // await this.afterLogin(principal);
+        await this.afterLogin();
     };
 
     afterLogin = async (principal) => {
-        this.userInfo = {
-            name: AuthApi.getName(principal),
-            email: AuthApi.getEmail(principal)
-        };
+        // this.userInfo = {
+        //     name: AuthApi.getName(principal),
+        //     email: AuthApi.getEmail(principal)
+        // };
 
         try {
             const { hasVehicle, vehicle } = await VehiclesApi.getActive();
@@ -112,7 +115,7 @@ export default class App {
     refreshDrafts = async () => {
         try {
             const drafts = await getMileageDrafts();
-            this.dashboardView.draftsView.update(drafts);
+            this.dashboardView.updateDrafts(drafts);
         } catch (err) {
             console.error(err);
             // optionally show a toast
@@ -120,7 +123,8 @@ export default class App {
     };
 
     handleEditDraft = (e) => {
-        const entry = e.detail;
+        const entry = e.detail; console.log("Editing draft:", entry);
+        this.entryModal.open();
         // populate store (including id) then open modal
         setData({
             id: entry.id,
@@ -130,6 +134,5 @@ export default class App {
             distance: entry.distance
             // and any override fields, if they exist in the entry
         });
-        this.entryModal.open();
     };
 }
