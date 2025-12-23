@@ -94,6 +94,7 @@ export default class MileageModalController {
 
     calculate = async () => {
         if (get().calcBusy) return;
+        console.log('Starting mileage calculation');
 
         set({ banner: null, showSummary: false });
 
@@ -116,6 +117,7 @@ export default class MileageModalController {
         set({ validation: v });
 
         if (!v.isValid) {
+            console.log('Cannot calculate mileage due to validation errors');
             set({ showSummary: true }); // option B
             this.view.focusFirstInvalid?.(
                 [['startPostcode', this.view.startPostcodeInput], ['endPostcode', this.view.endPostcodeInput]],
@@ -124,13 +126,17 @@ export default class MileageModalController {
             return;
         }
 
+        console.log('Calculating mileage between postcodes');
+
         try {
             set({ calcBusy: true });
+            console.log('Calculating distance...');
 
             const a = formatPostcode(s.startPostcode).trim();
             const b = formatPostcode(s.endPostcode).trim();
             const miles = await calculateDistance(a, b);
 
+            console.log(`Calculated distance: ${miles} miles`);
             batched(() => {
                 set({ distance: Number(miles) || 0 });
                 set({ showSummary: false, banner: null });
