@@ -93,18 +93,30 @@ export default class MileageModalController {
     };
 
     calculate = async () => {
-        console.log('MileageModalController.calculate');
         if (get().calcBusy) return;
-        console.log('not busy');
 
         set({ banner: null, showSummary: false });
 
-        const v = this.validateAndStore(get());
+        const s = get();
+        const all = validateMileageEntry(s);
 
-        console.log('validated', v);
+        // keep only postcode errors/aria for calculate
+        const keep = new Set(['startPostcode', 'endPostcode']);
+        const errors = Object.fromEntries(Object.entries(all.errors || {}).filter(([k]) => keep.has(k)));
+        const aria = Object.fromEntries(Object.entries(all.aria || {}).filter(([k]) => keep.has(k)));
+
+        const v = {
+            ...all,
+            isValid: Object.keys(errors).length === 0,
+            errors,
+            aria,
+            errorList: Object.values(errors)
+        };
+
+        set({ validation: v });
 
         if (!v.isValid) {
-            set({ showSummary: true });              // <-- B: show invalid styling + summary
+            set({ showSummary: true }); // option B
             this.view.focusFirstInvalid?.(
                 [['startPostcode', this.view.startPostcodeInput], ['endPostcode', this.view.endPostcodeInput]],
                 v.aria
@@ -112,20 +124,19 @@ export default class MileageModalController {
             return;
         }
 
-        console.log('valid, calculating');
         try {
             set({ calcBusy: true });
 
-            const s = get();
             const a = formatPostcode(s.startPostcode).trim();
             const b = formatPostcode(s.endPostcode).trim();
             const miles = await calculateDistance(a, b);
 
             batched(() => {
                 set({ distance: Number(miles) || 0 });
-                set({ banner: null, showSummary: false });
+                set({ showSummary: false, banner: null });
             });
 
+            // now validate whole form (including distance) for save readiness
             this.validateAndStore();
         } catch (err) {
             set({ banner: err?.message || 'Could not calculate mileage.' });
@@ -133,6 +144,7 @@ export default class MileageModalController {
             set({ calcBusy: false });
         }
     };
+
 
     save = async () => {
         const s = get();
