@@ -20,18 +20,18 @@ export default class MileageModalController {
     }
 
     open = ({ reset: doReset = true } = {}) => {
+        if (doReset) reset(); // <-- move BEFORE subscribe
+
         if (!this.unsubscribe) {
             let isInitialRender = true;
-            this.unsubscribe = mileageStore.subscribe(s => {
+            this.unsubscribe = mileageStore.subscribe((s) => {
                 this.view.render(s, { initial: isInitialRender });
                 isInitialRender = false;
             });
         }
 
-        if (doReset) reset();
         this.view.open();
     };
-
 
     close = () => {
         this.view.close();
@@ -111,6 +111,7 @@ export default class MileageModalController {
         try {
             set({ calcBusy: true });
 
+            const s = get();
             const a = formatPostcode(s.startPostcode).trim();
             const b = formatPostcode(s.endPostcode).trim();
             const miles = await calculateDistance(a, b);
