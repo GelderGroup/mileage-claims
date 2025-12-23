@@ -95,10 +95,13 @@ export default class MileageModalController {
     calculate = async () => {
         console.log('MileageModalController.calculate');
         if (get().calcBusy) return;
+        console.log('not busy');
 
         set({ banner: null, showSummary: false });
 
         const v = this.validateAndStore(get());
+
+        console.log('validated', v);
 
         if (!v.isValid) {
             set({ showSummary: true });              // <-- B: show invalid styling + summary
@@ -109,6 +112,7 @@ export default class MileageModalController {
             return;
         }
 
+        console.log('valid, calculating');
         try {
             set({ calcBusy: true });
 
