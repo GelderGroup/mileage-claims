@@ -19,19 +19,19 @@ export default class MileageModalController {
         root.addEventListener('field-input', this.onFieldInput);
     }
 
-    open = () => {
+    open = ({ reset: doReset = true } = {}) => {
         if (!this.unsubscribe) {
             let isInitialRender = true;
-            this.unsubscribe = mileageStore.subscribe((s) => {
+            this.unsubscribe = mileageStore.subscribe(s => {
                 this.view.render(s, { initial: isInitialRender });
                 isInitialRender = false;
             });
         }
 
-        reset();          // sets date + clears everything
-        set({ showSummary: false, banner: null });
+        if (doReset) reset();
         this.view.open();
     };
+
 
     close = () => {
         this.view.close();

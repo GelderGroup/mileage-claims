@@ -15,7 +15,7 @@ import { appVersion } from "../config/appInfo.js";
 import { getMileageDrafts, deleteMileageDraft } from "../services/mileageService.js";
 
 import "@picocss/pico/css/pico.min.css";
-import { setData } from "../stores/mileageStore.js";
+import { set } from "../stores/mileageStore.js";
 
 export default class App {
     constructor() {
@@ -124,9 +124,8 @@ export default class App {
 
     handleEditDraft = (e) => {
         const entry = e.detail;
-        this.entryModal.open();
 
-        setData({
+        set({
             id: entry.id,
             date: entry.date,
             startPostcode: entry.startPostcode,
@@ -135,6 +134,8 @@ export default class App {
             // and any override fields, if they exist in the entry
             // isOverride, overrideDistance, overrideReason
         });
+
+        this.entryModal.openForEdit();
     };
 
     handleDeleteDraft = async (e) => {

@@ -9,6 +9,7 @@ export default class MileageModal {
     }
     onmount = () => this.view.onmount?.();
     onunmount = () => this.view.onunmount?.();
-    open = () => this.controller.open();   // ← ensures reset() runs first
+    open = () => this.controller.open({ reset: true });
+    openForEdit = () => this.controller.open({ reset: false });
     close = () => this.controller.close(); // ← keeps cleanup consistent
 }

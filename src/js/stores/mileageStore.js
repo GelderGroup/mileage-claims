@@ -1,10 +1,18 @@
 import { map, batched } from 'nanostores';
 
 const initial = () => ({
+    id: null,
+
     date: new Date().toISOString().slice(0, 10),
     startPostcode: '',
     endPostcode: '',
     distance: 0,
+
+    // (optional) override bits if drafts can contain them
+    overrideEnabled: false,
+    distanceOverride: '',
+    distanceOverrideReason: '',
+    distanceOverrideDetails: '',
 
     busy: false,
     calcBusy: false,
