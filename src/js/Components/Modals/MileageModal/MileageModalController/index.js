@@ -93,6 +93,7 @@ export default class MileageModalController {
     };
 
     calculate = async () => {
+        console.log('MileageModalController.calculate');
         if (get().calcBusy) return;
 
         set({ banner: null, showSummary: false });
