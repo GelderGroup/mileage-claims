@@ -1,4 +1,4 @@
-import { el } from '../../../ui/dom.js';
+import { el } from 'redom';
 import { CalculatorIcon } from '../../../utils/icons.js';
 
 export default class CalculateButton {

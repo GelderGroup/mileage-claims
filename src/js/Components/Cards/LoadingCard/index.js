@@ -1,4 +1,4 @@
-import { el } from "../../../ui/dom.js";
+import { el } from "redom";
 export default class LoadingCard {
     constructor(msg = "Checking your vehicle registration…") {
         this.el = el("article.contrast", { "aria-busy": "true" }, el("p", msg));

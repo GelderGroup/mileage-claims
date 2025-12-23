@@ -1,4 +1,4 @@
-import { el } from "../../../ui/dom.js";
+import { el } from "redom";
 import { attachValidity } from "../../../utils/Validation/a11y/inputValidity.js";
 import CalculateButton from "../CalculateButton/index.js";
 

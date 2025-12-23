@@ -1,4 +1,4 @@
-import { el } from "../../../ui/dom.js";
+import { el } from "redom";
 import "./index.css";
 
 const normalizeApiError = (err) => {

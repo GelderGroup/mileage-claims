@@ -1,4 +1,4 @@
-import { el } from "../../../ui/dom.js";
+import { el } from "redom";
 
 export default class MileageOverrideSelect {
     constructor() {

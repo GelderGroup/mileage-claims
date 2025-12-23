@@ -1,4 +1,5 @@
-import { el, mount, unmount, syncInput } from '../../../../ui/dom.js';
+import { el, mount } from 'redom';
+import { syncInput } from '../../../../ui/dom.js';
 import { DateInput, MileageInput, PostcodeInput } from '../../../Inputs/index.js';
 import MileageOverride from '../../../Inputs/MileageOverride/index.js';
 import { ValidationSummary } from '../../../Validation/index.js';
@@ -55,36 +56,41 @@ export default class MileageModalView {
     addCoreListeners = () => {
         this.el.addEventListener('uselocation', this.handleUseLocation);
         this.el.addEventListener('calculate', this.handleCalculate);
-        this.overrideMileageCheckbox.addEventListener('change', this.handleOverrideToggle);
+
         this.closeBtn.addEventListener('click', this.handleClose);
         this.cancelBtn.addEventListener('click', this.handleCancel);
         this.saveBtn.addEventListener('click', this.handleSave);
 
-        // field input -> store
-        const wire = c => {
-            c.addEventListener('input', this.handleFieldInput);
-            c.addEventListener('change', this.handleFieldInput); // covers date pickers
-        };
-        wire(this.dateInput);
-        wire(this.startPostcodeInput);
-        wire(this.endPostcodeInput);
+        this.overrideMileageCheckbox.addEventListener('change', this.handleOverrideToggle);
+
+        this.dateInput.addEventListener('input', this.handleFieldInput);
+        this.dateInput.addEventListener('change', this.handleFieldInput);
+
+        this.startPostcodeInput.addEventListener('input', this.handleFieldInput);
+        this.startPostcodeInput.addEventListener('change', this.handleFieldInput);
+
+        this.endPostcodeInput.addEventListener('input', this.handleFieldInput);
+        this.endPostcodeInput.addEventListener('change', this.handleFieldInput);
     };
 
     removeCoreListeners = () => {
         this.el.removeEventListener('uselocation', this.handleUseLocation);
         this.el.removeEventListener('calculate', this.handleCalculate);
-        this.overrideMileageCheckbox.removeEventListener('change', this.handleOverrideToggle);
+
         this.closeBtn.removeEventListener('click', this.handleClose);
         this.cancelBtn.removeEventListener('click', this.handleCancel);
         this.saveBtn.removeEventListener('click', this.handleSave);
 
-        const unwire = c => {
-            c.removeEventListener('input', this.handleFieldInput);
-            c.removeEventListener('change', this.handleFieldInput);
-        };
-        unwire(this.dateInput);
-        unwire(this.startPostcodeInput);
-        unwire(this.endPostcodeInput);
+        this.overrideMileageCheckbox.removeEventListener('change', this.handleOverrideToggle);
+
+        this.dateInput.removeEventListener('input', this.handleFieldInput);
+        this.dateInput.removeEventListener('change', this.handleFieldInput);
+
+        this.startPostcodeInput.removeEventListener('input', this.handleFieldInput);
+        this.startPostcodeInput.removeEventListener('change', this.handleFieldInput);
+
+        this.endPostcodeInput.removeEventListener('input', this.handleFieldInput);
+        this.endPostcodeInput.removeEventListener('change', this.handleFieldInput);
     };
 
     open() {

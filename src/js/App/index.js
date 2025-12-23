@@ -1,4 +1,4 @@
-import { el, setChildren } from "../ui/dom.js";
+import { el, setChildren } from "redom";
 import { AuthApi } from "../services/swaAuth.js";
 import { VehiclesApi } from "../services/vehicles.js";
 import { VehicleLookupApi } from "../services/vehicleLookup.js";
@@ -12,7 +12,7 @@ import {
 } from "../Components/index.js";
 
 import { appVersion } from "../config/appInfo.js";
-import { getMileageDrafts } from "../services/mileageService.js";
+import { getMileageDrafts, deleteMileageDraft } from "../services/mileageService.js";
 
 import "@picocss/pico/css/pico.min.css";
 import { setData } from "../stores/mileageStore.js";
@@ -37,6 +37,7 @@ export default class App {
         this.dashboardView = new DashboardCard({
             onAddMileage: () => this.entryModal.open(),
             onEditDraft: this.handleEditDraft,
+            onDeleteDraft: this.handleDeleteDraft,
             onChangeVehicle: this.handleChangeVehicle
         });
     }
@@ -123,9 +124,9 @@ export default class App {
     };
 
     handleEditDraft = (e) => {
-        const entry = e.detail; console.log("Editing draft:", entry);
+        const entry = e.detail;
         this.entryModal.open();
-        // populate store (including id) then open modal
+
         setData({
             id: entry.id,
             date: entry.date,
@@ -133,6 +134,20 @@ export default class App {
             endPostcode: entry.endPostcode,
             distance: entry.distance
             // and any override fields, if they exist in the entry
+            // isOverride, overrideDistance, overrideReason
         });
+    };
+
+    handleDeleteDraft = async (e) => {
+        const entry = e.detail; console.log("Deleting draft:", entry);
+        if (!entry?.id) return;
+        try {
+            await deleteMileageDraft(entry.id);
+            this.dashboardView.showToast("Draft deleted.");
+            this.refreshDrafts();
+        } catch (err) {
+            console.error("Error deleting draft:", err);
+            this.dashboardView.showToast("Couldn’t delete draft. Please try again.");
+        }
     };
 }

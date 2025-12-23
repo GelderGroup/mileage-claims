@@ -1,4 +1,4 @@
-import { el, list } from '../../../ui/dom.js';
+import { el, list } from 'redom';
 import './index.css';
 import ValidationSummaryItem from '../ValidationSummaryItem/index.js';
 

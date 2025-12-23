@@ -42,3 +42,16 @@ export async function getMileageDrafts() {
 
     return Promise.resolve(drafts);
 }
+
+export async function deleteMileageDraft(draftId) {
+    const res = await fetch("/api/deleteMileageDraft", {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: draftId }),
+    });
+
+    if (!res.ok) throw new Error((await res.text()) || `Server error: ${res.status}`);
+    return res.json();
+}

@@ -1,4 +1,4 @@
-import { mount, setChildren } from '../js/ui/dom.js';
+import { mount, setChildren } from 'redom';
 import App from "./App";
 import { MoonIcon, SunIcon } from './utils/icons.js';
 

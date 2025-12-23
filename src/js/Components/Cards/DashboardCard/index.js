@@ -1,5 +1,5 @@
 // Dashboard component
-import { el } from "../../../ui/dom.js";
+import { el } from "redom";
 import { PlusIcon } from "../../../utils/icons.js";
 import { MileageDraftList } from "../MileageCard/MileageDraftList/index.js";
 import "./index.css";

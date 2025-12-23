@@ -43,10 +43,10 @@ export default class MileageModalController {
 
     open = () => {
         if (!this.unsubscribe) {
-            this._first = true;
+            let isInitialRender = true;
             this.unsubscribe = mileageStore.subscribe(s => {
-                this.view.render(s, { initial: this._first });
-                this._first = false;
+                this.view.render(s, { initial: isInitialRender });
+                isInitialRender = false;
             });
         }
         this.reset();
