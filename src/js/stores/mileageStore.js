@@ -34,7 +34,5 @@ export const set = (patch) => {
 };
 
 export const reset = () => {
-    batched(() => {
-        mileageStore.set(initial());
-    });
+    mileageStore.set(initial());
 };
