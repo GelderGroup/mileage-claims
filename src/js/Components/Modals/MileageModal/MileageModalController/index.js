@@ -35,6 +35,7 @@ export default class MileageModalController {
 
     close = () => {
         this.view.close();
+        reset();                 // <-- add this
         this.unsubscribe?.();
         this.unsubscribe = null;
     };
@@ -57,10 +58,11 @@ export default class MileageModalController {
     };
 
     payloadFromState = (s) => ({
+        id: s.id ?? null,                       // <-- add this
         date: s.date,
         startPostcode: formatPostcode(s.startPostcode).trim(),
         endPostcode: formatPostcode(s.endPostcode).trim(),
-        distance: Number(s.distance || 0)
+        distance: Number(s.distance || 0),
     });
 
     // --- actions
