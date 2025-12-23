@@ -130,8 +130,6 @@ export default class MileageModalController {
             const miles = await calculateDistance(a, b);
             const milesNum = Number(miles) || 0;
 
-            console.log('calculated miles:', miles, milesNum);
-
             set({
                 distance: milesNum,
                 banner: null,
