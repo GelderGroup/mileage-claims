@@ -44,7 +44,8 @@ export default class DashboardCard {
     }
 
     update(user, vehicle) {
-        this.userName.textContent = `Nick Adkinson`; // user.name;
+        console.log("DashboardCard update", user, vehicle);
+        this.userName.textContent = user.name;
         this.vehicleRegLink.textContent = vehicle.registration;
 
         this.addBtn.hidden = false;

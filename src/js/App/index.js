@@ -55,20 +55,19 @@ export default class App {
 
     initAuth = async () => {
         setChildren(this.content, [this.loadingView]);
-        // const principal = await AuthApi.me();
-        // if (!principal) {
-        //     AuthApi.login();
-        //     return;
-        // }
-        // await this.afterLogin(principal);
-        await this.afterLogin();
+        const principal = await AuthApi.me();
+        if (!principal) {
+            AuthApi.login();
+            return;
+        }
+        await this.afterLogin(principal);
     };
 
     afterLogin = async (principal) => {
-        // this.userInfo = {
-        //     name: AuthApi.getName(principal),
-        //     email: AuthApi.getEmail(principal)
-        // };
+        this.userInfo = {
+            name: AuthApi.getName(principal),
+            email: AuthApi.getEmail(principal)
+        };
 
         try {
             const { hasVehicle, vehicle } = await VehiclesApi.getActive();

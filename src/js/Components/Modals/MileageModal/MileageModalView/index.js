@@ -122,13 +122,17 @@ export default class MileageModalView {
         for (const [key, comp] of Object.entries(this.fields)) {
             syncInput(comp, state[key], { allowWhileFocused: initial });
         }
+
         // flags
         this.setBusy(state.busy);
         this.setCalcBusy(state.calcBusy);
         this.setGeoBusy(state.geoBusy);
+
         // validity + summary
         this.applyValidity(state);
-        if (state.showSummary && state.errorList?.length) this.showErrors(state.errorList);
+
+        const errs = state.validation?.errorList || [];
+        if (state.showSummary && errs.length) this.showErrors(errs);
         else this.clearErrors();
     };
 
@@ -145,11 +149,14 @@ export default class MileageModalView {
 
     setBusy(b) { this.saveBtn.disabled = b; this.saveBtn.textContent = b ? 'Saving…' : 'Save Entry'; }
     setCalcBusy(b) { this.mileageInput.calculateBtn.disabled = b; }
+
     applyValidity = (state) => {
+        const aria = state.validation?.aria || {};
+        const show = !!state.showSummary;
+
         for (const [key, c] of Object.entries(this.fields)) {
-            const touched = !!state.touched[key];
-            const invalid = !!state.aria[key];
-            if (!touched) c.resetValidity?.();
+            const invalid = !!aria[key];
+            if (!show) c.resetValidity?.();                 // don’t show invalid styling yet
             else if (invalid) c.setValidity?.({ invalid: true });
             else c.resetValidity?.();
         }

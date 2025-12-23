@@ -1,26 +1,9 @@
+import { batched } from 'nanostores';
 import { formatPostcode } from '../../../../utils/Formatting/formatPostcode.js';
 import { calculateDistance, saveMileageEntry } from '../../../../services/mileageService.js';
 import { validateMileageEntry } from '../../../../utils/Validation/validateMileageEntry.js';
-import {
-    clearErrors,
-    getPayload,
-    mileageStore,
-    resetDataForNewEntry,
-    resetTouches,
-    setBanner,
-    setBusy,
-    setCalcBusy,
-    setData,
-    setField,
-    setGeoBusy,
-    setValidation,
-    showSummary,
-    touchAll,
-    touchField,
-    validateDebounced,
-    validateNow
-} from '../../../../stores/mileageStore.js';
 import { getCurrentLocationPostcode } from '../../../../services/postcodeService.js';
+import { mileageStore, get, set, reset } from '../../../../stores/mileageStore.js';
 
 export default class MileageModalController {
     constructor(view, { onMileageSubmitted } = {}) {
@@ -33,90 +16,90 @@ export default class MileageModalController {
         root.addEventListener('request-use-location', this.useLocation);
         root.addEventListener('request-calculate', this.calculate);
         root.addEventListener('request-save-mileage', this.save);
-        root.addEventListener('field-input', (e) => {
-            const { name, value } = e.detail;
-            touchField(name);
-            setField(name, value);
-            validateDebounced(250);
-        });
+        root.addEventListener('field-input', this.onFieldInput);
     }
 
     open = () => {
         if (!this.unsubscribe) {
             let isInitialRender = true;
-            this.unsubscribe = mileageStore.subscribe(s => {
+            this.unsubscribe = mileageStore.subscribe((s) => {
                 this.view.render(s, { initial: isInitialRender });
                 isInitialRender = false;
             });
         }
-        this.reset();
+
+        reset();          // sets date + clears everything
+        set({ showSummary: false, banner: null });
         this.view.open();
     };
 
     close = () => {
         this.view.close();
-        this.reset();
         this.unsubscribe?.();
         this.unsubscribe = null;
     };
 
-    reset = () => {
-        const today = new Date().toISOString().split('T')[0];
-
-        resetDataForNewEntry();
-        setData({ date: today });   // keep your default date logic
-        resetTouches();
-        clearErrors();
-        showSummary(false);
+    onFieldInput = (e) => {
+        const { name, value } = e.detail;
+        set({ [name]: value, showSummary: false, banner: null });
     };
 
-    useLocation = async (e) => {
-        // don’t start another lookup if one is already in progress
-        if (mileageStore.get().geoBusy) return;
+    // --- helpers
 
-        setGeoBusy(true);
-        showSummary(false); // okay to hide old validation summary before starting
+    validateAndStore = (stateOverride = null) => {
+        const data = stateOverride ?? get();
+        const v = validateMileageEntry(data);
+        const errorList = Object.values(v.errors || {});
+        const validation = { ...v, errorList };
+
+        set({ validation });
+        return validation;
+    };
+
+    payloadFromState = (s) => ({
+        date: s.date,
+        startPostcode: formatPostcode(s.startPostcode).trim(),
+        endPostcode: formatPostcode(s.endPostcode).trim(),
+        distance: Number(s.distance || 0)
+    });
+
+    // --- actions
+
+    useLocation = async (e) => {
+        if (get().geoBusy) return;
+
+        set({ geoBusy: true, banner: null, showSummary: false });
 
         try {
             const pc = await getCurrentLocationPostcode();
-
             const target = e.detail.component;
-            if (target === this.view.startPostcodeInput) {
-                setData({ startPostcode: pc });
-                touchField('startPostcode');
-            } else if (target === this.view.endPostcodeInput) {
-                setData({ endPostcode: pc });
-                touchField('endPostcode');
-            }
 
-            const v = validateNow();
-            setValidation(v);
+            batched(() => {
+                if (target === this.view.startPostcodeInput) {
+                    set({ startPostcode: pc });
+                } else if (target === this.view.endPostcodeInput) {
+                    set({ endPostcode: pc });
+                }
+            });
 
-            setGeoBusy(false); // <- success path: clear busy, THEN exit
+            this.validateAndStore();
         } catch (err) {
-            setGeoBusy(false); // <- clear busy FIRST
-            this.view.showError(err?.message || 'Could not get your location.'); // <- and don’t touch store after this
+            set({ banner: err?.message || 'Could not get your location.' });
+        } finally {
+            set({ geoBusy: false });
         }
     };
 
     calculate = async () => {
-        if (mileageStore.get().calcBusy) return;
+        if (get().calcBusy) return;
 
-        clearErrors();
-        showSummary(false);
+        set({ banner: null, showSummary: false });
 
-        const data = mileageStore.get();
-        const all = validateMileageEntry(data);
-        const fields = ['startPostcode', 'endPostcode'];
-        const errors = this.pickFields(all.errors, fields);
-        const aria = this.pickFields(all.aria, fields);
-        const v = { isValid: Object.keys(errors).length === 0, errors, aria };
-
-        setValidation({ ...all, errors, aria });
+        const v = this.validateAndStore(get());
 
         if (!v.isValid) {
-            // borders come from subscription; summary is gated by showSummary(false)
-            this.view.focusFirstInvalid(
+            set({ showSummary: true });              // <-- B: show invalid styling + summary
+            this.view.focusFirstInvalid?.(
                 [['startPostcode', this.view.startPostcodeInput], ['endPostcode', this.view.endPostcodeInput]],
                 v.aria
             );
@@ -124,57 +107,53 @@ export default class MileageModalController {
         }
 
         try {
-            setCalcBusy(true);
+            set({ calcBusy: true });
 
-            const a = formatPostcode(data.startPostcode).trim();
-            const b = formatPostcode(data.endPostcode).trim();
+            const a = formatPostcode(s.startPostcode).trim();
+            const b = formatPostcode(s.endPostcode).trim();
             const miles = await calculateDistance(a, b);
 
-            setData({ distance: Number(miles) || 0 });
-            touchField('distance');
-            clearErrors();
-            showSummary(false);
+            batched(() => {
+                set({ distance: Number(miles) || 0 });
+                set({ banner: null, showSummary: false });
+            });
 
-            const v2 = validateNow();
-            setValidation(v2);
+            this.validateAndStore();
         } catch (err) {
-            setBanner(err?.message || 'Could not calculate mileage.');
+            set({ banner: err?.message || 'Could not calculate mileage.' });
         } finally {
-            setCalcBusy(false);
+            set({ calcBusy: false });
         }
     };
 
-    pickFields = (obj, keys) =>
-        Object.fromEntries(Object.entries(obj).filter(([k]) => keys.includes(k)));
-
-
     save = async () => {
-        if (mileageStore.get().busy) return;
+        const s = get();
+        if (s.busy) return;
 
-        clearErrors();
-        touchAll();
-
-        const data = getPayload();
-        const v = validateMileageEntry(data);
-
-        setValidation(v);
-        showSummary(true);
+        // validate + show summary
+        const v = this.validateAndStore(s);
+        set({ showSummary: true });
 
         if (!v.isValid) return;
 
-        data.startPostcode = formatPostcode(data.startPostcode);
-        data.endPostcode = formatPostcode(data.endPostcode);
+        const payload = this.payloadFromState(get());
 
         try {
-            setBusy(true);
-            await saveMileageEntry(data);
-            this.onMileageSubmitted?.({ success: true, data, message: 'Mileage claim submitted successfully!' });
+            set({ busy: true, banner: null });
+            await saveMileageEntry(payload);
+
+            this.onMileageSubmitted?.({
+                success: true,
+                data: payload,
+                message: 'Mileage claim submitted successfully!'
+            });
+
             this.close();
         } catch (err) {
-            this.view.showError(err?.message || 'Failed to submit mileage claim. Please try again.');
-            this.onMileageSubmitted?.({ success: false, error: err?.message, data });
+            set({ banner: err?.message || 'Failed to submit mileage claim. Please try again.' });
+            this.onMileageSubmitted?.({ success: false, error: err?.message, data: payload });
         } finally {
-            setBusy(false);
+            set({ busy: false });
         }
     };
 }

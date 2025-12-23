@@ -31,16 +31,14 @@ export async function saveMileageEntry(mileageData) {
 }
 
 export async function getMileageDrafts() {
-    // const res = await fetch('/api/getMileageDrafts');
-    // const json = await res.json().catch(() => ({}));
+    const res = await fetch('/api/getMileageDrafts');
+    const json = await res.json().catch(() => ({}));
 
-    // if (!res.ok) {
-    //     throw new Error(json.details || json.error || 'Failed to load mileage drafts');
-    // }
+    if (!res.ok) {
+        throw new Error(json.details || json.error || 'Failed to load mileage drafts');
+    }
 
-    // return json; // array of entries
-
-    return Promise.resolve(drafts);
+    return json; // array of entries
 }
 
 export async function deleteMileageDraft(draftId) {
