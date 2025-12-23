@@ -1,4 +1,3 @@
-import { batched } from 'nanostores';
 import { formatPostcode } from '../../../../utils/Formatting/formatPostcode.js';
 import { calculateDistance, saveMileageEntry } from '../../../../services/mileageService.js';
 import { validateMileageEntry } from '../../../../utils/Validation/validateMileageEntry.js';
@@ -20,13 +19,15 @@ export default class MileageModalController {
     }
 
     open = ({ reset: doReset = true } = {}) => {
-        if (doReset) reset(); // <-- move BEFORE subscribe
+        if (doReset) reset();
 
-        if (!this.unsubscribe) {
-            let isInitialRender = true;
-            this.unsubscribe = mileageStore.subscribe((s) => {
-                this.view.render(s, { initial: isInitialRender });
-                isInitialRender = false;
+        // First paint is explicit and deterministic
+        this.view.render(get(), { initial: true });
+
+        // Then react to subsequent changes
+        if (!this.unlisten) {
+            this.unlisten = mileageStore.listen((s) => {
+                this.view.render(s, { initial: false });
             });
         }
 
@@ -35,9 +36,8 @@ export default class MileageModalController {
 
     close = () => {
         this.view.close();
-        reset();                 // <-- add this
-        this.unsubscribe?.();
-        this.unsubscribe = null;
+        this.unlisten?.();
+        this.unlisten = null;
     };
 
     onFieldInput = (e) => {
@@ -76,13 +76,11 @@ export default class MileageModalController {
             const pc = await getCurrentLocationPostcode();
             const target = e.detail.component;
 
-            batched(() => {
-                if (target === this.view.startPostcodeInput) {
-                    set({ startPostcode: pc });
-                } else if (target === this.view.endPostcodeInput) {
-                    set({ endPostcode: pc });
-                }
-            });
+            if (target === this.view.startPostcodeInput) {
+                set({ startPostcode: pc });
+            } else if (target === this.view.endPostcodeInput) {
+                set({ endPostcode: pc });
+            }
 
             this.validateAndStore();
         } catch (err) {

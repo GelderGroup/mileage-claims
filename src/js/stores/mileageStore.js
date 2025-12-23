@@ -1,4 +1,4 @@
-import { map, batched } from 'nanostores';
+import { map } from 'nanostores';
 
 const initial = () => ({
     id: null,
