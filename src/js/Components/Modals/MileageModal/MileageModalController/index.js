@@ -130,16 +130,17 @@ export default class MileageModalController {
             const a = formatPostcode(s.startPostcode).trim();
             const b = formatPostcode(s.endPostcode).trim();
             const miles = await calculateDistance(a, b);
+            const milesNum = Number(miles) || 0;
 
-            batched(() => {
-                set({ distance: Number(miles) || 0 });
-                set({ showSummary: false, banner: null });
+            console.log('calculated miles:', miles, milesNum);
+
+            set({
+                distance: milesNum,
+                banner: null,
+                showSummary: false
             });
 
-            console.log('store distance after calc:', get().distance);
-
-            // now validate whole form (including distance) for save readiness
-            this.validateAndStore();
+            this.validateAndStore(get());
         } catch (err) {
             set({ banner: err?.message || 'Could not calculate mileage.' });
         } finally {
