@@ -24,7 +24,6 @@
     /* Option 2 look */
     background: none;
     /* remove slab */
-    border-bottom: 1px solid var(--pico-muted-border-color);
 }
 
 /* Label styling stays basically the same, just slightly lighter */
