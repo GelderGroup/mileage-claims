@@ -21,7 +21,7 @@ export default class MileageDraftCard {
                 ),
                 this.actions = el('.draft-actions',
                     this.editAction = el('a.btn-compact', { href: '#', role: 'button' }, 'Edit'),
-                    this.deleteAction = el('a.contrast.btn-compact', { href: '#', role: 'button' }, 'Delete')
+                    this.deleteAction = el('a.contrast.outline.btn-compact', { href: '#', role: 'button' }, 'Delete')
                 )
             )
         );
