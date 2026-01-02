@@ -4,50 +4,54 @@
     /* room above fixed footer */
 }
 
+
 .dashboard-header {
-    /* make it a horizontal bar */
+    /* horizontal row */
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 0.35rem var(--pico-spacing);
+    /* tighter + “section label” feel */
+    padding: .5rem var(--pico-spacing) .25rem;
     margin: 0 calc(-1 * var(--pico-spacing));
-    /* full-bleed like rows */
+    /* full-bleed */
 
-    /* make it stick just under the app header */
+    /* sticky under app header */
     position: sticky;
     top: calc(var(--pico-spacing) + var(--app-header-height));
-    /* if app-header is above in normal flow */
     z-index: 5;
 
-    background-color: #909EBE;
+    /* Option 2 look */
+    background: none;
+    /* remove slab */
+    border-bottom: 1px solid var(--pico-muted-border-color);
 }
 
-/* Use theme aware to change dashboard-header background */
-
-html[data-theme="dark"] .dashboard-header {
-    background-color: #3D475C;
-}
-
-#add-mileage-btn {
-    background-color: #687899;
-    border-color: #687899;
-}
-
+/* Label styling stays basically the same, just slightly lighter */
 .dashboard-header>.draft-label {
-    font-size: 0.9rem;
+    font-size: .75rem;
     font-weight: 600;
     margin: 0;
     text-transform: uppercase;
+    letter-spacing: .04em;
+    opacity: .8;
 }
 
+/* If you still want explicit theme label colours (optional) */
 html[data-theme="dark"] .dashboard-header>.draft-label {
-    color: #E1E5EB;
+    color: var(--pico-contrast);
 }
 
 html[data-theme="light"] .dashboard-header>.draft-label {
-    color: #3D475C;
+    color: var(--pico-contrast);
 }
+
+/* + button: compact to match the new lighter header */
+#add-mileage-btn {
+    padding: .35rem .5rem;
+    min-height: 2rem;
+}
+
 
 .dashboard-body {
     padding: 0;

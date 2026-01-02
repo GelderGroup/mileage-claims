@@ -41,25 +41,6 @@
     /* was .15 */
 }
 
-/* DRAFTS header – light, modern section divider */
-.drafts-header {
-    background: none;
-    /* remove slab */
-    padding: .5rem .75rem .25rem;
-    border-bottom: 1px solid var(--pico-muted-border-color);
-
-    font-size: .75rem;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-}
-
-/* + button inside header */
-.drafts-header a[role="button"],
-.drafts-header button {
-    padding: .35rem .5rem;
-    min-height: 2rem;
-}
-
 .draft-date,
 .draft-miles {
     white-space: nowrap;
