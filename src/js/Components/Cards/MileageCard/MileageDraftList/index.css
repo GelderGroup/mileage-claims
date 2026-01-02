@@ -64,6 +64,10 @@
     flex-wrap: wrap;
     gap: .4rem;
     line-height: 1.25;
+}
+
+.draft-route-start,
+.draft-route-end {
     font-weight: 600;
 }
 
