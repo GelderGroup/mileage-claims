@@ -20,42 +20,31 @@
 }
 
 /* Individual rows */
+/* Card */
 .draft-row {
-    padding: .55rem 0;
-    font-size: .9rem;
-    background-color: var(--pico-background-color);
-    border-top: none;
-    /* don’t rely on dividers */
-}
-
-.draft-row {
-    padding: .55rem 0;
+    padding: .75rem;
+    /* ← THIS is the big visual fix */
     font-size: .9rem;
     background-color: var(--pico-background-color);
     border-radius: var(--pico-border-radius);
     box-shadow: 0 0 0 1px var(--pico-muted-border-color);
 }
 
-/* Add spacing between rows */
+/* Space between cards */
 .draft-row:not(:first-child) {
-    margin-top: .5rem;
+    margin-top: .6rem;
 }
 
-/* Always-visible compact layout */
+/* Let content breathe */
 .draft-main {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: .15rem;
+    gap: .25rem;
+    /* was .15 */
 }
 
 /* Row 1: date left, miles right */
 .draft-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-size: .8rem;
-    opacity: .75;
+    font-size: .75rem;
+    opacity: .65;
 }
 
 .draft-miles {
@@ -84,10 +73,17 @@
     opacity: 1;
 }
 
-/* Compact button styling for Pico anchors-as-buttons */
 .draft-actions a[role="button"].btn-compact {
-    padding: .35rem .6rem;
+    padding: .35rem .7rem;
     font-size: .85rem;
+    min-height: 2.2rem;
+
+    display: inline-flex;
+    /* ← important */
+    align-items: center;
+    /* ← vertical centering */
+    justify-content: center;
+
     line-height: 1;
-    min-height: 2.1rem;
+    /* avoid Pico text drift */
 }
