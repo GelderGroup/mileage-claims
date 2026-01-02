@@ -28,12 +28,17 @@
     /* don’t rely on dividers */
 }
 
-/* Separation between rows (spacing + subtle outline) */
-.draft-row+.draft-row {
-    margin-top: .5rem;
-    padding-top: .55rem;
+.draft-row {
+    padding: .55rem 0;
+    font-size: .9rem;
+    background-color: var(--pico-background-color);
     border-radius: var(--pico-border-radius);
     box-shadow: 0 0 0 1px var(--pico-muted-border-color);
+}
+
+/* Add spacing between rows */
+.draft-row:not(:first-child) {
+    margin-top: .5rem;
 }
 
 /* Always-visible compact layout */
