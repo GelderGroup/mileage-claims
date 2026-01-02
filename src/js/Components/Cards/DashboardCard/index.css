@@ -117,16 +117,18 @@ html[data-theme="dark"] .dashboard-footer {
 
 /* Windows-ish borderless panels (less rounded, visible in light theme) */
 :root {
-    --panel-radius: 8px;
+    --panel-radius: 4px;
     /* was 12px: too round */
 }
 
 /* Give panels a *slightly* different surface in light mode */
 html[data-theme="light"] {
-    --panel-bg: rgba(0, 0, 0, .02);
-    /* subtle surface step */
-    --panel-shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 10px 26px rgba(0, 0, 0, .05);
+    --panel-bg: #f7f8fa;
+    --panel-shadow:
+        0 1px 2px rgba(0, 0, 0, .06),
+        0 10px 26px rgba(0, 0, 0, .06);
 }
+
 
 /* Dark mode stays slightly lifted */
 html[data-theme="dark"] {
