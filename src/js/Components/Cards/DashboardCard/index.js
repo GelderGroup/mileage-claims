@@ -9,7 +9,7 @@ export default class DashboardCard {
         this.userName = document.getElementById("user-name");
         this.vehicleRegLink = document.getElementById("vehicle-reg");
 
-        this.addBtn = el("button#add-mileage-btn.p-2.mb-0", {
+        this.addBtn = el("button#add-mileage-btn.p-1.mb-0", {
             type: "button",
             "aria-label": "Add Mileage Entry",
             hidden: true

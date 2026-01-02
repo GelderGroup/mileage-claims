@@ -43,12 +43,6 @@ html[data-theme="dark"] {
     color: var(--pico-contrast);
 }
 
-/* + button */
-#add-mileage-btn {
-    padding: .25rem;
-    min-height: 2rem;
-}
-
 .dashboard-body {
     padding: 0;
 }
