@@ -123,17 +123,11 @@ html[data-theme="dark"] .dashboard-footer {
 
 /* Give panels a *slightly* different surface in light mode */
 html[data-theme="light"] {
-    --panel-bg: #f4f6f9;
-    --panel-shadow:
-        0 1px 2px rgba(0, 0, 0, .06),
-        0 10px 26px rgba(0, 0, 0, .06);
+    --panel-bg: #eef1f5;
 }
 
-
-/* Dark mode stays slightly lifted */
 html[data-theme="dark"] {
     --panel-bg: rgba(255, 255, 255, .03);
-    --panel-shadow: 0 2px 2px rgba(0, 0, 0, .35), 0 14px 34px rgba(0, 0, 0, .45);
 }
 
 .draft-row {
@@ -141,7 +135,6 @@ html[data-theme="dark"] {
     font-size: .9rem;
     border-radius: var(--panel-radius);
     background: var(--panel-bg);
-    box-shadow: var(--panel-shadow);
 }
 
 .draft-row:not(:first-child) {
