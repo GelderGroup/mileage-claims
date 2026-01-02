@@ -67,6 +67,7 @@ html[data-theme="light"] .dashboard-header>.draft-label {
 .dashboard-footer button {
     width: 100%;
     max-width: 400px;
+    padding: .35rem .7rem;
     margin-bottom: 0;
 }
 
