@@ -9,7 +9,7 @@ main.container {
 
 .appbar {
     position: sticky;
-    top: var(--pico-spacing);
+    top: 0;
     z-index: 10;
 
     display: flex;
@@ -19,11 +19,11 @@ main.container {
 
     padding-left: var(--pico-spacing);
     padding-right: var(--pico-spacing);
+    padding-top: var(--pico-spacing);
     padding-bottom: 0.5rem;
 
     margin-left: calc(var(--pico-spacing) * -1);
     margin-right: calc(var(--pico-spacing) * -1);
-    margin-top: var(--pico-spacing);
 
     background: var(--pico-background-color);
     border-bottom: 1px solid var(--pico-muted-border-color);
