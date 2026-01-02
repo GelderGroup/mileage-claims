@@ -19,20 +19,19 @@
     display: none;
 }
 
-/* Individual rows */
-/* Card */
 .draft-row {
-    padding: .75rem;
-    /* ← THIS is the big visual fix */
+    padding: .85rem;
+    /* a touch more Win11-like */
     font-size: .9rem;
-    background-color: var(--pico-background-color);
-    border-radius: var(--pico-border-radius);
-    box-shadow: 0 0 0 1px var(--pico-muted-border-color);
+    border-radius: var(--panel-radius);
+    background: var(--panel-bg);
+    box-shadow: var(--panel-shadow);
+    /* elevation instead of border */
 }
 
-/* Space between cards */
+/* Space between panels */
 .draft-row:not(:first-child) {
-    margin-top: .6rem;
+    margin-top: .75rem;
 }
 
 /* Let content breathe */

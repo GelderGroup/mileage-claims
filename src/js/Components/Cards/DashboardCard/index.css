@@ -57,14 +57,12 @@ html[data-theme="light"] .dashboard-header>.draft-label {
 }
 
 .dashboard-footer {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 1rem;
-    text-align: center;
-    background: var(--pico-background-color);
-    border-top: 1px solid var(--pico-muted-border-color);
+    border-top: none;
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .06);
+}
+
+html[data-theme="dark"] .dashboard-footer {
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, .06);
 }
 
 .dashboard-footer button {
