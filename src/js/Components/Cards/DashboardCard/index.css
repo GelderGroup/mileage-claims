@@ -1,32 +1,38 @@
+/* ===== Dashboard (merged) ===== */
+
 .dashboard {
     padding: 0;
     padding-bottom: 6rem;
     /* room above fixed footer */
 }
 
-
+/* Sticky section header (DRAFTS) */
 .dashboard-header {
-    /* horizontal row */
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    /* tighter + “section label” feel */
     padding: .5rem var(--pico-spacing) .25rem;
     margin: 0 calc(-1 * var(--pico-spacing));
-    /* full-bleed */
 
-    /* sticky under app header */
     position: sticky;
     top: calc(var(--pico-spacing) + var(--app-header-height));
-    z-index: 5;
+    z-index: 20;
+    /* above cards */
 
-    /* Option 2 look */
-    background: none;
-    /* remove slab */
+    /* IMPORTANT: must be opaque so content doesn't show through */
+    background: var(--dashboard-header-bg);
 }
 
-/* Label styling stays basically the same, just slightly lighter */
+/* Theme-aware header surface (matches app background) */
+html[data-theme="light"] {
+    --dashboard-header-bg: var(--pico-background-color);
+}
+
+html[data-theme="dark"] {
+    --dashboard-header-bg: var(--pico-background-color);
+}
+
 .dashboard-header>.draft-label {
     font-size: .75rem;
     font-weight: 600;
@@ -34,29 +40,33 @@
     text-transform: uppercase;
     letter-spacing: .04em;
     opacity: .8;
-}
-
-/* If you still want explicit theme label colours (optional) */
-html[data-theme="dark"] .dashboard-header>.draft-label {
     color: var(--pico-contrast);
 }
 
-html[data-theme="light"] .dashboard-header>.draft-label {
-    color: var(--pico-contrast);
-}
-
-/* + button: compact to match the new lighter header */
+/* + button */
 #add-mileage-btn {
     padding: .35rem .5rem;
     min-height: 2rem;
 }
 
-
 .dashboard-body {
     padding: 0;
 }
 
+/* Fixed footer restored */
 .dashboard-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    padding: 1rem;
+    text-align: center;
+
+    background: var(--pico-background-color);
+    z-index: 30;
+    /* above everything */
+
     border-top: none;
     box-shadow: 0 -1px 0 rgba(0, 0, 0, .06);
 }
@@ -73,7 +83,7 @@ html[data-theme="dark"] .dashboard-footer {
 }
 
 .dashboard-toast {
-    margin-top: 0.5rem;
+    margin-top: .5rem;
 }
 
 @media (min-width: 600px) {
@@ -82,4 +92,117 @@ html[data-theme="dark"] .dashboard-footer {
         justify-content: space-between;
         align-items: center;
     }
+}
+
+/* ===== Draft list (merged) ===== */
+
+.draft-list {
+    margin-top: .75rem;
+}
+
+.draft-list__items {
+    margin: 0;
+    padding: 0;
+}
+
+.draft-list__empty {
+    padding: .75rem .25rem;
+    font-size: .9rem;
+    opacity: .7;
+}
+
+.draft-list__empty.hidden {
+    display: none;
+}
+
+/* Windows-ish borderless panels (less rounded, visible in light theme) */
+:root {
+    --panel-radius: 8px;
+    /* was 12px: too round */
+}
+
+/* Give panels a *slightly* different surface in light mode */
+html[data-theme="light"] {
+    --panel-bg: rgba(0, 0, 0, .02);
+    /* subtle surface step */
+    --panel-shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 10px 26px rgba(0, 0, 0, .05);
+}
+
+/* Dark mode stays slightly lifted */
+html[data-theme="dark"] {
+    --panel-bg: rgba(255, 255, 255, .03);
+    --panel-shadow: 0 2px 2px rgba(0, 0, 0, .35), 0 14px 34px rgba(0, 0, 0, .45);
+}
+
+.draft-row {
+    padding: .85rem;
+    font-size: .9rem;
+    border-radius: var(--panel-radius);
+    background: var(--panel-bg);
+    box-shadow: var(--panel-shadow);
+}
+
+.draft-row:not(:first-child) {
+    margin-top: .75rem;
+}
+
+.draft-main {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+/* Header row: date left, miles right (keep this!) */
+.draft-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: .75rem;
+    font-size: .8rem;
+    opacity: .75;
+}
+
+.draft-date,
+.draft-miles {
+    white-space: nowrap;
+}
+
+/* Route row */
+.draft-route {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    line-height: 1.25;
+}
+
+.draft-route-start,
+.draft-route-end {
+    font-weight: 600;
+}
+
+.draft-route-arrow {
+    opacity: .7;
+}
+
+/* Actions */
+.draft-actions {
+    margin-top: .4rem;
+    display: flex;
+    gap: .5rem;
+    justify-content: flex-start;
+    opacity: 1;
+}
+
+.draft-actions a[role="button"].btn-compact {
+    padding: .35rem .7rem;
+    font-size: .85rem;
+    min-height: 2.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.draft-actions a.contrast {
+    font-weight: 500;
 }

@@ -1,6 +1,5 @@
 import { list, el } from 'redom';
 import MileageDraftCard from '../MileageDraftCard';
-import './index.css';
 
 export class MileageDraftList {
     constructor() {
