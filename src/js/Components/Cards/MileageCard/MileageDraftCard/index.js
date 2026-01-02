@@ -15,9 +15,9 @@ export default class MileageDraftCard {
                     this.milesEl = el('span.draft-miles')
                 ),
                 this.route = el('.draft-route',
-                    this.startEl = el('span.draft-route-start'),
+                    el('span', 'Start: ', this.startEl = el('span.draft-route-start')),
                     el('span.draft-route-arrow', '→'),
-                    this.endEl = el('span.draft-route-end')
+                    el('span', 'End: ', this.endEl = el('span.draft-route-end'))
                 ),
                 this.actions = el('.draft-actions',
                     this.editAction = el('a.btn-compact', { href: '#', role: 'button' }, 'Edit'),
@@ -60,7 +60,7 @@ export default class MileageDraftCard {
         this.dateEl.textContent = date || '';
         this.milesEl.textContent = distance != null ? `${distance} miles` : 'Miles not set';
 
-        this.startEl.textContent = `Start: ${formatFullLocation(start)}`;
-        this.endEl.textContent = `End: ${formatFullLocation(end)}`;
+        this.startEl.textContent = `${formatFullLocation(start)}`;
+        this.endEl.textContent = `${formatFullLocation(end)}`;
     }
 }

@@ -43,8 +43,15 @@
 
 /* Row 1: date left, miles right */
 .draft-header {
-    font-size: .75rem;
-    opacity: .65;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: .75rem;
+}
+
+.draft-date,
+.draft-miles {
+    white-space: nowrap;
 }
 
 .draft-miles {

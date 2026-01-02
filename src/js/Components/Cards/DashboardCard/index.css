@@ -10,7 +10,7 @@
     align-items: center;
     justify-content: space-between;
 
-    padding: 0.5rem var(--pico-spacing);
+    padding: 0.35rem var(--pico-spacing);
     margin: 0 calc(-1 * var(--pico-spacing));
     /* full-bleed like rows */
 
