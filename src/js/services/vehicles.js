@@ -1,10 +1,8 @@
 import { api } from "../services/api.js";
-import userVehicle from '../../../data/user-vehicle.json' assert { type: `json` };
 
 export const VehiclesApi = {
     // current/active vehicle for the signed-in user
-    // getActive: () => api.get("getUserVehicle").json(),
-    getActive: () => Promise.resolve(userVehicle),
+    getActive: () => api.get("getUserVehicle").json(),
 
     // store/confirm a vehicle from the lookup payload
     // server will map, write latest + history, update plate link + active pointer

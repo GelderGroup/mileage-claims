@@ -1,5 +1,3 @@
-import drafts from '../../../data/drafts.json' assert { type: `json` };
-
 export async function calculateDistance(startPostcode, endPostcode) {
     const res = await fetch('/api/getRouteMiles', {
         method: 'POST',
