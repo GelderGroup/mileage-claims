@@ -41,12 +41,23 @@
     /* was .15 */
 }
 
-/* Row 1: date left, miles right */
-.draft-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: .75rem;
+/* DRAFTS header – light, modern section divider */
+.drafts-header {
+    background: none;
+    /* remove slab */
+    padding: .5rem .75rem .25rem;
+    border-bottom: 1px solid var(--pico-muted-border-color);
+
+    font-size: .75rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+/* + button inside header */
+.drafts-header a[role="button"],
+.drafts-header button {
+    padding: .35rem .5rem;
+    min-height: 2rem;
 }
 
 .draft-date,
@@ -99,8 +110,12 @@
     /* avoid Pico text drift */
 }
 
+.draft-actions a.contrast {
+    font-weight: 500;
+}
+
 @media (prefers-color-scheme: dark) {
     .draft-row {
-        box-shadow: 0 0 0 1px rgba(255, 255, 255, .08);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, .06);
     }
 }
