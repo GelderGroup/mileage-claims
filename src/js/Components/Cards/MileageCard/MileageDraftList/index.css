@@ -68,11 +68,11 @@
     opacity: 0.7;
 }
 
-/* Row 3: actions bottom-right */
 .draft-actions {
-    margin-top: 0.15rem;
+    margin-top: 0.25rem;
     display: flex;
-    justify-content: flex-end;
     gap: 1rem;
+    justify-content: flex-start;
     font-size: 0.85rem;
+    opacity: 0.9;
 }
