@@ -3,6 +3,10 @@
     --app-header-height: 146px;
 }
 
+main {
+    padding-top: 0;
+}
+
 .appbar {
     position: sticky;
     top: var(--pico-spacing);
@@ -15,6 +19,7 @@
 
     padding-left: var(--pico-spacing);
     padding-right: var(--pico-spacing);
+    padding-top: var(--pico-spacing);
     padding-bottom: 0.5rem;
 
     margin-left: calc(var(--pico-spacing) * -1);
