@@ -141,13 +141,15 @@ export default class App {
     handleDeleteDraft = async (e) => {
         const entry = e.detail; console.log("Deleting draft:", entry);
         if (!entry?.id) return;
+
+        if (!confirm("Are you sure you want to delete this draft?")) return;
         try {
             await deleteMileageDraft(entry.id);
             this.dashboardView.showToast("Draft deleted.");
             this.refreshDrafts();
         } catch (err) {
             console.error("Error deleting draft:", err);
-            this.dashboardView.showToast("Couldn’t delete draft. Please try again.");
+            this.dashboardView.showToast("Couldn't delete draft. Please try again.");
         }
     };
 }

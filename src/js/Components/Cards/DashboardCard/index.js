@@ -5,7 +5,7 @@ import { MileageDraftList } from "../MileageCard/MileageDraftList/index.js";
 import "./index.css";
 
 export default class DashboardCard {
-    constructor({ onAddMileage, onChangeVehicle, onEditDraft }) {
+    constructor({ onAddMileage, onChangeVehicle, onEditDraft, onDeleteDraft }) {
         this.userName = document.getElementById("user-name");
         this.vehicleRegLink = document.getElementById("vehicle-reg");
 
@@ -41,6 +41,7 @@ export default class DashboardCard {
         this.onAddMileage = onAddMileage;
         this.onChangeVehicle = onChangeVehicle;
         this.onEditDraft = onEditDraft;
+        this.onDeleteDraft = onDeleteDraft;
     }
 
     update(user, vehicle) {
@@ -76,11 +77,13 @@ export default class DashboardCard {
         this.addBtn.addEventListener("click", this.onAddMileage);
         this.vehicleRegLink.addEventListener("click", this.onChangeVehicle);
         this.el.addEventListener("edit-draft", this.onEditDraft);
+        this.el.addEventListener("delete-draft", this.onDeleteDraft);
     };
 
     onunmount = () => {
         this.addBtn.removeEventListener("click", this.onAddMileage);
         this.vehicleRegLink.removeEventListener("click", this.onChangeVehicle);
         this.el.removeEventListener("edit-draft", this.onEditDraft);
+        this.el.removeEventListener("delete-draft", this.onDeleteDraft);
     };
 }
