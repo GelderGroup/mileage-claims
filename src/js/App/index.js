@@ -139,7 +139,7 @@ export default class App {
     };
 
     handleDeleteDraft = async (e) => {
-        const entry = e.detail; console.log("Deleting draft:", entry);
+        const entry = e.detail;
         if (!entry?.id) return;
 
         if (!confirm("Are you sure you want to delete this draft?")) return;
