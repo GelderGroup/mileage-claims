@@ -1,6 +1,6 @@
 import { el } from 'redom';
 import { getLocationParts } from '../../../../utils/Formatting/formatPostcode';
-import { FilePenLineIcon, TrashIcon } from '../../../../utils/icons';
+import { FilePenLineIcon, MapPin, TrashIcon } from '../../../../utils/icons';
 
 function formatFullLocation(parts) {
     if (parts.name && parts.postcode) return `${parts.name} (${parts.postcode})`;
@@ -15,7 +15,9 @@ export default class MileageDraftCard {
                 this.milesEl = el('span.draft-miles')
             ),
             el('.draft-route',
+                el('span.map-pin-start', MapPin()),
                 this.startEl = el('span.draft-route-start'),
+                el('span.map-pin-end', MapPin()),
                 this.endEl = el('span.draft-route-end'),
             ),
             el('footer.draft-actions',

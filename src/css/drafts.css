@@ -43,18 +43,15 @@ header.draft-header {
 .draft-route-start,
 .draft-route-end {
     font-weight: 400;
-    /* calmer */
+    margin-left: 1rem;
 }
 
-.draft-route-end {
-    opacity: .9;
-    /* subtly secondary */
+.map-pin-start {
+    color: var(--text-success);
 }
 
-/* optional: add a tiny cue without words */
-.draft-route-end::before {
-    content: "→ ";
-    opacity: .6;
+.map-pin-end {
+    color: var(--text-danger);
 }
 
 /* Actions */
