@@ -51,17 +51,18 @@ export const PlusIcon = () => svg('svg.lucide.lucide-plus-icon.lucide-plus', { w
 );
 
 export const FilePenLineIcon = () =>
-    svg('svg.lucide.lucide-plus-icon.lucide-plus', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' },
+    svg('svg.lucide.lucide-file-pen-line-icon.lucide-file-pen-line', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' },
         svg('path', { d: 'm18.226 5.226-2.52-2.52A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-.351' }),
         svg('path', { d: 'M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z' }),
         svg('path', { d: 'M8 18h1' })
     );
 
 export const TrashIcon = () =>
-    svg('svg.lucide.lucide-plus-icon.lucide-plus', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' },
+    svg('svg.lucide.lucide-trash2-icon.lucide-trash-2', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' },
+        svg('path', { d: 'M10 11v6' }),
+        svg('path', { d: 'M14 11v6' }),
+        svg('path', { d: 'M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6' }),
         svg('path', { d: 'M3 6h18' }),
-        svg('path', { d: 'M3 6h18' }),
-        svg('path', { d: 'M3 6h18' }),
-        svg('line', { x1: 10, x2: 10, y1: 11, y2: 17 }),
-        svg('line', { x1: 14, x2: 14, y1: 11, y2: 17 })
-    );   
+        svg('path', { d: 'M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2' })
+    );
+
