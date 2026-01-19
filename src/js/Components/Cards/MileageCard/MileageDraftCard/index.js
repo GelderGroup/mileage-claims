@@ -20,8 +20,12 @@ export default class MileageDraftCard {
                     el('span', 'End: ', this.endEl = el('span.draft-route-end'))
                 ),
                 this.actions = el('.draft-actions',
-                    this.editAction = el('a.btn-compact', { href: '#', role: 'button' }, 'Edit'),
-                    this.deleteAction = el('a.contrast.btn-compact', { href: '#', role: 'button' }, 'Delete')
+                    this.editAction = el('a.action', { title: 'Edit' },
+                        FilePenLineIcon()
+                    ),
+                    this.deleteAction = el('a.action.danger', { title: 'Delete' },
+                        TrashIcon()
+                    )
                 )
             )
         );

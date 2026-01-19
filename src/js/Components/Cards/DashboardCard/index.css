@@ -182,16 +182,30 @@ html[data-theme="dark"] {
     opacity: 1;
 }
 
-.draft-actions a[role="button"].btn-compact {
-    padding: .35rem .7rem;
-    font-size: .85rem;
-    min-height: 2.2rem;
+a.action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    line-height: 1;
+    padding: .35rem 0.5rem;
+    border-radius: .375rem;
+    color: var(--pico-muted-color);
+    text-decoration: none;
+    cursor: pointer;
 }
 
-.draft-actions a.contrast {
-    font-weight: 500;
+/* hover affordance */
+a.action:hover,
+a.action:focus-visible {
+    background: var(--pico-muted-border-color);
+    color: var(--pico-color);
+}
+
+/* danger variant */
+a.action.danger {
+    color: var(--pico-muted-color);
+}
+
+a.action.danger:hover,
+a.action.danger:focus-visible {
+    color: var(--text-danger);
 }
