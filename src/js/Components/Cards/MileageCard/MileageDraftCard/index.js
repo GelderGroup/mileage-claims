@@ -1,5 +1,6 @@
 import { el } from 'redom';
 import { getLocationParts } from '../../../../utils/Formatting/formatPostcode';
+import { FilePenLineIcon, TrashIcon } from '../../../../utils/icons';
 
 function formatFullLocation(parts) {
     if (parts.name && parts.postcode) return `${parts.name} (${parts.postcode})`;
