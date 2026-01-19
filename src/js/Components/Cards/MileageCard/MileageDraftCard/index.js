@@ -9,24 +9,22 @@ function formatFullLocation(parts) {
 
 export default class MileageDraftCard {
     constructor() {
-        this.el = el('.draft-row',
-            this.main = el('.draft-main',
-                this.header = el('.draft-header',
-                    this.dateEl = el('span.draft-date'),
-                    this.milesEl = el('span.draft-miles')
+        this.el = el('article',
+            el('header.draft-header',
+                this.dateEl = el('span.draft-date'),
+                this.milesEl = el('span.draft-miles')
+            ),
+            el('.draft-route',
+                el('span', 'Start: ', this.startEl = el('span.draft-route-start')),
+                el('span.draft-route-arrow', '→'),
+                el('span', 'End: ', this.endEl = el('span.draft-route-end'))
+            ),
+            el('footer.draft-actions',
+                this.editAction = el('a.action.primary', { title: 'Edit' },
+                    FilePenLineIcon()
                 ),
-                this.route = el('.draft-route',
-                    el('span', 'Start: ', this.startEl = el('span.draft-route-start')),
-                    el('span.draft-route-arrow', '→'),
-                    el('span', 'End: ', this.endEl = el('span.draft-route-end'))
-                ),
-                this.actions = el('.draft-actions',
-                    this.editAction = el('a.action.primary', { title: 'Edit' },
-                        FilePenLineIcon()
-                    ),
-                    this.deleteAction = el('a.action.danger', { title: 'Delete' },
-                        TrashIcon()
-                    )
+                this.deleteAction = el('a.action.danger', { title: 'Delete' },
+                    TrashIcon()
                 )
             )
         );
