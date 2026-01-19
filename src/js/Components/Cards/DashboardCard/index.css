@@ -149,6 +149,7 @@ html[data-theme="dark"] {
     gap: .75rem;
     font-size: .8rem;
     opacity: .75;
+    border-bottom: 1px solid var(--pico-muted-border-color);
 }
 
 .draft-date,
@@ -180,6 +181,7 @@ html[data-theme="dark"] {
     gap: .5rem;
     justify-content: flex-start;
     opacity: 1;
+    border-top: 1px solid var(--pico-muted-border-color);
 }
 
 a.action {
@@ -190,7 +192,7 @@ a.action {
     border-radius: .375rem;
     text-decoration: none;
     cursor: pointer;
-    background: var(--pico-muted-border-color);
+    background: var(--pico-secondary-color);
 }
 
 
