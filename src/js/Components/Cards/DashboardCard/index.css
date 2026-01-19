@@ -142,14 +142,13 @@ html[data-theme="dark"] {
 }
 
 /* Header row: date left, miles right (keep this!) */
-.draft-header {
+header.draft-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: .75rem;
     font-size: .8rem;
     opacity: .75;
-    border-bottom: 1px solid var(--pico-muted-border-color);
 }
 
 .draft-date,
@@ -175,13 +174,11 @@ html[data-theme="dark"] {
 }
 
 /* Actions */
-.draft-actions {
-    margin-top: .4rem;
+footer.draft-actions {
     display: flex;
     gap: .5rem;
     justify-content: flex-start;
     opacity: 1;
-    border-top: 1px solid var(--pico-muted-border-color);
 }
 
 a.action {
@@ -192,7 +189,7 @@ a.action {
     border-radius: .375rem;
     text-decoration: none;
     cursor: pointer;
-    background: var(--pico-secondary-color);
+    background: var(--pico-muted-border-color);
 }
 
 
