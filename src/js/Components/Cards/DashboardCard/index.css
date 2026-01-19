@@ -140,29 +140,26 @@ header.draft-header {
 
 /* Route block as two rows, label + value aligned */
 .draft-route {
-    display: grid;
-    grid-template-columns: 3.5rem 1fr;
-    /* tweak label column width */
-    row-gap: .25rem;
-    column-gap: .5rem;
-    line-height: 1.25;
+    font-size: .95rem;
+    /* or 0.9rem if you want it tighter */
 }
 
 .draft-route .label {
-    opacity: .8;
-    white-space: nowrap;
+    font-size: .85rem;
+    opacity: .65;
 }
 
 .draft-route-start,
 .draft-route-end {
-    font-weight: 600;
+    font-weight: 500;
+    /* was 600 */
 }
+
 
 /* Actions */
 footer.draft-actions {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
+    padding-top: .35rem;
+    margin-top: .35rem;
 }
 
 .draft-actions .spacer {
@@ -176,23 +173,20 @@ footer.draft-actions {
 }
 
 a.action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: .4rem .55rem;
-    /* your size is fine for touch */
-    border-radius: .5rem;
-    text-decoration: none;
-    cursor: pointer;
-
-    background: var(--pico-muted-color);
-    /* NOT border color */
+    padding: .3rem .45rem;
+    /* slightly smaller */
+    border-radius: .4rem;
+    background: transparent;
+    /* key change */
     border: 1px solid var(--pico-muted-border-color);
+    opacity: .9;
 }
 
 a.action:hover {
-    filter: brightness(1.05);
+    background: var(--pico-muted-color);
+    /* subtle fill on hover/tap */
 }
+
 
 a.action.danger {
     color: var(--text-danger);
