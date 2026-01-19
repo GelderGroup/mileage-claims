@@ -11,21 +11,19 @@ export default class MileageDraftCard {
     constructor() {
         this.el = el('article',
             el('header.draft-header',
-                this.dateEl = el('span.draft-date'),
-                this.milesEl = el('span.draft-miles')
+                this.dateEl = el('span.draft-date')
             ),
             el('.draft-route',
-                el('span', 'Start: ', this.startEl = el('span.draft-route-start')),
-                el('span.draft-route-arrow', '→'),
-                el('span', 'End: ', this.endEl = el('span.draft-route-end'))
+                el('span.label', 'Start'),
+                this.startEl = el('span.draft-route-start'),
+                el('span.label', 'End'),
+                this.endEl = el('span.draft-route-end'),
             ),
             el('footer.draft-actions',
-                this.editAction = el('a.action.primary', { title: 'Edit' },
-                    FilePenLineIcon()
-                ),
-                this.deleteAction = el('a.action.danger', { title: 'Delete' },
-                    TrashIcon()
-                )
+                this.editAction = el('a.action', { title: 'Edit' }, FilePenLineIcon()),
+                this.deleteAction = el('a.action danger', { title: 'Delete' }, TrashIcon()),
+                el('span.spacer'),
+                this.milesEl = el('span.draft-miles')
             )
         );
     }

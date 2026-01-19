@@ -124,23 +124,6 @@ html[data-theme="dark"] {
     --panel-bg: rgba(255, 255, 255, .03);
 }
 
-.draft-row {
-    padding: .85rem;
-    font-size: .9rem;
-    border-radius: var(--panel-radius);
-    background: var(--panel-bg);
-}
-
-.draft-row:not(:first-child) {
-    margin-top: .75rem;
-}
-
-.draft-main {
-    display: flex;
-    flex-direction: column;
-    gap: .25rem;
-}
-
 /* Header row: date left, miles right (keep this!) */
 header.draft-header {
     display: flex;
@@ -151,17 +134,23 @@ header.draft-header {
     opacity: .75;
 }
 
-.draft-date,
-.draft-miles {
+.draft-date {
     white-space: nowrap;
 }
 
-/* Route row */
+/* Route block as two rows, label + value aligned */
 .draft-route {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .4rem;
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    /* tweak label column width */
+    row-gap: .25rem;
+    column-gap: .5rem;
     line-height: 1.25;
+}
+
+.draft-route .label {
+    opacity: .8;
+    white-space: nowrap;
 }
 
 .draft-route-start,
@@ -169,29 +158,41 @@ header.draft-header {
     font-weight: 600;
 }
 
-.draft-route-arrow {
-    opacity: .7;
-}
-
 /* Actions */
 footer.draft-actions {
     display: flex;
+    align-items: center;
     gap: .5rem;
-    justify-content: flex-start;
-    opacity: 1;
+}
+
+.draft-actions .spacer {
+    margin-left: auto;
+}
+
+.draft-miles {
+    font-size: .8rem;
+    opacity: .75;
+    white-space: nowrap;
 }
 
 a.action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: .35rem 0.5rem;
-    border-radius: .375rem;
+    padding: .4rem .55rem;
+    /* your size is fine for touch */
+    border-radius: .5rem;
     text-decoration: none;
     cursor: pointer;
-    background: var(--pico-muted-border-color);
+
+    background: var(--pico-muted-color);
+    /* NOT border color */
+    border: 1px solid var(--pico-muted-border-color);
 }
 
+a.action:hover {
+    filter: brightness(1.05);
+}
 
 a.action.danger {
     color: var(--text-danger);
