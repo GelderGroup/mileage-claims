@@ -190,21 +190,10 @@ a.action {
     border-radius: .375rem;
     text-decoration: none;
     cursor: pointer;
-}
-
-/* hover affordance */
-a.action:hover,
-a.action:focus-visible {
     background: var(--pico-muted-border-color);
-    color: var(--pico-color);
 }
 
-/* danger variant */
+
 a.action.danger {
-    color: var(--text-danger);
-}
-
-a.action.danger:hover,
-a.action.danger:focus-visible {
     color: var(--text-danger);
 }
