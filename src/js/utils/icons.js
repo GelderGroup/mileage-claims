@@ -62,6 +62,6 @@ export const TrashIcon = () =>
         svg('path', { d: 'M3 6h18' }),
         svg('path', { d: 'M3 6h18' }),
         svg('path', { d: 'M3 6h18' }),
-        el('line', { x1: 10, x2: 10, y1: 11, y2: 17 }),
-        el('line', { x1: 14, x2: 14, y1: 11, y2: 17 })
+        svg('line', { x1: 10, x2: 10, y1: 11, y2: 17 }),
+        svg('line', { x1: 14, x2: 14, y1: 11, y2: 17 })
     );   
