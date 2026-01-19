@@ -31,6 +31,12 @@ header.draft-header {
     white-space: nowrap;
 }
 
+.draft-miles {
+    font-size: .8rem;
+    opacity: .75;
+    white-space: nowrap;
+}
+
 .draft-route {
     display: grid;
     grid-template-columns: 1fr;
@@ -64,35 +70,10 @@ footer.draft-actions {
     margin-top: .35rem;
 }
 
-
-.draft-actions .spacer {
-    margin-left: auto;
-}
-
-.draft-miles {
-    font-size: .8rem;
-    opacity: .75;
-    white-space: nowrap;
-}
-
 a.action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: .25rem .3rem;
     border-radius: .5rem;
-
-    background: none;
-    border: none;
-    opacity: .75;
-}
-
-a.action:active {
-    background: var(--pico-muted-color);
-    /* tap feedback */
-    opacity: 1;
-}
-
-a.action.danger {
-    color: var(--text-danger);
 }

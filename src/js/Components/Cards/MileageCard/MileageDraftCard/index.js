@@ -21,8 +21,8 @@ export default class MileageDraftCard {
                 this.endEl = el('span.draft-route-end'),
             ),
             el('footer.draft-actions',
-                this.editAction = el('a.action', { title: 'Edit' }, FilePenLineIcon()),
-                this.deleteAction = el('a.action danger', { title: 'Delete' }, TrashIcon())
+                this.editAction = el('a.action.secondary', { title: 'Edit' }, FilePenLineIcon()),
+                this.deleteAction = el('a.action.secondary', { title: 'Delete' }, TrashIcon())
             )
         );
     }
