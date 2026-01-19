@@ -188,7 +188,6 @@ a.action {
     justify-content: center;
     padding: .35rem 0.5rem;
     border-radius: .375rem;
-    color: var(--pico-muted-color);
     text-decoration: none;
     cursor: pointer;
 }
@@ -202,7 +201,7 @@ a.action:focus-visible {
 
 /* danger variant */
 a.action.danger {
-    color: var(--pico-muted-color);
+    color: var(--text-danger);
 }
 
 a.action.danger:hover,

@@ -1,6 +1,8 @@
 :root {
     font-family: 'DM Sans', sans-serif;
     --app-header-height: 146px;
+    --text-danger: #c62828;
+    --text-ok: #2e7d32;
 }
 
 main.container {
