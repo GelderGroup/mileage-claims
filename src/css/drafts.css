@@ -39,7 +39,7 @@ header.draft-header {
 
 .draft-route {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1rem 1fr;
     /* <- key change */
     row-gap: .25rem;
     line-height: 1.25;
