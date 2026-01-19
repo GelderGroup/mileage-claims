@@ -53,7 +53,7 @@ header.draft-header {
 }
 
 .map-pin-start {
-    color: var(--text-success);
+    color: var(--text-ok);
 }
 
 .map-pin-end {
