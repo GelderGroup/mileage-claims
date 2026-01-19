@@ -33,25 +33,29 @@ header.draft-header {
 
 .draft-route {
     display: grid;
-    grid-template-columns: 3.5rem 1fr;
-    column-gap: .6rem;
+    grid-template-columns: 1fr;
+    /* <- key change */
     row-gap: .25rem;
     line-height: 1.25;
-
     font-size: .95rem;
-}
-
-
-.draft-route .label {
-    font-size: .85rem;
-    opacity: .65;
 }
 
 .draft-route-start,
 .draft-route-end {
-    font-weight: 500;
+    font-weight: 400;
+    /* calmer */
 }
 
+.draft-route-end {
+    opacity: .9;
+    /* subtly secondary */
+}
+
+/* optional: add a tiny cue without words */
+.draft-route-end::before {
+    content: "→ ";
+    opacity: .6;
+}
 
 /* Actions */
 footer.draft-actions {
@@ -75,20 +79,22 @@ footer.draft-actions {
 }
 
 a.action {
-    padding: .3rem .45rem;
-    /* slightly smaller */
-    border-radius: .4rem;
-    background: transparent;
-    /* key change */
-    border: 1px solid var(--pico-muted-border-color);
-    opacity: .9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .25rem .3rem;
+    border-radius: .5rem;
+
+    background: none;
+    border: none;
+    opacity: .75;
 }
 
-a.action:hover {
+a.action:active {
     background: var(--pico-muted-color);
-    /* subtle fill on hover/tap */
+    /* tap feedback */
+    opacity: 1;
 }
-
 
 a.action.danger {
     color: var(--text-danger);

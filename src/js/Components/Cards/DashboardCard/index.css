@@ -87,18 +87,3 @@ html[data-theme="dark"] .dashboard-footer {
         align-items: center;
     }
 }
-
-/* Windows-ish borderless panels (less rounded, visible in light theme) */
-:root {
-    --panel-radius: 4px;
-    /* was 12px: too round */
-}
-
-/* Give panels a *slightly* different surface in light mode */
-html[data-theme="light"] {
-    --panel-bg: #eef1f5;
-}
-
-html[data-theme="dark"] {
-    --panel-bg: rgba(255, 255, 255, .03);
-}
