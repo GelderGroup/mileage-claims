@@ -61,7 +61,7 @@ export default class BulkSubmitModal {
         this.render();
 
         // mount if you follow that pattern elsewhere
-        if (!this.el.isConnected) mount(document.body, this.el);
+        if (!this.el.isConnected) mount(document.body, this);
 
         this.el.showModal();
     };
