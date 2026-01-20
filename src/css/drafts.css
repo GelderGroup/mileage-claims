@@ -17,6 +17,20 @@
     display: none;
 }
 
+.draft-list__total {
+    margin-top: .5rem;
+    padding-top: .5rem;
+    border-top: 1px solid var(--pico-muted-border-color);
+    font-size: .9rem;
+    opacity: .75;
+    text-align: right;
+}
+
+.draft-list__total.hidden {
+    display: none;
+}
+
+
 /* Header row: date left, miles right (keep this!) */
 header.draft-header {
     display: flex;
