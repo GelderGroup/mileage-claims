@@ -40,17 +40,31 @@ header.draft-header {
 .draft-route {
     display: grid;
     grid-template-columns: 1rem 1fr;
-    /* <- key change */
-    row-gap: .4rem;
+    column-gap: .6rem;
+    /* spacing between pin + text */
+    row-gap: .35rem;
+    align-items: center;
+    /* vertical align pin + text within each row */
     line-height: 1.25;
 }
 
 .draft-route-start,
 .draft-route-end {
+    margin-left: 0;
+    /* remove */
     font-weight: 400;
-    margin-left: 1rem;
-    font-size: .8rem;
+    font-size: .85rem;
+    /* 0.8 is a touch small; up to taste */
 }
+
+.map-pin-start,
+.map-pin-end {
+    display: flex;
+    /* keeps the svg centered in the 1rem cell */
+    align-items: center;
+    justify-content: center;
+}
+
 
 .map-pin-start {
     color: var(--text-ok);
