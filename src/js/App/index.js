@@ -128,15 +128,37 @@ export default class App {
         set({
             id: entry.id,
             date: entry.date,
+
             startPostcode: entry.startPostcode,
             endPostcode: entry.endPostcode,
-            distance: entry.distance
-            // and any override fields, if they exist in the entry
-            // isOverride, overrideDistance, overrideReason
+
+            // effective distance (what user sees initially)
+            distance: entry.distance,
+
+            // calculated distance (drives override availability)
+            distanceCalculated:
+                entry.distanceCalculated != null
+                    ? Number(entry.distanceCalculated)
+                    : null,
+
+            // override state
+            overrideEnabled: !!entry.overrideEnabled,
+
+            distanceOverride:
+                entry.distanceOverride != null
+                    ? Number(entry.distanceOverride)
+                    : null,
+
+            distanceOverrideReason: entry.distanceOverrideReason || '',
+            distanceOverrideDetails: entry.distanceOverrideDetails || '',
+
+            showSummary: false,
+            banner: null
         });
 
         this.entryModal.openForEdit();
     };
+
 
     handleDeleteDraft = async (e) => {
         const entry = e.detail;

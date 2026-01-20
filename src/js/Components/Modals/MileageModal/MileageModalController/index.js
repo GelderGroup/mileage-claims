@@ -16,15 +16,16 @@ export default class MileageModalController {
         root.addEventListener('request-calculate', this.calculate);
         root.addEventListener('request-save-mileage', this.save);
         root.addEventListener('field-input', this.onFieldInput);
+
+        // NEW: wire override toggle from the view
+        root.addEventListener('toggle-override', this.onToggleOverride);
     }
 
     open = ({ reset: doReset = true } = {}) => {
         if (doReset) reset();
 
-        // First paint is explicit and deterministic
         this.view.render(get(), { initial: true });
 
-        // Then react to subsequent changes
         if (!this.unlisten) {
             this.unlisten = mileageStore.listen((s) => {
                 this.view.render(s, { initial: false });
@@ -40,11 +41,6 @@ export default class MileageModalController {
         this.unlisten = null;
     };
 
-    onFieldInput = (e) => {
-        const { name, value } = e.detail;
-        set({ [name]: value, showSummary: false, banner: null });
-    };
-
     // --- helpers
 
     validateAndStore = (stateOverride = null) => {
@@ -57,15 +53,127 @@ export default class MileageModalController {
         return validation;
     };
 
+    resetOverrideState = () => ({
+        overrideEnabled: false,
+        distanceOverride: null,
+        distanceOverrideReason: '',
+        distanceOverrideDetails: ''
+    });
+
+    clearCalculatedState = () => ({
+        distanceCalculated: null,
+        distance: null,
+        ...this.resetOverrideState()
+    });
+
     payloadFromState = (s) => ({
-        id: s.id ?? null,                       // <-- add this
+        id: s.id ?? null,
         date: s.date,
         startPostcode: formatPostcode(s.startPostcode).trim(),
         endPostcode: formatPostcode(s.endPostcode).trim(),
+
+        // effective distance is always `distance`
         distance: Number(s.distance || 0),
+
+        // NEW fields
+        distanceCalculated: s.distanceCalculated == null ? null : Number(s.distanceCalculated),
+        overrideEnabled: !!s.overrideEnabled,
+        distanceOverride: s.distanceOverride == null ? null : Number(s.distanceOverride),
+        distanceOverrideReason: s.distanceOverrideReason ?? '',
+        distanceOverrideDetails: s.distanceOverrideDetails ?? ''
     });
 
-    // --- actions
+    validatePostcodesOnly = (s) => {
+        const all = validateMileageEntry(s);
+
+        const keep = new Set(['startPostcode', 'endPostcode']);
+        const errors = Object.fromEntries(Object.entries(all.errors || {}).filter(([k]) => keep.has(k)));
+        const aria = Object.fromEntries(Object.entries(all.aria || {}).filter(([k]) => keep.has(k)));
+
+        return {
+            ...all,
+            isValid: Object.keys(errors).length === 0,
+            errors,
+            aria,
+            errorList: Object.values(errors)
+        };
+    };
+
+    // --- events / actions
+
+    onFieldInput = (e) => {
+        const { name, value } = e.detail;
+
+        // If either postcode changes AFTER a calculation, invalidate calc + override
+        if (name === 'startPostcode' || name === 'endPostcode') {
+            const s = get();
+            const next = { [name]: value, showSummary: false, banner: null };
+
+            if (s.distanceCalculated != null) {
+                set({ ...next, ...this.clearCalculatedState() });
+                this.validateAndStore();
+                return;
+            }
+
+            set(next);
+            this.validateAndStore();
+            return;
+        }
+
+        // Override field edits: keep effective `distance` in sync when override is enabled
+        if (name === 'distanceOverride') {
+            const s = get();
+            const miles = value === '' ? null : Number(value);
+
+            set({
+                [name]: value,
+                ...(s.overrideEnabled ? { distance: miles } : null),
+                showSummary: false,
+                banner: null
+            });
+
+            this.validateAndStore();
+            return;
+        }
+
+        set({ [name]: value, showSummary: false, banner: null });
+        this.validateAndStore();
+    };
+
+    onToggleOverride = (e) => {
+        const { checked } = e.detail;
+        const s = get();
+
+        // Guard: only allow enabling if we have a calculated value
+        if (checked && s.distanceCalculated == null) {
+            set({ banner: 'Please calculate mileage before overriding.', overrideEnabled: false });
+            return;
+        }
+
+        if (!checked) {
+            // Turning off override restores the calculated miles as effective distance
+            set({
+                overrideEnabled: false,
+                distance: s.distanceCalculated,
+                ...this.resetOverrideState(),
+                showSummary: false,
+                banner: null
+            });
+            this.validateAndStore();
+            return;
+        }
+
+        // Turning on override: default override miles to calculated to reduce typing
+        set({
+            overrideEnabled: true,
+            distanceOverride: s.distanceOverride ?? s.distanceCalculated,
+            distance: s.distanceOverride ?? s.distanceCalculated,
+            banner: null,
+            showSummary: false
+        });
+
+        this.validateAndStore();
+    };
 
     useLocation = async (e) => {
         if (get().geoBusy) return;
@@ -77,9 +185,18 @@ export default class MileageModalController {
             const target = e.detail.component;
 
             if (target === this.view.startPostcodeInput) {
-                set({ startPostcode: pc });
+                // location change should invalidate calculation/override if it existed
+                const s = get();
+                set({
+                    startPostcode: pc,
+                    ...(s.distanceCalculated != null ? this.clearCalculatedState() : null)
+                });
             } else if (target === this.view.endPostcodeInput) {
-                set({ endPostcode: pc });
+                const s = get();
+                set({
+                    endPostcode: pc,
+                    ...(s.distanceCalculated != null ? this.clearCalculatedState() : null)
+                });
             }
 
             this.validateAndStore();
@@ -96,25 +213,11 @@ export default class MileageModalController {
         set({ banner: null, showSummary: false });
 
         const s = get();
-        const all = validateMileageEntry(s);
-
-        // keep only postcode errors/aria for calculate
-        const keep = new Set(['startPostcode', 'endPostcode']);
-        const errors = Object.fromEntries(Object.entries(all.errors || {}).filter(([k]) => keep.has(k)));
-        const aria = Object.fromEntries(Object.entries(all.aria || {}).filter(([k]) => keep.has(k)));
-
-        const v = {
-            ...all,
-            isValid: Object.keys(errors).length === 0,
-            errors,
-            aria,
-            errorList: Object.values(errors)
-        };
-
+        const v = this.validatePostcodesOnly(s);
         set({ validation: v });
 
         if (!v.isValid) {
-            set({ showSummary: true }); // option B
+            set({ showSummary: true });
             this.view.focusFirstInvalid?.(
                 [['startPostcode', this.view.startPostcodeInput], ['endPostcode', this.view.endPostcodeInput]],
                 v.aria
@@ -131,7 +234,9 @@ export default class MileageModalController {
             const milesNum = Number(miles) || 0;
 
             set({
+                distanceCalculated: milesNum,
                 distance: milesNum,
+                ...this.resetOverrideState(),
                 banner: null,
                 showSummary: false
             });
@@ -144,15 +249,12 @@ export default class MileageModalController {
         }
     };
 
-
     save = async () => {
         const s = get();
         if (s.busy) return;
 
-        // validate + show summary
         const v = this.validateAndStore(s);
         set({ showSummary: true });
-
         if (!v.isValid) return;
 
         const payload = this.payloadFromState(get());

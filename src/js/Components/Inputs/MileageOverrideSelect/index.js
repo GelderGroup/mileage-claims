@@ -2,13 +2,13 @@ import { el } from "redom";
 
 export default class MileageOverrideSelect {
     constructor() {
-        this.el = el('select', { name: 'override-reason', 'aria-label': 'Select reason for override...' },
+        this.el = el('select', { name: 'distanceOverrideReason', 'aria-label': 'Select reason for override...' },
             el('option', { value: '', selected: true, disabled: true }, 'Select reason for override...'),
             el('option', 'Quicker alternative route'),
             el('option', 'Road Closed/Accident'),
             el('option', 'Avoiding heavy traffic'),
             el('option', 'Unsuitable road for vehicle'),
-            el('option', 'Other - please specify')
+            el('option', 'Other')
         );
     }
 

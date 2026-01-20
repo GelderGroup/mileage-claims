@@ -9,10 +9,17 @@ export default class MileageModalView {
         this.dateInput = new DateInput({ name: 'date' });
         this.startPostcodeInput = new PostcodeInput({ name: 'startPostcode' });
         this.endPostcodeInput = new PostcodeInput({ name: 'endPostcode' });
-        this.mileageInput = new MileageInput();
-        this.overrideMileageCheckbox = el('input', { type: 'checkbox', name: 'override-mileage' });
-        this.overrideMileageCheckboxContainer = el('label.d-none', this.overrideMileageCheckbox, ' Override Mileage');
-        this.mileageOverride = new MileageOverride();
+        this.mileageInput = new MileageInput({ name: 'distance' });
+
+        // Override UI
+        this.overrideMileageCheckbox = el('input', { type: 'checkbox', name: 'overrideEnabled' });
+        this.overrideMileageCheckboxContainer = el(
+            'label.d-none',
+            this.overrideMileageCheckbox,
+            ' Override calculated miles'
+        );
+
+        this.mileageOverride = new MileageOverride(); // dispatches 'field-input' itself
         this.errorSummary = new ValidationSummary();
 
         this.fields = {
@@ -29,21 +36,28 @@ export default class MileageModalView {
         this.el = this.buildDialogEl();
     }
 
-    buildDialogEl = () => el('dialog',
-        el('article',
-            el('header', this.closeBtn, this.titleElement = el('p', el('strong', 'Add Mileage Entry'))),
-            this.content = el('.modal-content',
-                el('label', { for: this.dateInput.input.id }, 'Date of travel', this.dateInput),
-                el('label', { for: this.startPostcodeInput.input.id }, 'Start Location', this.startPostcodeInput),
-                el('label', { for: this.endPostcodeInput.input.id }, 'End Location', this.endPostcodeInput),
-                el('label', { for: this.mileageInput.input.id }, 'Calculated Miles', this.mileageInput),
-                this.overrideMileageCheckboxContainer,
-                this.mileageOverride,
-                this.errorSummary.el
-            ),
-            el('footer', this.cancelBtn, this.saveBtn)
-        )
-    );
+    buildDialogEl = () =>
+        el(
+            'dialog',
+            el(
+                'article',
+                el('header', this.closeBtn, (this.titleElement = el('p', el('strong', 'Add Mileage Entry')))),
+                (this.content = el(
+                    '.modal-content',
+                    el('label', { for: this.dateInput.input.id }, 'Date of travel', this.dateInput),
+                    el('label', { for: this.startPostcodeInput.input.id }, 'Start Location', this.startPostcodeInput),
+                    el('label', { for: this.endPostcodeInput.input.id }, 'End Location', this.endPostcodeInput),
+
+                    // This displays effective miles (distance)
+                    el('label', { for: this.mileageInput.input.id }, 'Miles', this.mileageInput),
+
+                    this.overrideMileageCheckboxContainer,
+                    this.mileageOverride,
+                    this.errorSummary.el
+                )),
+                el('footer', this.cancelBtn, this.saveBtn)
+            )
+        );
 
     onmount = () => {
         this.addCoreListeners();
@@ -57,25 +71,34 @@ export default class MileageModalView {
         this.el.addEventListener('uselocation', this.handleUseLocation);
         this.el.addEventListener('calculate', this.handleCalculate);
 
+        // NEW: MileageOverride now re-dispatches 'field-input' itself
+        this.el.addEventListener('field-input', this.handleFieldInputEvent);
+
         this.closeBtn.addEventListener('click', this.handleClose);
         this.cancelBtn.addEventListener('click', this.handleCancel);
         this.saveBtn.addEventListener('click', this.handleSave);
 
         this.overrideMileageCheckbox.addEventListener('change', this.handleOverrideToggle);
 
-        this.dateInput.addEventListener('input', this.handleFieldInput);
-        this.dateInput.addEventListener('change', this.handleFieldInput);
+        // Core fields still emit native input/change; forward them
+        this.dateInput.addEventListener('input', this.handleNativeFieldInput);
+        this.dateInput.addEventListener('change', this.handleNativeFieldInput);
 
-        this.startPostcodeInput.addEventListener('input', this.handleFieldInput);
-        this.startPostcodeInput.addEventListener('change', this.handleFieldInput);
+        this.startPostcodeInput.addEventListener('input', this.handleNativeFieldInput);
+        this.startPostcodeInput.addEventListener('change', this.handleNativeFieldInput);
 
-        this.endPostcodeInput.addEventListener('input', this.handleFieldInput);
-        this.endPostcodeInput.addEventListener('change', this.handleFieldInput);
+        this.endPostcodeInput.addEventListener('input', this.handleNativeFieldInput);
+        this.endPostcodeInput.addEventListener('change', this.handleNativeFieldInput);
+
+        this.mileageInput.addEventListener?.('input', this.handleNativeFieldInput);
+        this.mileageInput.addEventListener?.('change', this.handleNativeFieldInput);
     };
 
     removeCoreListeners = () => {
         this.el.removeEventListener('uselocation', this.handleUseLocation);
         this.el.removeEventListener('calculate', this.handleCalculate);
+
+        this.el.removeEventListener('field-input', this.handleFieldInputEvent);
 
         this.closeBtn.removeEventListener('click', this.handleClose);
         this.cancelBtn.removeEventListener('click', this.handleCancel);
@@ -83,14 +106,17 @@ export default class MileageModalView {
 
         this.overrideMileageCheckbox.removeEventListener('change', this.handleOverrideToggle);
 
-        this.dateInput.removeEventListener('input', this.handleFieldInput);
-        this.dateInput.removeEventListener('change', this.handleFieldInput);
+        this.dateInput.removeEventListener('input', this.handleNativeFieldInput);
+        this.dateInput.removeEventListener('change', this.handleNativeFieldInput);
 
-        this.startPostcodeInput.removeEventListener('input', this.handleFieldInput);
-        this.startPostcodeInput.removeEventListener('change', this.handleFieldInput);
+        this.startPostcodeInput.removeEventListener('input', this.handleNativeFieldInput);
+        this.startPostcodeInput.removeEventListener('change', this.handleNativeFieldInput);
 
-        this.endPostcodeInput.removeEventListener('input', this.handleFieldInput);
-        this.endPostcodeInput.removeEventListener('change', this.handleFieldInput);
+        this.endPostcodeInput.removeEventListener('input', this.handleNativeFieldInput);
+        this.endPostcodeInput.removeEventListener('change', this.handleNativeFieldInput);
+
+        this.mileageInput.removeEventListener?.('input', this.handleNativeFieldInput);
+        this.mileageInput.removeEventListener?.('change', this.handleNativeFieldInput);
     };
 
     open() {
@@ -102,19 +128,13 @@ export default class MileageModalView {
                 (typeof window !== 'undefined' && 'ontouchstart' in window) ||
                 (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0);
 
-            if (!isTouch) {
-                // desktop / laptop → ok to focus date input
-                this.dateInput.focus();
-            } else {
-                // mobile → just focus the dialog or close button to avoid auto picker
-                this.closeBtn.focus();
-            }
+            if (!isTouch) this.dateInput.focus();
+            else this.closeBtn.focus();
         });
     }
 
     close() {
         if (this.el.open) this.el.close();
-        // don’t unmount here; let the parent decide lifecycle
     }
 
     render = (state, { initial = false } = {}) => {
@@ -123,10 +143,26 @@ export default class MileageModalView {
             syncInput(comp, state[key], { allowWhileFocused: initial });
         }
 
+        // Override checkbox visibility: only show if calculation has happened
+        const hasCalculated = state.distanceCalculated != null;
+        this.overrideMileageCheckboxContainer.classList.toggle('d-none', !hasCalculated);
+
+        // Reflect checkbox state
+        this.overrideMileageCheckbox.checked = !!state.overrideEnabled;
+
+        // Show/hide override fields
+        this.mileageOverride.visible = !!state.overrideEnabled;
+
+        // Sync override values
+        this.mileageOverride.update(state, { allowWhileFocused: initial });
+
         // flags
         this.setBusy(state.busy);
         this.setCalcBusy(state.calcBusy);
         this.setGeoBusy(state.geoBusy);
+
+        // Disable override toggle while calculating/geocoding
+        this.overrideMileageCheckbox.disabled = !!state.calcBusy || !!state.geoBusy || !hasCalculated;
 
         // validity + summary
         this.applyValidity(state);
@@ -137,18 +173,21 @@ export default class MileageModalView {
     };
 
     setGeoBusy(b) {
-        // disable inputs while geocoding
         this.startPostcodeInput.disabled = b;
         this.endPostcodeInput.disabled = b;
 
-        // show spinner on the "Use my location" buttons (if you have them)
         this.startPostcodeInput.setGeoBusy?.(b);
         this.endPostcodeInput.setGeoBusy?.(b);
     }
 
+    setBusy(b) {
+        this.saveBtn.disabled = b;
+        this.saveBtn.textContent = b ? 'Saving…' : 'Save Entry';
+    }
 
-    setBusy(b) { this.saveBtn.disabled = b; this.saveBtn.textContent = b ? 'Saving…' : 'Save Entry'; }
-    setCalcBusy(b) { this.mileageInput.calculateBtn.disabled = b; }
+    setCalcBusy(b) {
+        this.mileageInput.calculateBtn.disabled = b;
+    }
 
     applyValidity = (state) => {
         const aria = state.validation?.aria || {};
@@ -156,7 +195,7 @@ export default class MileageModalView {
 
         for (const [key, c] of Object.entries(this.fields)) {
             const invalid = !!aria[key];
-            if (!show) c.resetValidity?.();                 // don’t show invalid styling yet
+            if (!show) c.resetValidity?.();
             else if (invalid) c.setValidity?.({ invalid: true });
             else c.resetValidity?.();
         }
@@ -164,24 +203,40 @@ export default class MileageModalView {
 
     handleUseLocation = (e) => this.dispatch('request-use-location', { component: e.detail.component });
     handleCalculate = () => this.dispatch('request-calculate');
+
     handleOverrideToggle = (e) => this.dispatch('toggle-override', { checked: e.target.checked });
+
     handleClose = () => this.dispatch('request-close');
     handleCancel = () => this.dispatch('request-cancel');
     handleSave = () => this.dispatch('request-save-mileage');
 
-    handleFieldInput = (e) => {
+    // For native DOM input/change events from Date/Postcode/Mileage inputs
+    handleNativeFieldInput = (e) => {
         const name = e.target?.name;
         if (!name) return;
         this.dispatch('field-input', { name, value: e.target.value });
     };
 
-    dispatch(name, detail = {}) { this.el.dispatchEvent(new CustomEvent(name, { bubbles: true, detail })); }
+    // For re-dispatched field-input events coming from MileageOverride (or anything else)
+    handleFieldInputEvent = (e) => {
+        // prevent loops if you ever re-dispatch the same event again
+        e.stopPropagation?.();
+        this.dispatch('field-input', e.detail);
+    };
 
-    // view helpers unchanged
+    dispatch(name, detail = {}) {
+        this.el.dispatchEvent(new CustomEvent(name, { bubbles: true, detail }));
+    }
 
-    showErrors(msgs) { this.errorSummary.show(msgs); }
-    showError(msg) { this.errorSummary.showSingle(msg); }
-    clearErrors() { this.errorSummary.clear(); }
+    showErrors(msgs) {
+        this.errorSummary.show(msgs);
+    }
+    showError(msg) {
+        this.errorSummary.showSingle(msg);
+    }
+    clearErrors() {
+        this.errorSummary.clear();
+    }
 
     focusFirstInvalid(order, aria) {
         const first = order.find(([k]) => aria[k]);

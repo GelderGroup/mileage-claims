@@ -16,17 +16,27 @@ export default async function getMileageDrafts(context, req) {
 
         const query = {
             query: `
-        SELECT c.id, c.date, c.startLabel, c.endLabel,
-               c.startPostcode, c.endPostcode,
-               c.distance, c.status, c.createdAt
+        SELECT
+          c.id,
+          c.date,
+          c.startLabel,
+          c.endLabel,
+          c.startPostcode,
+          c.endPostcode,
+          c.distance,
+          c.distanceCalculated,
+          c.overrideEnabled,
+          c.distanceOverride,
+          c.distanceOverrideReason,
+          c.distanceOverrideDetails,
+          c.status,
+          c.createdAt
         FROM c
         WHERE c.userId = @userId
           AND c.status = 'draft'
         ORDER BY c.createdAt DESC
       `,
-            parameters: [
-                { name: "@userId", value: user.email }
-            ]
+            parameters: [{ name: "@userId", value: user.email }]
         };
 
         const { resources } = await entries.items.query(query).fetchAll();

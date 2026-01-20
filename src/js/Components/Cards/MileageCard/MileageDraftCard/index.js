@@ -52,15 +52,43 @@ export default class MileageDraftCard {
     update(entry) {
         this.entry = entry;
 
-        const { date, startLabel, endLabel, startPostcode, endPostcode, distance } = entry;
+        const {
+            date,
+            startLabel,
+            endLabel,
+            startPostcode,
+            endPostcode,
+            distance,
+            overrideEnabled
+        } = entry;
 
+        // ---- effective miles (already computed elsewhere)
+        const effectiveMiles = distance != null ? Number(distance) : null;
+
+        // ---- format miles for display (single responsibility: presentation)
+        let milesText = 'Miles not set';
+        if (effectiveMiles != null && effectiveMiles > 0) {
+            milesText = Number.isInteger(effectiveMiles)
+                ? `${effectiveMiles} miles`
+                : `${effectiveMiles.toFixed(1)} miles`;
+        }
+
+        // ---- resolve locations
         const start = getLocationParts(startLabel, startPostcode);
         const end = getLocationParts(endLabel, endPostcode);
 
+        // ---- render
         this.dateEl.textContent = date || '';
-        this.milesEl.textContent = distance != null ? `${distance} miles` : 'Miles not set';
+        this.milesEl.textContent = overrideEnabled
+            ? `${milesText} (override)`
+            : milesText;
 
-        this.startEl.textContent = `${formatFullLocation(start)}`;
-        this.endEl.textContent = `${formatFullLocation(end)}`;
+        this.milesEl.title = overrideEnabled
+            ? 'Mileage has been overridden'
+            : '';
+
+        this.startEl.textContent = formatFullLocation(start);
+        this.endEl.textContent = formatFullLocation(end);
     }
+
 }
