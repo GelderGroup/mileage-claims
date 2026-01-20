@@ -41,7 +41,7 @@ header.draft-header {
     display: grid;
     grid-template-columns: 1rem 1fr;
     /* <- key change */
-    row-gap: .25rem;
+    row-gap: .4rem;
     line-height: 1.25;
 }
 
@@ -49,7 +49,7 @@ header.draft-header {
 .draft-route-end {
     font-weight: 400;
     margin-left: 1rem;
-    font-size: 0.9rem;
+    font-size: .8rem;
 }
 
 .map-pin-start {
@@ -64,8 +64,7 @@ header.draft-header {
 footer.draft-actions {
     display: flex;
     align-items: center;
-    gap: .5rem;
-
+    gap: .75rem;
     padding-top: .35rem;
     margin-top: .35rem;
 }
