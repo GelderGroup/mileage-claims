@@ -16,6 +16,7 @@ import { getMileageDrafts, deleteMileageDraft } from "../services/mileageService
 
 import "@picocss/pico/css/pico.min.css";
 import { set } from "../stores/mileageStore.js";
+import BulkSubmitModal from "../Components/Modals/BulkSubmitModal/index.js";
 
 export default class App {
     constructor() {
@@ -38,8 +39,11 @@ export default class App {
             onAddMileage: () => this.entryModal.open(),
             onEditDraft: this.handleEditDraft,
             onDeleteDraft: this.handleDeleteDraft,
-            onChangeVehicle: this.handleChangeVehicle
+            onChangeVehicle: this.handleChangeVehicle,
+            onSubmitAllDrafts: this.handleSubmitDrafts
         });
+
+        this.bulkSubmitModal = new BulkSubmitModal(this.handleBulkConfirm);
     }
 
     handleChangeVehicle = (e) => {
@@ -174,4 +178,28 @@ export default class App {
             this.dashboardView.showToast("Couldn't delete draft. Please try again.");
         }
     };
+
+    handleSubmitDrafts = async () => {
+        const drafts = await getMileageDrafts();
+        if (drafts.length === 0) {
+            this.dashboardView.showToast("No drafts to submit.");
+            return;
+        }
+        this.bulkSubmitModal.open(drafts);
+    };
+
+    handleBulkConfirm = async ({ ids }) => {
+        this.bulkSubmitModal.setBusy(true);
+        try {
+            await VehiclesApi.submitAllDrafts({ ids });
+            this.bulkSubmitModal.close();
+            this.dashboardView.showToast("Mileage drafts submitted successfully.");
+            await this.refreshDrafts();
+        } catch (err) {
+            console.error("Error submitting drafts:", err);
+            this.bulkSubmitModal.setBusy(false);
+            this.dashboardView.showToast("Couldn't submit drafts. Please try again.");
+        }
+    };
+
 }

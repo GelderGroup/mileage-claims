@@ -5,7 +5,7 @@ import { MileageDraftList } from "../MileageCard/MileageDraftList/index.js";
 import "./index.css";
 
 export default class DashboardCard {
-    constructor({ onAddMileage, onChangeVehicle, onEditDraft, onDeleteDraft }) {
+    constructor({ onAddMileage, onChangeVehicle, onEditDraft, onDeleteDraft, onSubmitAllDrafts }) {
         this.userName = document.getElementById("user-name");
         this.vehicleRegLink = document.getElementById("vehicle-reg");
 
@@ -42,6 +42,7 @@ export default class DashboardCard {
         this.onChangeVehicle = onChangeVehicle;
         this.onEditDraft = onEditDraft;
         this.onDeleteDraft = onDeleteDraft;
+        this.onSubmitAllDrafts = onSubmitAllDrafts;
     }
 
     update(user, vehicle) {
@@ -78,6 +79,7 @@ export default class DashboardCard {
         this.vehicleRegLink.addEventListener("click", this.onChangeVehicle);
         this.el.addEventListener("edit-draft", this.onEditDraft);
         this.el.addEventListener("delete-draft", this.onDeleteDraft);
+        this.submitBtn.addEventListener("click", this.onSubmitAllDrafts);
     };
 
     onunmount = () => {
@@ -85,5 +87,8 @@ export default class DashboardCard {
         this.vehicleRegLink.removeEventListener("click", this.onChangeVehicle);
         this.el.removeEventListener("edit-draft", this.onEditDraft);
         this.el.removeEventListener("delete-draft", this.onDeleteDraft);
+        this.submitBtn.removeEventListener("click", this.onSubmitAllDrafts);
     };
 }
+
+

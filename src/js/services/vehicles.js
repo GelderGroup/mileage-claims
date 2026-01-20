@@ -9,5 +9,7 @@ export const VehiclesApi = {
     confirmFromLookup: (raw) => api.post("saveUserVehicle", { json: { raw } }).json(),
 
     // (optional) list all vehicles for user if you add that endpoint later
-    list: () => api.get("listUserVehicles").json()
+    list: () => api.get("listUserVehicles").json(),
+    submitAllDrafts: ({ ids }) => api.post("submitAllDrafts", { json: { ids } }).json()
+
 };
