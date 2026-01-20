@@ -71,9 +71,6 @@ export default class MileageModalView {
         this.el.addEventListener('uselocation', this.handleUseLocation);
         this.el.addEventListener('calculate', this.handleCalculate);
 
-        // NEW: MileageOverride now re-dispatches 'field-input' itself
-        this.el.addEventListener('field-input', this.handleFieldInputEvent);
-
         this.closeBtn.addEventListener('click', this.handleClose);
         this.cancelBtn.addEventListener('click', this.handleCancel);
         this.saveBtn.addEventListener('click', this.handleSave);
@@ -97,8 +94,6 @@ export default class MileageModalView {
     removeCoreListeners = () => {
         this.el.removeEventListener('uselocation', this.handleUseLocation);
         this.el.removeEventListener('calculate', this.handleCalculate);
-
-        this.el.removeEventListener('field-input', this.handleFieldInputEvent);
 
         this.closeBtn.removeEventListener('click', this.handleClose);
         this.cancelBtn.removeEventListener('click', this.handleCancel);
@@ -215,13 +210,6 @@ export default class MileageModalView {
         const name = e.target?.name;
         if (!name) return;
         this.dispatch('field-input', { name, value: e.target.value });
-    };
-
-    // For re-dispatched field-input events coming from MileageOverride (or anything else)
-    handleFieldInputEvent = (e) => {
-        // prevent loops if you ever re-dispatch the same event again
-        e.stopPropagation?.();
-        this.dispatch('field-input', e.detail);
     };
 
     dispatch(name, detail = {}) {
