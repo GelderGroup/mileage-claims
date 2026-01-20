@@ -94,17 +94,28 @@ a.action {
     height: 2.25rem;
     border-radius: .6rem;
 
-    background: var(--pico-muted-color);
+    background: transparent;
     border: 1px solid var(--pico-muted-border-color);
     color: var(--pico-muted-foreground-color);
 
     cursor: pointer;
-    transition: background .15s ease, transform .05s ease;
 }
 
+/* Light theme */
+[data-theme="light"] a.action {
+    background: rgba(0, 0, 0, .04);
+}
 
+/* Dark theme */
+[data-theme="dark"] a.action {
+    background: rgba(255, 255, 255, .04);
+}
+
+/* Press feedback (mobile-first) */
 a.action:active {
-    background: var(--pico-primary-background);
-    color: var(--pico-primary-inverse);
-    transform: scale(.96);
+    background: rgba(0, 0, 0, .08);
+}
+
+[data-theme="dark"] a.action:active {
+    background: rgba(255, 255, 255, .08);
 }
