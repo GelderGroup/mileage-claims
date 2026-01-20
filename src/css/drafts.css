@@ -92,22 +92,19 @@ a.action {
 
     width: 2.25rem;
     height: 2.25rem;
-    /* consistent touch target */
-    padding: 0;
     border-radius: .6rem;
 
-    background: rgba(255, 255, 255, .04);
-    /* swap for rgba(0,0,0,.04) in light if needed */
-    border: 1px solid rgba(255, 255, 255, .06);
-    color: var(--pico-muted-color);
+    background: var(--pico-muted-color);
+    border: 1px solid var(--pico-muted-border-color);
+    color: var(--pico-muted-foreground-color);
+
+    cursor: pointer;
+    transition: background .15s ease, transform .05s ease;
 }
+
 
 a.action:active {
-    background: rgba(255, 255, 255, .08);
-}
-
-a.action.danger {
-    color: var(--text-danger);
-    background: rgba(255, 0, 0, .06);
-    border-color: rgba(255, 0, 0, .12);
+    background: var(--pico-primary-background);
+    color: var(--pico-primary-inverse);
+    transform: scale(.96);
 }
