@@ -18,13 +18,15 @@
 }
 
 .draft-list__total {
-    margin-top: .5rem;
-    padding-top: .5rem;
+    position: sticky;
+    bottom: var(--app-footer-height);
+    z-index: 2;
+
+    background: var(--pico-background-color);
+    padding: .5rem 0;
     border-top: 1px solid var(--pico-muted-border-color);
-    font-size: .9rem;
-    opacity: .75;
-    text-align: right;
 }
+
 
 .draft-list__total.hidden {
     display: none;
