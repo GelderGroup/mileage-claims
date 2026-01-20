@@ -27,6 +27,7 @@ export default class DashboardCard {
         });
 
         this.draftsView = new MileageDraftList();
+        this.totalEl = el('.drafts-total');
 
         this.el = el("section.dashboard",
             el("header.dashboard-header",
@@ -34,7 +35,10 @@ export default class DashboardCard {
                 this.addBtn
             ),
             el("div.dashboard-body", this.draftsView),
-            el("footer.dashboard-footer", this.submitBtn),
+            el("footer.dashboard-footer",
+                this.totalEl,
+                this.submitBtn
+            ),
             this.alert
         );
 
@@ -55,6 +59,10 @@ export default class DashboardCard {
     }
 
     updateDrafts = (drafts) => {
+        const total = (drafts || []).reduce((acc, d) => acc + (Number(d.distance) || 0), 0);
+        const totalFmt = Number.isInteger(total) ? String(total) : total.toFixed(1);
+
+        this.totalEl.textContent = drafts.length ? `${totalFmt} miles total` : '';
         this.submitBtn.disabled = drafts.length === 0;
         this.draftsView.update(drafts);
     };
