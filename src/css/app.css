@@ -47,31 +47,32 @@ main.container {
 .appbar-top {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: stretch;
+    /* key change */
     gap: 1rem;
 }
 
-/* right side: toggle top, identity bottom */
 .appbar-right {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    /* remove height:100% */
 }
 
-/* theme toggle pinned to top */
 #theme-btn {
-    align-self: flex-end;
-    margin-bottom: auto;
-    /* pushes identity down */
     border: none;
+    margin-top: 0;
+    margin-bottom: auto;
+    /* stays at top */
 }
 
-/* name + reg stack, left-aligned with each other */
+/* bottom of the right column */
 .identity {
+    margin-top: auto;
+    /* stays at bottom */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    /* left-align name + reg */
     font-size: 0.85rem;
     line-height: 1.2;
     text-align: left;
