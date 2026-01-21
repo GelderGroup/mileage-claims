@@ -6,7 +6,6 @@ import "./index.css";
 
 export default class DashboardCard {
     constructor({ onAddMileage, onChangeVehicle, onEditDraft, onDeleteDraft, onSubmitAllDrafts }) {
-        // this.userName = document.getElementById("user-name");
         this.vehicleRegLink = document.getElementById("vehicle-reg");
 
         this.addBtn = el("button#add-mileage-btn.p-1.mb-0", {
@@ -49,16 +48,13 @@ export default class DashboardCard {
         this.onSubmitAllDrafts = onSubmitAllDrafts;
     }
 
-    update(user, vehicle) {
-        // this.userName.textContent = user.name;
-        this.vehicleRegLink.textContent = vehicle.registration;
-
+    reset() {
         this.addBtn.hidden = false;
         this.submitBtn.hidden = false;
         this.draftsView.el.hidden = false;
     }
 
-    updateDrafts = (drafts) => {
+    update = (drafts) => {
         const total = (drafts || []).reduce((acc, d) => acc + (Number(d.distance) || 0), 0);
         const totalFmt = Number.isInteger(total) ? String(total) : total.toFixed(1);
 
@@ -67,10 +63,7 @@ export default class DashboardCard {
         this.draftsView.update(drafts);
     };
 
-    showNeedsVehicle(name) {
-        // this.userName.textContent = `Welcome, ${name}!`;
-        this.vehicleRegLink.textContent = " Register Vehicle";
-
+    showNeedsVehicle() {
         this.addBtn.hidden = true;
         this.submitBtn.hidden = true;
         this.draftsView.el.hidden = true;
