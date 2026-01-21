@@ -17,13 +17,13 @@ function initializeTheme() {
         html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
         localStorage.setItem('ts-theme', html.dataset.theme);
         setThemeIcon();
-        setFavicon();
+        // setFavicon();
     });
 
     // Set initial theme
     html.dataset.theme = localStorage.getItem('ts-theme') || 'dark';
     setThemeIcon();
-    setFavicon();
+    // setFavicon();
 }
 
 initializeTheme();
