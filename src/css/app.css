@@ -26,81 +26,16 @@ main.container {
     top: 0;
     z-index: 10;
 
-    /* appbar becomes a simple column */
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    padding-left: var(--pico-spacing);
-    padding-right: var(--pico-spacing);
-    padding-top: var(--pico-spacing);
-    padding-bottom: 0.5rem;
-
-    margin-left: calc(var(--pico-spacing) * -1);
-    margin-right: calc(var(--pico-spacing) * -1);
-
     background: var(--pico-background-color);
+}
+
+nav.app-nav {
     border-bottom: 1px solid var(--pico-muted-border-color);
 }
 
-/* top row: logo left, right block right */
-.appbar-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    /* key change */
-    gap: 1rem;
-}
-
-.appbar-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-#theme-btn {
-    border: none;
-    margin-top: 0;
-    margin-bottom: auto;
-    /* stays at top */
-}
-
-.identity-chip {
-    padding: 0.35rem 0.6rem;
-    border-radius: 999px;
-    /* pill */
-    background: color-mix(in srgb, var(--pico-muted-border-color) 25%, transparent);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.8rem;
-}
-
-.identity-chip .sep {
-    opacity: 0.4;
-}
-
-
-#vehicle-reg {
-    opacity: 0.8;
-    /* optional “secondary” feel */
-}
-
-/* keep your existing dark/light styles */
-#theme-btn.dark {
-    background: var(--pico-dark-button-background);
-    color: var(--pico-dark-button-color);
-}
-
-#theme-btn.light {
-    background: var(--pico-light-button-background);
-    color: var(--pico-light-button-color);
-}
-
-
 #gelder-logo {
     display: block;
-    width: 130px;
+    width: 120px;
     /* set width, let height auto-scale from viewBox */
     height: auto;
     flex: 0 0 auto;
@@ -112,18 +47,4 @@ main.container {
 
 svg text {
     fill: var(--pico-secondary) !important;
-}
-
-.appbar .brand {
-    flex: 0 0 auto;
-}
-
-#theme-btn.dark {
-    background: var(--pico-dark-button-background);
-    color: var(--pico-dark-button-color);
-}
-
-#theme-btn.light {
-    background: var(--pico-light-button-background);
-    color: var(--pico-light-button-color);
 }
