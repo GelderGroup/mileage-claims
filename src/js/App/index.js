@@ -52,8 +52,6 @@ export default class App {
     };
 
     onmount = async () => {
-        const ver = document.getElementById("ver");
-        if (ver) ver.textContent = `v${appVersion}`;
         await this.initAuth();
     };
 

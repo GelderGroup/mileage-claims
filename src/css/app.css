@@ -25,7 +25,7 @@ main.container {
     position: sticky;
     top: 0;
     z-index: 10;
-
+    height: var(--app-header-height);
     background: var(--pico-background-color);
 }
 
@@ -43,6 +43,7 @@ nav.app-nav {
     /* if inside a flex bar */
     overflow: visible;
     color: var(--pico-color);
+    opacity: 0.9;
 }
 
 svg text {
