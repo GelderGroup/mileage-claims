@@ -42,8 +42,7 @@ nav.app-nav {
     flex: 0 0 auto;
     /* if inside a flex bar */
     overflow: visible;
-    /* keeps the underline from clipping */
-    color: #C52F21;
+    color: var(--pico-color);
 }
 
 svg text {
