@@ -6,7 +6,7 @@ import "./index.css";
 
 export default class DashboardCard {
     constructor({ onAddMileage, onChangeVehicle, onEditDraft, onDeleteDraft, onSubmitAllDrafts }) {
-        this.userName = document.getElementById("user-name");
+        // this.userName = document.getElementById("user-name");
         this.vehicleRegLink = document.getElementById("vehicle-reg");
 
         this.addBtn = el("button#add-mileage-btn.p-1.mb-0", {
@@ -68,7 +68,7 @@ export default class DashboardCard {
     };
 
     showNeedsVehicle(name) {
-        this.userName.textContent = `Welcome, ${name}!`;
+        // this.userName.textContent = `Welcome, ${name}!`;
         this.vehicleRegLink.textContent = " Register Vehicle";
 
         this.addBtn.hidden = true;
