@@ -31,6 +31,7 @@ main.container {
 
 nav.app-nav {
     border-bottom: 1px solid var(--pico-muted-border-color);
+    padding-bottom: var(--pico-spacing);
 }
 
 #gelder-logo {
@@ -42,7 +43,7 @@ nav.app-nav {
     /* if inside a flex bar */
     overflow: visible;
     /* keeps the underline from clipping */
-    color: var(--pico-color);
+    color: #C52F21;
 }
 
 svg text {
