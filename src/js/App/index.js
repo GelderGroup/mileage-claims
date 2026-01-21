@@ -117,6 +117,7 @@ export default class App {
     refreshDrafts = async () => {
         try {
             const drafts = await getMileageDrafts();
+            console.log(drafts);
             this.dashboardView.update(drafts);
         } catch (err) {
             console.error(err);
