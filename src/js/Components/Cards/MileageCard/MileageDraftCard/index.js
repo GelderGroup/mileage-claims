@@ -76,9 +76,10 @@ export default class MileageDraftCard {
         // ---- resolve locations
         const start = getLocationParts(startLabel, startPostcode);
         const end = getLocationParts(endLabel, endPostcode);
+        const mileageDate = new Date(date);
 
         // ---- render
-        this.dateEl.textContent = date || '';
+        this.dateEl.textContent = mileageDate.toLocaleDateString();
         this.milesEl.textContent = overrideEnabled
             ? `${milesText} (override)`
             : milesText;
