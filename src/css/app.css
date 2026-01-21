@@ -47,38 +47,36 @@ main.container {
 .appbar-top {
     display: flex;
     justify-content: space-between;
-    align-items: stretch;
-    /* was flex-end */
+    align-items: flex-end;
     gap: 1rem;
 }
 
-/* right side fills the row height; toggle top, identity bottom */
+/* right side: toggle top, identity bottom */
 .appbar-right {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    /* keeps toggle tucked to the right edge */
-    height: 100%;
+    /* remove height:100% */
 }
 
-/* theme toggle at the very top */
+/* theme toggle pinned to top */
 #theme-btn {
+    align-self: flex-end;
+    margin-bottom: auto;
+    /* pushes identity down */
     border: none;
-    margin-top: 0;
 }
 
-/* identity block pushed to bottom */
+/* name + reg stack, left-aligned with each other */
 .identity {
-    margin-top: auto;
-    /* pushes it down */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    /* name + reg left-aligned with each other */
     font-size: 0.85rem;
     line-height: 1.2;
     text-align: left;
 }
+
 
 #vehicle-reg {
     opacity: 0.8;
