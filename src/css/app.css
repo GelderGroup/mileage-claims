@@ -43,38 +43,41 @@ main.container {
     border-bottom: 1px solid var(--pico-muted-border-color);
 }
 
-/* top row: logo left, right block right, bottom-aligned */
+/* top row: logo left, right block right */
 .appbar-top {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: stretch;
+    /* was flex-end */
     gap: 1rem;
 }
 
-.appbar .brand {
-    flex: 0 0 auto;
-}
-
-/* right side: toggle above identity stack */
+/* right side fills the row height; toggle top, identity bottom */
 .appbar-right {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.5rem;
+    /* keeps toggle tucked to the right edge */
+    height: 100%;
 }
 
-/* theme button no longer needs margin-left:auto */
+/* theme toggle at the very top */
 #theme-btn {
     border: none;
+    margin-top: 0;
 }
 
-/* name above reg, right-aligned */
+/* identity block pushed to bottom */
 .identity {
+    margin-top: auto;
+    /* pushes it down */
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
+    /* name + reg left-aligned with each other */
     font-size: 0.85rem;
     line-height: 1.2;
+    text-align: left;
 }
 
 #vehicle-reg {
