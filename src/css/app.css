@@ -58,26 +58,21 @@ main.container {
     align-items: flex-end;
 }
 
+/* identity now at the top */
+.identity {
+    margin-bottom: auto;
+    /* pushes toggle down */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+/* toggle sits bottom-right */
 #theme-btn {
     border: none;
-    margin-top: 0;
-    margin-bottom: auto;
-    /* stays at top */
-}
-
-.identity {
     margin-top: auto;
-    display: grid;
-    grid-template-columns: auto;
-    gap: 0.1rem;
-    font-size: 0.85rem;
-}
-
-.identity-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    opacity: 0.6;
 }
 
 #vehicle-reg {
