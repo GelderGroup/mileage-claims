@@ -41,6 +41,7 @@ header.draft-header {
     gap: .75rem;
     font-size: .8rem;
     opacity: .75;
+    margin-bottom: 0;
 }
 
 .draft-date {
@@ -96,7 +97,7 @@ footer.draft-actions {
     align-items: center;
     gap: .35rem;
     padding-top: .5rem;
-    margin-top: .5rem;
+    margin-top: 0;
     border-top: 1px solid var(--pico-muted-border-color);
     opacity: .95;
 }
