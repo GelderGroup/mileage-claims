@@ -65,19 +65,20 @@ main.container {
     /* stays at top */
 }
 
-/* bottom of the right column */
 .identity {
     margin-top: auto;
-    /* stays at bottom */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    /* left-align name + reg */
+    display: grid;
+    grid-template-columns: auto;
+    gap: 0.1rem;
     font-size: 0.85rem;
-    line-height: 1.2;
-    text-align: left;
 }
 
+.identity-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
 
 #vehicle-reg {
     opacity: 0.8;

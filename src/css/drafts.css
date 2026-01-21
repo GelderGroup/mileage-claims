@@ -41,7 +41,7 @@ header.draft-header {
     gap: .75rem;
     font-size: .8rem;
     opacity: .75;
-    margin-bottom: 0;
+    margin-bottom: .5rem;
 }
 
 .draft-date {
