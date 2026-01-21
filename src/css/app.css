@@ -36,7 +36,7 @@ nav.app-nav {
 
 #gelder-logo {
     display: block;
-    width: 120px;
+    width: 100px;
     /* set width, let height auto-scale from viewBox */
     height: auto;
     flex: 0 0 auto;
