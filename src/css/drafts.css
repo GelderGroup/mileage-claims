@@ -97,7 +97,7 @@ footer.draft-actions {
     align-items: center;
     gap: .35rem;
     padding-top: .5rem;
-    margin-top: 0;
+    margin-top: .5rem;
     border-top: 1px solid var(--pico-muted-border-color);
     opacity: .95;
 }
