@@ -98,7 +98,7 @@ export default class BulkSubmitModal {
         this.summaryEl.innerHTML = "";
         this.summaryEl.append(
             el("p", { style: "margin:.25rem 0; opacity:.9;" },
-                "You’re about to submit these mileage drafts. You can’t edit them afterwards."
+                "You're about to submit these mileage drafts. You can't edit them afterwards."
             ),
             overrides
                 ? el("p", { style: "margin:.25rem 0; opacity:.75;" },
@@ -120,7 +120,7 @@ export default class BulkSubmitModal {
             );
         });
 
-        // Details toggle makes sense only if there’s something to show
+        // Details toggle makes sense only if theres something to show
         this.toggleBtn.classList.toggle("d-none", n <= 1);
         this.toggleBtn.textContent = "Show details";
         this.hideDetails();

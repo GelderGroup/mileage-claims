@@ -8,7 +8,7 @@
     display: block;
 }
 
-/* keep Pico’s look when shown */
+/* keep Picos look when shown */
 .help {
     width: 100%;
     margin-top: calc(var(--pico-spacing) * -.75);

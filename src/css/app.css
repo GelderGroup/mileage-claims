@@ -6,6 +6,17 @@
     --app-footer-height: 69px;
 }
 
+html,
+body {
+    height: auto;
+    margin: 0;
+}
+
+body {
+    overflow: auto;
+    /* allow normal page scroll again */
+}
+
 main.container {
     padding-top: 0 !important;
 }
@@ -15,9 +26,9 @@ main.container {
     top: 0;
     z-index: 10;
 
+    /* appbar becomes a simple column */
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    flex-direction: column;
     gap: 0.5rem;
 
     padding-left: var(--pico-spacing);
@@ -31,6 +42,57 @@ main.container {
     background: var(--pico-background-color);
     border-bottom: 1px solid var(--pico-muted-border-color);
 }
+
+/* top row: logo left, right block right, bottom-aligned */
+.appbar-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.appbar .brand {
+    flex: 0 0 auto;
+}
+
+/* right side: toggle above identity stack */
+.appbar-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+/* theme button no longer needs margin-left:auto */
+#theme-btn {
+    border: none;
+}
+
+/* name above reg, right-aligned */
+.identity {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+#vehicle-reg {
+    opacity: 0.8;
+    /* optional “secondary” feel */
+}
+
+/* keep your existing dark/light styles */
+#theme-btn.dark {
+    background: var(--pico-dark-button-background);
+    color: var(--pico-dark-button-color);
+}
+
+#theme-btn.light {
+    background: var(--pico-light-button-background);
+    color: var(--pico-light-button-color);
+}
+
 
 #gelder-logo {
     display: block;
@@ -52,13 +114,6 @@ svg text {
     flex: 0 0 auto;
 }
 
-/* theme button on the same row, pushed to the right */
-#theme-btn {
-    margin-left: auto;
-    border: none;
-    ;
-}
-
 #theme-btn.dark {
     background: var(--pico-dark-button-background);
     color: var(--pico-dark-button-color);
@@ -67,29 +122,4 @@ svg text {
 #theme-btn.light {
     background: var(--pico-light-button-background);
     color: var(--pico-light-button-color);
-}
-
-/* meta row takes its own full-width line below */
-.app-meta-row {
-    flex-basis: 100%;
-    display: flex;
-    align-items: center;
-    font-size: 0.85rem;
-    margin-top: 0.75rem;
-}
-
-#vehicle-reg {
-    margin-left: auto;
-}
-
-
-html,
-body {
-    height: auto;
-    margin: 0;
-}
-
-body {
-    overflow: auto;
-    /* allow normal page scroll again */
 }

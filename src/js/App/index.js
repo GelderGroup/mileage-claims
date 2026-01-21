@@ -105,7 +105,7 @@ export default class App {
             this.showMainApp(res.vehicle);
             this.dashboardView.showToast("Vehicle registered successfully.");
         } catch (e) {
-            this.dashboardView.showToast("Couldn’t register vehicle. Please try again.");
+            this.dashboardView.showToast("Couldn't register vehicle. Please try again.");
         }
     };
 

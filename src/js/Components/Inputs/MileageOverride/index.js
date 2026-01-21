@@ -75,7 +75,7 @@ export default class MileageOverride {
 
     // --- state sync
     update = (state, { allowWhileFocused = false } = {}) => {
-        // If user is typing, optionally don’t stomp their input
+        // If user is typing, optionally dont stomp their input
         if (allowWhileFocused || document.activeElement !== this.mileageInput) {
             this.mileageInput.value = state.distanceOverride ?? "";
         }
