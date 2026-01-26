@@ -1,6 +1,6 @@
 import { el } from 'redom';
 import { getLocationParts } from '../../../../utils/Formatting/formatPostcode';
-import { FilePenLineIcon, MapPin, TrashIcon } from '../../../../utils/icons';
+import { MapPin, TrashIcon } from '../../../../utils/icons';
 
 function formatFullLocation(parts) {
     if (parts.name && parts.postcode) return `${parts.name} (${parts.postcode})`;
@@ -9,7 +9,11 @@ function formatFullLocation(parts) {
 
 export default class MileageDraftCard {
     constructor() {
-        this.el = el('article',
+        this.el = el('article', {
+            role: 'button',
+            tabindex: 0,
+            title: 'Edit draft'
+        },
             el('header.draft-header',
                 this.dateEl = el('span.draft-date'),
                 this.milesEl = el('span.draft-miles')
@@ -21,30 +25,44 @@ export default class MileageDraftCard {
                 this.endEl = el('span.draft-route-end'),
             ),
             el('footer.draft-actions',
-                this.editAction = el('a.action.secondary', { title: 'Edit' }, FilePenLineIcon()),
                 this.deleteAction = el('a.action.secondary', { title: 'Delete' }, TrashIcon())
             )
         );
     }
 
     onmount() {
-        this.editAction.addEventListener('click', this.handleEdit);
+        this.el.addEventListener('click', this.handleCardClick);
+        this.el.addEventListener('keydown', this.handleCardKeydown);
         this.deleteAction.addEventListener('click', this.handleDelete);
     }
 
     onunmount() {
-        this.editAction.removeEventListener('click', this.handleEdit);
+        this.el.removeEventListener('click', this.handleCardClick);
+        this.el.removeEventListener('keydown', this.handleCardKeydown);
         this.deleteAction.removeEventListener('click', this.handleDelete);
     }
 
-    handleEdit = (e) => {
-        e.preventDefault();
+    handleCardClick = (e) => {
+        // ignore clicks originating from the delete control (or anything inside footer if you prefer)
+        if (e.target?.closest?.('.draft-actions')) return;
+        this.fireEdit();
+    };
+
+    handleCardKeydown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.fireEdit();
+        }
+    };
+
+    fireEdit = () => {
         if (!this.entry) return;
         this.el.dispatchEvent(new CustomEvent('edit-draft', { bubbles: true, detail: this.entry }));
     };
 
     handleDelete = (e) => {
         e.preventDefault();
+        e.stopPropagation(); // <- critical so card click doesn’t also edit
         if (!this.entry) return;
         this.el.dispatchEvent(new CustomEvent('delete-draft', { bubbles: true, detail: this.entry }));
     };
@@ -62,10 +80,8 @@ export default class MileageDraftCard {
             overrideEnabled
         } = entry;
 
-        // ---- effective miles (already computed elsewhere)
         const effectiveMiles = distance != null ? Number(distance) : null;
 
-        // ---- format miles for display (single responsibility: presentation)
         let milesText = 'Miles not set';
         if (effectiveMiles != null && effectiveMiles > 0) {
             milesText = Number.isInteger(effectiveMiles)
@@ -73,23 +89,15 @@ export default class MileageDraftCard {
                 : `${effectiveMiles.toFixed(1)} miles`;
         }
 
-        // ---- resolve locations
         const start = getLocationParts(startLabel, startPostcode);
         const end = getLocationParts(endLabel, endPostcode);
         const mileageDate = new Date(date);
 
-        // ---- render
         this.dateEl.textContent = mileageDate.toLocaleDateString();
-        this.milesEl.textContent = overrideEnabled
-            ? `${milesText} (override)`
-            : milesText;
-
-        this.milesEl.title = overrideEnabled
-            ? 'Mileage has been overridden'
-            : '';
+        this.milesEl.textContent = overrideEnabled ? `${milesText} (override)` : milesText;
+        this.milesEl.title = overrideEnabled ? 'Mileage has been overridden' : '';
 
         this.startEl.textContent = formatFullLocation(start);
         this.endEl.textContent = formatFullLocation(end);
     }
-
 }
