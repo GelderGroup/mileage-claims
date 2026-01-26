@@ -144,17 +144,19 @@ export default class MileageModalController {
         const { checked } = e.detail;
         const s = get();
 
-        // Guard: only allow enabling if we have a calculated value
-        if (checked && s.distanceCalculated == null) {
+        const hasEffective = s.distance != null && Number(s.distance) > 0;
+        const canOverride = s.distanceCalculated != null || (s.id != null && hasEffective);
+
+        if (checked && !canOverride) {
             set({ banner: 'Please calculate mileage before overriding.', overrideEnabled: false });
             return;
         }
 
         if (!checked) {
-            // Turning off override restores the calculated miles as effective distance
+            // when turning off: prefer calculated if we have it, else keep effective
             set({
                 overrideEnabled: false,
-                distance: s.distanceCalculated,
+                distance: s.distanceCalculated ?? s.distance,
                 ...this.resetOverrideState(),
                 showSummary: false,
                 banner: null
@@ -163,11 +165,13 @@ export default class MileageModalController {
             return;
         }
 
-        // Turning on override: default override miles to calculated to reduce typing
+        // turning on: default override to calculated if present, else current effective distance
+        const base = s.distanceCalculated ?? s.distance;
+
         set({
             overrideEnabled: true,
-            distanceOverride: s.distanceOverride ?? s.distanceCalculated,
-            distance: s.distanceOverride ?? s.distanceCalculated,
+            distanceOverride: s.distanceOverride ?? base,
+            distance: s.distanceOverride ?? base,
             banner: null,
             showSummary: false
         });

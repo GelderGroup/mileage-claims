@@ -138,9 +138,14 @@ export default class MileageModalView {
             syncInput(comp, state[key], { allowWhileFocused: initial });
         }
 
-        // Override checkbox visibility: only show if calculation has happened
         const hasCalculated = state.distanceCalculated != null;
-        this.overrideMileageCheckboxContainer.classList.toggle('d-none', !hasCalculated);
+        const hasEffective = state.distance != null && Number(state.distance) > 0;
+        const canShowOverride = hasCalculated || (state.id != null && hasEffective) || !!state.overrideEnabled;
+
+
+        this.overrideMileageCheckboxContainer.classList.toggle('d-none', !canShowOverride);
+
+
 
         // Reflect checkbox state
         this.overrideMileageCheckbox.checked = !!state.overrideEnabled;
@@ -157,7 +162,7 @@ export default class MileageModalView {
         this.setGeoBusy(state.geoBusy);
 
         // Disable override toggle while calculating/geocoding
-        this.overrideMileageCheckbox.disabled = !!state.calcBusy || !!state.geoBusy || !hasCalculated;
+        this.overrideMileageCheckbox.disabled = !!state.calcBusy || !!state.geoBusy || !canShowOverride;
 
         // validity + summary
         this.applyValidity(state);
