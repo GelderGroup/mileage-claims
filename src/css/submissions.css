@@ -1,0 +1,7 @@
+.submission-group {
+    margin: .75rem 0;
+}
+
+.submission-group__items>article {
+    margin-top: .5rem;
+}

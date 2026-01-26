@@ -1,5 +1,6 @@
 import { getCosmosContainer } from "../_lib/cosmos.js";
 import { getClientPrincipal } from "../_lib/auth.js";
+import crypto from "node:crypto";
 
 const entries = getCosmosContainer("mileagedb", "mileageEntries");
 
@@ -16,6 +17,7 @@ export default async function submitAllDrafts(context, req) {
 
         const userId = user.email;
         const submittedAt = new Date().toISOString();
+        const submissionId = crypto.randomUUID();
 
         const { ids } = req.body || {};
         const hasIds = Array.isArray(ids) && ids.length > 0;
@@ -74,8 +76,8 @@ export default async function submitAllDrafts(context, req) {
         const updatedDocs = drafts.map((doc) => ({
             ...doc,
             status: "submitted",
-            submittedAt
-            // optionally: updatedAt: submittedAt
+            submittedAt,
+            submissionId
         }));
 
         // 3) Upsert back into Cosmos (same partition)
@@ -102,6 +104,7 @@ export default async function submitAllDrafts(context, req) {
             body: {
                 success: failed.length === 0,
                 submittedAt,
+                submissionId,
                 requested: hasIds ? uniqIds.length : null,
                 eligible: drafts.length,
                 submitted: successIds.length,

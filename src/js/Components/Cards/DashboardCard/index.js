@@ -3,6 +3,7 @@ import { el } from "redom";
 import { PlusIcon } from "../../../utils/icons.js";
 import { MileageDraftList } from "../MileageCard/MileageDraftList/index.js";
 import "./index.css";
+import MileageSubmissionList from "../../MileageSubmissionList/index.js";
 
 export default class DashboardCard {
     constructor({ onAddMileage, onChangeVehicle, onEditDraft, onDeleteDraft, onSubmitAllDrafts, onModeChange }) {
@@ -39,6 +40,9 @@ export default class DashboardCard {
         });
 
         this.draftsView = new MileageDraftList();
+        this.submittedView = new MileageSubmissionList();
+        this.submittedView.el.hidden = true;
+
         this.totalEl = el('.drafts-total');
 
         this.el = el("section.dashboard",
@@ -50,7 +54,7 @@ export default class DashboardCard {
             ),
             el("div.dashboard-body",
                 this.draftsView,
-                this.submittedView = el('')
+                this.submittedView
             ),
             el("footer.dashboard-footer",
                 this.totalEl,
@@ -109,8 +113,35 @@ export default class DashboardCard {
     };
 
     updateSubmissions = (submissions) => {
-        console.log('Updating submissions view', submissions);
+        const groups = this.groupSubmissions(submissions);
+        this.submittedView.update(groups);
     }
+
+    groupSubmissions = (rows = []) => {
+        const map = new Map();
+
+        for (const r of rows) {
+            const key = r.submissionId;
+            const g = map.get(key) ?? {
+                submissionId: r.submissionId ?? null,
+                submittedAt: r.submittedAt,
+                items: [],
+                totalMiles: 0
+            };
+
+            g.items.push(r);
+            g.totalMiles += Number(r.distance) || 0;
+
+            // keep latest submittedAt (in case fallback grouping)
+            g.submittedAt = g.submittedAt ?? r.submittedAt;
+
+            map.set(key, g);
+        }
+
+        // preserve order from API (already sorted), but Map insertion order follows first-seen keys
+        return [...map.values()];
+    }
+
 
     showNeedsVehicle() {
         this.addBtn.hidden = true;

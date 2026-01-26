@@ -17,6 +17,7 @@ export default async function getMileageSubmissions(context, req) {
         const query = {
             query: `
                 SELECT
+                c.submissionId,
                 c.id, c.date,
                 c.startLabel, c.endLabel,
                 c.startPostcode, c.endPostcode,
