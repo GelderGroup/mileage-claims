@@ -25,6 +25,8 @@ export default class App {
 
         this.vehicleRegistrationModal.onVehicleRegistered = this.handleVehicleRegistered;
 
+        this.appInfoLink = document.getElementById("app-info");
+
         this.el = el(
             '',
             this.content = el(''),
@@ -53,6 +55,7 @@ export default class App {
 
     onmount = async () => {
         await this.initAuth();
+        this.appInfoLink.addEventListener("click", this.handleInfoClick);
     };
 
     initAuth = async () => {
@@ -200,4 +203,12 @@ export default class App {
         }
     };
 
+    onunmount = () => {
+        this.appInfoLink.removeEventListener("click", this.handleInfoClick);
+    };
+
+    handleInfoClick = (e) => {
+        e.preventDefault();
+        alert(`Mileage Claims App\nVersion: ${appVersion}`);
+    }
 }
