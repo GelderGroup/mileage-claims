@@ -74,6 +74,33 @@ header.draft-header {
     /* 0.8 is a touch small; up to taste */
 }
 
+/* Clickable card: stop Pico styling it like a primary button */
+article.draft-card[role="button"] {
+    background: var(--pico-card-background-color, var(--pico-background-color));
+    border: 1px solid var(--pico-muted-border-color);
+    box-shadow: none;
+
+    /* make it feel clickable without shouting */
+    cursor: pointer;
+}
+
+/* Keep same surface on hover */
+article.draft-card[role="button"]:hover {
+    background: var(--pico-card-background-color, var(--pico-background-color));
+}
+
+/* Accessible focus ring (keyboard) */
+article.draft-card[role="button"]:focus {
+    outline: 2px solid var(--pico-primary-focus);
+    outline-offset: 2px;
+}
+
+/* Optional: subtle press feedback */
+article.draft-card[role="button"]:active {
+    transform: translateY(1px);
+}
+
+
 .map-pin-start,
 .map-pin-end {
     display: flex;

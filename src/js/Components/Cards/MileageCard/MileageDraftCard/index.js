@@ -9,7 +9,7 @@ function formatFullLocation(parts) {
 
 export default class MileageDraftCard {
     constructor() {
-        this.el = el('article', {
+        this.el = el('article.draft-card', {
             role: 'button',
             tabindex: 0,
             title: 'Edit draft'
