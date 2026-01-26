@@ -121,7 +121,7 @@ export default class DashboardCard {
         const map = new Map();
 
         for (const r of rows) {
-            const key = r.submissionId;
+            const key = r.submissionId ?? r.submittedAt;
             const g = map.get(key) ?? {
                 submissionId: r.submissionId ?? null,
                 submittedAt: r.submittedAt,
@@ -132,16 +132,16 @@ export default class DashboardCard {
             g.items.push(r);
             g.totalMiles += Number(r.distance) || 0;
 
-            // keep latest submittedAt (in case fallback grouping)
-            g.submittedAt = g.submittedAt ?? r.submittedAt;
-
             map.set(key, g);
         }
 
-        // preserve order from API (already sorted), but Map insertion order follows first-seen keys
+        // sort items within each group by travel date (ascending)
+        for (const g of map.values()) {
+            g.items.sort((a, b) => new Date(a.date) - new Date(b.date));
+        }
+
         return [...map.values()];
     }
-
 
     showNeedsVehicle() {
         this.addBtn.hidden = true;

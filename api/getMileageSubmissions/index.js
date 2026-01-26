@@ -28,7 +28,7 @@ export default async function getMileageSubmissions(context, req) {
                 FROM c
                 WHERE c.userId = @userId
                 AND c.status = 'submitted'
-                ORDER BY c.submittedAt DESC, c.createdAt DESC
+                ORDER BY c.submittedAt DESC
             `,
             parameters: [{ name: "@userId", value: user.email }]
         };
