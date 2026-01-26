@@ -221,10 +221,12 @@ export default class App {
         alert(`Mileage Claims App\nVersion: ${appVersion}`);
     }
 
-    handleModeChange = async (e) => {
-        const { mode } = e.detail;
-        if (mode === "drafts") return this.refreshDrafts();
-        return this.refreshSubmissions();
+    handleModeChange = (mode) => {
+        if (mode === "drafts") {
+            this.refreshDrafts();
+        } else {
+            this.refreshSubmissions();
+        }
     };
 
     refreshSubmissions = async () => {
