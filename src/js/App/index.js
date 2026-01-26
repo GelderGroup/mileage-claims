@@ -17,6 +17,7 @@ import { getMileageDrafts, deleteMileageDraft } from "../services/mileageService
 import "@picocss/pico/css/pico.min.css";
 import { set } from "../stores/mileageStore.js";
 import BulkSubmitModal from "../Components/Modals/BulkSubmitModal/index.js";
+import { getMileageSubmissions } from "../services/submissions.js";
 
 export default class App {
     constructor() {
@@ -42,7 +43,8 @@ export default class App {
             onEditDraft: this.handleEditDraft,
             onDeleteDraft: this.handleDeleteDraft,
             onChangeVehicle: this.handleChangeVehicle,
-            onSubmitAllDrafts: this.handleSubmitDrafts
+            onSubmitAllDrafts: this.handleSubmitDrafts,
+            onModeChange: this.handleModeChange
         });
 
         this.bulkSubmitModal = new BulkSubmitModal(this.handleBulkConfirm);
@@ -96,8 +98,9 @@ export default class App {
 
     showMainApp = () => {
         this.dashboardView.reset();
-        this.refreshDrafts();
         setChildren(this.content, [this.dashboardView]);
+        this.dashboardView.setMode("drafts");
+        this.refreshDrafts();
     };
 
     handleVehicleRegistered = async (raw) => {
@@ -211,4 +214,20 @@ export default class App {
         e.preventDefault();
         alert(`Mileage Claims App\nVersion: ${appVersion}`);
     }
+
+    handleModeChange = async (e) => {
+        const { mode } = e.detail;
+        if (mode === "drafts") return this.refreshDrafts();
+        return this.refreshSubmissions();
+    };
+
+    refreshSubmissions = async () => {
+        try {
+            const submissions = await getMileageSubmissions(); // new service
+            this.dashboardView.updateSubmissions(submissions);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
 }
