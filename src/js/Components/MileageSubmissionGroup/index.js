@@ -22,7 +22,7 @@ export default class MileageSubmissionGroup {
     update(group) {
         // group: { submittedAt, totalMiles, items: [] }
         const when = group.submittedAt ? new Date(group.submittedAt) : null;
-        const whenText = when ? when.toLocaleString() : "Submitted";
+        const whenText = when ? when.toLocaleDateString() : "Submitted";
 
         const count = group.items?.length || 0;
         const total = fmtMiles(group.totalMiles);
