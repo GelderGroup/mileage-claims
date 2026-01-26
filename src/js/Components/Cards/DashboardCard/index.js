@@ -8,8 +8,8 @@ export default class DashboardCard {
     constructor({ onAddMileage, onChangeVehicle, onEditDraft, onDeleteDraft, onSubmitAllDrafts, onModeChange }) {
         this.mode = "drafts";
 
-        this.draftsBtn = el("button", { type: "button", "aria-pressed": "true" }, "Drafts");
-        this.submittedBtn = el("button", { type: "button", "aria-pressed": "false" }, "Submitted");
+        this.draftsBtn = el("button", { type: "button", "aria-current": "true" }, "Drafts");
+        this.submittedBtn = el("button", { type: "button" }, "Submitted");
 
         this.viewToggle = el("div", { role: "group", class: "view-toggle" },
             this.draftsBtn,
