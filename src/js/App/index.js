@@ -39,7 +39,7 @@ export default class App {
 
         // single main view for both "needs vehicle" and "has vehicle"
         this.dashboardView = new DashboardCard({
-            onAddMileage: () => this.entryModal.open(),
+            onAddMileage: this.handleAddMileage,
             onEditDraft: this.handleEditDraft,
             onDeleteDraft: this.handleDeleteDraft,
             onChangeVehicle: this.handleChangeVehicle,
@@ -48,6 +48,11 @@ export default class App {
         });
 
         this.bulkSubmitModal = new BulkSubmitModal(this.handleBulkConfirm);
+    }
+
+    handleAddMileage = () => {
+        this.entryModal.setMode("add");
+        this.entryModal.open();
     }
 
     handleChangeVehicle = (e) => {
@@ -164,6 +169,7 @@ export default class App {
             banner: null
         });
 
+        this.entryModal.setMode("edit");
         this.entryModal.openForEdit();
     };
 

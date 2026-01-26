@@ -41,7 +41,7 @@ export default class MileageModalView {
             'dialog',
             el(
                 'article',
-                el('header', this.closeBtn, (this.titleElement = el('p', el('strong', 'Add Mileage Entry')))),
+                el('header', this.closeBtn, (el('p', this.titleEl = el('strong', 'Add Mileage Entry')))),
                 (this.content = el(
                     '.modal-content',
                     el('label', { for: this.dateInput.input.id }, 'Date of travel', this.dateInput),
@@ -230,4 +230,11 @@ export default class MileageModalView {
         const first = order.find(([k]) => aria[k]);
         first?.[1]?.focus?.();
     }
+
+    setMode(mode) {
+        this.mode = mode;
+        this.titleEl.textContent =
+            mode === "edit" ? "Edit mileage" : "Add mileage";
+    }
+
 }
