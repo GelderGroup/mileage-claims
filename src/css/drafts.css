@@ -79,7 +79,7 @@ article.draft-card[role="button"] {
     background: var(--pico-card-background-color, var(--pico-background-color));
     border: 1px solid var(--pico-muted-border-color);
     box-shadow: none;
-
+    text-align: left;
     /* make it feel clickable without shouting */
     cursor: pointer;
 }
@@ -143,6 +143,10 @@ a.action {
     color: var(--pico-muted-foreground-color);
 
     cursor: pointer;
+}
+
+footer.draft-actions .action--delete {
+    margin-left: auto;
 }
 
 /* Light theme */
