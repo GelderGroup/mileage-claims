@@ -8,8 +8,11 @@ export default class DashboardCard {
     constructor({ onAddMileage, onChangeVehicle, onEditDraft, onDeleteDraft, onSubmitAllDrafts, onModeChange }) {
         this.mode = "drafts";
 
-        this.draftsBtn = el("button", { type: "button", "aria-current": "true" }, "Drafts");
-        this.submittedBtn = el("button", { type: "button" }, "Submitted");
+        this.handleDraftsClick = () => this.setMode("drafts");
+        this.handleSubmittedClick = () => this.setMode("submitted");
+
+        this.draftsBtn = el("button.secondary", { type: "button", "aria-current": "true" }, "Drafts");
+        this.submittedBtn = el("button.secondary", { type: "button" }, "Submitted");
 
         this.viewToggle = el("div", { role: "group", class: "view-toggle" },
             this.draftsBtn,
@@ -40,8 +43,10 @@ export default class DashboardCard {
 
         this.el = el("section.dashboard",
             el("header.dashboard-header",
-                this.viewToggle,
-                this.addBtn
+                el("div.dashboard-header-inner",
+                    el("div.dashboard-header-row", this.viewToggle),
+                    el("div.dashboard-header-row add-row", this.addBtn)
+                )
             ),
             el("div.dashboard-body",
                 this.draftsView,
@@ -120,8 +125,8 @@ export default class DashboardCard {
     }
 
     onmount = () => {
-        this.draftsBtn.addEventListener("click", () => this.setMode("drafts"));
-        this.submittedBtn.addEventListener("click", () => this.setMode("submitted"));
+        this.draftsBtn.addEventListener("click", this.handleDraftsClick);
+        this.submittedBtn.addEventListener("click", this.handleSubmittedClick);
 
         this.addBtn.addEventListener("click", this.onAddMileage);
         this.vehicleRegLink.addEventListener("click", this.onChangeVehicle);
@@ -131,8 +136,8 @@ export default class DashboardCard {
     };
 
     onunmount = () => {
-        this.draftsBtn.removeEventListener("click", () => this.setMode("drafts"));
-        this.submittedBtn.removeEventListener("click", () => this.setMode("submitted"));
+        this.draftsBtn.removeEventListener("click", this.handleDraftsClick);
+        this.submittedBtn.removeEventListener("click", this.handleSubmittedClick);
 
         this.addBtn.removeEventListener("click", this.onAddMileage);
         this.vehicleRegLink.removeEventListener("click", this.onChangeVehicle);

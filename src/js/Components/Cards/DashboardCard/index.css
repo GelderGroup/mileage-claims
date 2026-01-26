@@ -24,6 +24,25 @@
     background: var(--dashboard-header-bg);
 }
 
+.dashboard-header-inner {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    width: 100%;
+}
+
+.dashboard-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* optional: left-align the + button row */
+.dashboard-header-row.add-row {
+    justify-content: flex-start;
+}
+
+
 /* Theme-aware header surface (matches app background) */
 html[data-theme="light"] {
     --dashboard-header-bg: var(--pico-background-color);
