@@ -12,4 +12,5 @@ export default class MileageModal {
     open = () => this.controller.open({ reset: true });
     openForEdit = () => this.controller.open({ reset: false });
     close = () => this.controller.close(); // ← keeps cleanup consistent
+    setMode = (mode) => this.view.setMode(mode);
 }
