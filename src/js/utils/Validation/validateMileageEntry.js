@@ -11,9 +11,14 @@ export const validateMileageEntry = (data) => {
 
     // ---- override-specific validation
     if (data.overrideEnabled) {
-        if (data.distanceCalculated == null) {
+        const hasCalculated = data.distanceCalculated != null;
+        const hasEffective = data.distance != null && Number(data.distance) > 0;
+        const isEditingExisting = data.id != null;
+
+        if (!hasCalculated && !(isEditingExisting && hasEffective)) {
             errors.distance = "Mileage must be calculated before it can be overridden";
         }
+
 
         if (!data.distanceOverride || data.distanceOverride <= 0) {
             errors.distanceOverride = "Override miles must be greater than 0";
