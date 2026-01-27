@@ -44,7 +44,7 @@ export default class MileageDraftCard {
 
     handleCardClick = (e) => {
         // ignore clicks originating from the delete control (or anything inside footer if you prefer)
-        if (e.target?.closest?.('.draft-actions')) return;
+        if (e.target?.closest?.('.action--delete')) return;
         this.fireEdit();
     };
 

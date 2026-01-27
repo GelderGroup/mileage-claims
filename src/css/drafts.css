@@ -84,6 +84,11 @@ article.draft-card[role="button"] {
     cursor: pointer;
 }
 
+article.draft-card[role="button"] .draft-route-start,
+article.draft-card[role="button"] .draft-route-end {
+    color: var(--pico-color);
+}
+
 /* Keep same surface on hover */
 article.draft-card[role="button"]:hover {
     background: var(--pico-card-background-color, var(--pico-background-color));
