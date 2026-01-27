@@ -80,7 +80,7 @@ article.draft-card[role="button"] {
     border: 1px solid var(--pico-muted-border-color);
     box-shadow: none;
     text-align: left;
-    /* make it feel clickable without shouting */
+    color: var(--pico-color);
     cursor: pointer;
 }
 
