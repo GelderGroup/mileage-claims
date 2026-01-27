@@ -84,9 +84,9 @@ article.draft-card[role="button"] {
     cursor: pointer;
 }
 
-article.draft-card[role="button"] .draft-route-start,
-article.draft-card[role="button"] .draft-route-end {
-    color: var(--pico-color);
+html[data-theme="light"] article.draft-card .draft-route-start,
+html[data-theme="light"] article.draft-card .draft-route-end {
+    color: var(--pico-contrast) !important;
 }
 
 /* Keep same surface on hover */
