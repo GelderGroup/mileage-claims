@@ -105,6 +105,12 @@ article.draft-card[role="button"]:active {
     transform: translateY(1px);
 }
 
+html[data-theme="light"] article.draft-card[role="button"] .draft-route-start,
+html[data-theme="light"] article.draft-card[role="button"] .draft-route-end {
+    color: var(--pico-contrast) !important;
+}
+
+
 
 .map-pin-start,
 .map-pin-end {
