@@ -61,6 +61,12 @@ export default class MileageModalView {
 
     onmount = () => {
         this.addCoreListeners();
+
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        this.dateInput.input.max = `${yyyy}-${mm}-${dd}`; // YYYY-MM-DD
     };
 
     onunmount = () => {
