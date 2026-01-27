@@ -129,6 +129,15 @@ html[data-theme="light"] article.draft-card[role="button"] a.action:active {
     background: rgba(0, 0, 0, .08);
 }
 
+html[data-theme="light"] article.draft-card {
+    background: #f7f8fa;
+    /* tiny lift from pure white */
+}
+
+html[data-theme="light"] .draft-route-start,
+html[data-theme="light"] .draft-route-end {
+    font-weight: 500;
+}
 
 .map-pin-start,
 .map-pin-end {
