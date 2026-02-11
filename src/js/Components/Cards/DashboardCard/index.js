@@ -163,7 +163,7 @@ export default class DashboardCard {
         this.vehicleRegLink.addEventListener("click", this.onChangeVehicle);
         this.el.addEventListener("edit-draft", this.onEditDraft);
         this.el.addEventListener("delete-draft", this.onDeleteDraft);
-        this.submitBtn.addEventListener("click", this.onSubmitAllDrafts);
+        this.submitBtn.addEventListener("click", this.handleSubmitAllDraftsGuarded);
     };
 
     onunmount = () => {
@@ -174,7 +174,20 @@ export default class DashboardCard {
         this.vehicleRegLink.removeEventListener("click", this.onChangeVehicle);
         this.el.removeEventListener("edit-draft", this.onEditDraft);
         this.el.removeEventListener("delete-draft", this.onDeleteDraft);
-        this.submitBtn.removeEventListener("click", this.onSubmitAllDrafts);
+        this.submitBtn.removeEventListener("click", this.handleSubmitAllDraftsGuarded);
+        // Guarded handler to prevent multiple rapid presses
+        handleSubmitAllDraftsGuarded = async (e) => {
+            if (this.submitBtn.disabled) return;
+            this.submitBtn.disabled = true;
+            try {
+                await this.onSubmitAllDrafts(e);
+            } finally {
+                // Re-enable after a short delay in case modal fails to open
+                setTimeout(() => {
+                    if (this.mode === "drafts") this.submitBtn.disabled = false;
+                }, 1000);
+            }
+        }
     };
 }
 
