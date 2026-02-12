@@ -67,7 +67,7 @@ html[data-theme="dark"] {
 }
 
 .dashboard-body {
-    padding-bottom: var(--footer-reserve);
+    padding-bottom: 180px;
 }
 
 .dashboard-footer {
