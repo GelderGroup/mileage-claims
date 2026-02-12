@@ -57,24 +57,17 @@ header.draft-header {
     font-size: .85rem;
 }
 
-/* ===== Card styling (Pico-friendly) ===== */
-
-/* One definition only (you had two) */
+/* Clickable card - let Pico handle card visuals */
 article.draft-card[role="button"] {
-    background: var(--pico-card-sectioning-background-color,
-            var(--pico-card-background-color, var(--pico-background-color)));
-    border: 1px solid var(--pico-muted-border-color);
-    box-shadow: var(--pico-card-box-shadow, 0 1px 2px rgba(0, 0, 0, .06));
-    border-radius: var(--pico-border-radius);
+    cursor: pointer;
     text-align: left;
     color: var(--pico-color);
-    cursor: pointer;
+    border-radius: var(--pico-border-radius);
 }
 
-/* Keep same surface on hover */
+/* Keep Pico surface on hover (don’t “button-ify” it) */
 article.draft-card[role="button"]:hover {
-    background: var(--pico-card-sectioning-background-color,
-            var(--pico-card-background-color, var(--pico-background-color)));
+    color: var(--pico-color);
 }
 
 /* Accessible focus ring */
@@ -87,86 +80,6 @@ article.draft-card[role="button"]:focus {
 article.draft-card[role="button"]:active {
     transform: translateY(1px);
 }
-
-/* ===== Theme tweaks ===== */
-
-/* 1) Card gets the crisp border */
-html[data-theme="light"] article.draft-card[role="button"] {
-    background: var(--pico-card-background-color, #fff) !important;
-    border: 0 !important;
-    box-shadow:
-        inset 0 0 0 1px #d8d8dc,
-        var(--pico-card-box-shadow, 0 1px 3px rgba(0, 0, 0, .05)) !important;
-    border-radius: var(--pico-border-radius);
-    overflow: hidden;
-}
-
-
-/* LIGHT: avoid double-dimming date/miles (you had opacity + muted color) */
-html[data-theme="light"] article.draft-card[role="button"] .draft-date,
-html[data-theme="light"] article.draft-card[role="button"] .draft-miles {
-    color: rgba(0, 0, 0, .55) !important;
-    opacity: 1;
-}
-
-/* LIGHT: route text should be clear */
-html[data-theme="light"] article.draft-card .draft-route-start,
-html[data-theme="light"] article.draft-card .draft-route-end {
-    color: var(--pico-contrast) !important;
-    font-weight: 500;
-}
-
-/* LIGHT: keep crisp outer border + stop inner sections drawing their own border */
-html[data-theme="light"] article.draft-card[role="button"] {
-    border: 0 !important;
-    box-shadow: inset 0 0 0 1px #d8d8dc, 0 1px 3px rgba(0, 0, 0, .05) !important;
-    overflow: hidden;
-    /* ensure the inset border is the edge */
-}
-
-/* Remove inner borders WITHOUT killing Pico's subtle header/footer background */
-html[data-theme="light"] article.draft-card[role="button"]>header,
-html[data-theme="light"] article.draft-card[role="button"]>footer {
-    border: 0 !important;
-    box-shadow: none !important;
-}
-
-/* If Pico is drawing a border around the main body section, nuke that too */
-html[data-theme="light"] article.draft-card[role="button"]> :not(header):not(footer) {
-    border: 0 !important;
-    box-shadow: none !important;
-    outline: 0 !important;
-}
-
-/* 1) Outer border only (article) */
-html[data-theme="light"] article.draft-card[role="button"] {
-    border: 0 !important;
-    box-shadow: inset 0 0 0 1px #d8d8dc, 0 1px 3px rgba(0, 0, 0, .05) !important;
-    overflow: hidden;
-}
-
-/* 2) NO borders on any direct child sections (this removes the strong body L/R) */
-html[data-theme="light"] article.draft-card[role="button"]>* {
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-}
-
-/* 3) Keep Pico-like subtle header/footer tint */
-html[data-theme="light"] article.draft-card[role="button"]>header.draft-header,
-html[data-theme="light"] article.draft-card[role="button"]>footer.draft-actions {
-    background: var(--pico-card-sectioning-background-color, #f6f7f9);
-}
-
-/* 4) Add back ONLY the horizontal dividers (optional, but looks “card-like”) */
-html[data-theme="light"] article.draft-card[role="button"]>header.draft-header {
-    border-bottom: 1px solid #ececf0 !important;
-}
-
-html[data-theme="light"] article.draft-card[role="button"]>footer.draft-actions {
-    border-top: 1px solid #ececf0 !important;
-}
-
 
 /* ===== Pins ===== */
 
@@ -191,8 +104,9 @@ footer.draft-actions {
     display: flex;
     align-items: center;
     gap: .35rem;
-    padding-top: .75rem;
-    margin-top: .75rem;
+    padding-top: .5rem;
+    margin-top: .5rem;
+    opacity: .95;
 }
 
 a.action {
@@ -204,36 +118,9 @@ a.action {
     height: 2.25rem;
     border-radius: .6rem;
 
-    background: transparent;
-    border: 1px solid var(--pico-muted-border-color);
-    color: var(--pico-muted-foreground-color);
     cursor: pointer;
 }
 
 footer.draft-actions .action--delete {
     margin-left: auto;
-}
-
-/* LIGHT: make action button look deliberate (not disabled) */
-html[data-theme="light"] a.action {
-    background: rgba(0, 0, 0, .06);
-    border-color: rgba(0, 0, 0, .18);
-    color: rgba(0, 0, 0, .65);
-}
-
-html[data-theme="light"] a.action:active {
-    background: rgba(0, 0, 0, .10);
-}
-
-/* DARK: keep your existing approach */
-html[data-theme="dark"] a.action {
-    background: rgba(255, 255, 255, .04);
-}
-
-a.action:active {
-    background: rgba(0, 0, 0, .08);
-}
-
-html[data-theme="dark"] a.action:active {
-    background: rgba(255, 255, 255, .08);
 }
