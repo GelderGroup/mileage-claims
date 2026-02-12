@@ -90,18 +90,34 @@ article.draft-card[role="button"]:active {
 
 /* ===== Theme tweaks ===== */
 
-/* LIGHT: make the card feel less washed out */
+/* 1) Card gets the crisp border */
 html[data-theme="light"] article.draft-card[role="button"] {
-    border: 0 !important;
-    /* kill any border coming from Pico */
     background: #fff !important;
-
-    /* 1px border drawn INSIDE the card = perfectly even on all sides */
+    border: 0 !important;
+    /* prevent Pico border */
     box-shadow: inset 0 0 0 1px #d8d8dc !important;
-
-
     border-radius: var(--pico-border-radius);
+    overflow: hidden;
+    /* important: clips inner edges */
 }
+
+/* 2) Remove any inner “section” borders/panels that Pico may be adding */
+html[data-theme="light"] article.draft-card[role="button"]>header,
+html[data-theme="light"] article.draft-card[role="button"]>footer,
+html[data-theme="light"] article.draft-card[role="button"]>div,
+html[data-theme="light"] article.draft-card[role="button"]>section {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    background: transparent !important;
+}
+
+/* If Pico is putting a background on card sections, keep padding but no border */
+html[data-theme="light"] article.draft-card[role="button"]>header,
+html[data-theme="light"] article.draft-card[role="button"]>footer {
+    background: transparent !important;
+}
+
 
 
 
