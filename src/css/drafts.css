@@ -5,6 +5,8 @@
 .draft-list__items {
     margin: 0;
     padding: 0;
+
+    padding-bottom: 180px !important;
     outline: 2px solid lime;
     /* optional, just so you know it applied */
 }
