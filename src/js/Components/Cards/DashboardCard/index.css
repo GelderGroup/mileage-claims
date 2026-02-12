@@ -1,13 +1,18 @@
 :root {
-    --footer-reserve: 150px;
-    /* start slightly generous */
+    --sab: env(safe-area-inset-bottom, 0px);
+
     --submit-h: 64px;
-    --footer-pad-x: 1rem;
-    --footer-pad-y: .75rem;
+    --summary-h: 28px;
+    --gap: .5rem;
+    --pad-y: .75rem;
+    --pad-x: 1rem;
+    --extra-tap: 8px;
+
+    --footer-reserve: calc(var(--summary-h) + var(--submit-h) + (var(--pad-y) * 2) + var(--gap) + var(--sab) + var(--extra-tap));
 }
 
 .dashboard {
-    padding-bottom: 0;
+    padding-bottom: 0 !important;
 }
 
 /* Sticky section header (DRAFTS) */
@@ -67,52 +72,40 @@ html[data-theme="dark"] {
 }
 
 .dashboard-body {
-    padding-bottom: 180px;
+    padding-bottom: var(--footer-reserve);
 }
 
 .dashboard-footer {
     position: fixed;
     left: 0;
     right: 0;
-
-    /* key: lift it above iOS home indicator */
-    bottom: env(safe-area-inset-bottom, 0px);
-    bottom: constant(safe-area-inset-bottom, 0px);
-
+    bottom: 0;
     z-index: 30;
-    /* background: var(--pico-background-color);
-    box-shadow: 0 -1px 0 rgba(0, 0, 0, .06); */
+    background: var(--pico-background-color);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .06);
 
-    background: hotpink !important;
+    padding: var(--pad-y) var(--pad-x);
+    padding-bottom: calc(var(--pad-y) + var(--sab) + var(--extra-tap));
 
-    padding: var(--footer-pad-y) var(--footer-pad-x);
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: var(--gap);
 }
 
-
-/* summary sits inside the footer, not fixed on its own */
 .drafts-total {
-    font-size: .9rem;
-    opacity: .8;
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-    height: 28px;
-    /* consistent footer height */
+    height: var(--summary-h);
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    font-variant-numeric: tabular-nums;
+    opacity: .8;
 }
 
-/* button is the full footer width and sits ABOVE the safe area */
 .dashboard-footer button {
-    width: 100%;
     height: var(--submit-h);
+    width: 100%;
     margin: 0;
-    border-radius: 0.5rem;
-    /* or 0 if you want it flush */
-    touch-action: manipulation;
+    border-radius: .5rem;
 }
 
 /* dark mode shadow */
