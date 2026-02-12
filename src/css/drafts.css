@@ -92,11 +92,17 @@ article.draft-card[role="button"]:active {
 
 /* LIGHT: make the card feel less washed out */
 html[data-theme="light"] article.draft-card[role="button"] {
-    background: #fff;
-    border: 1px solid #d8d8dc;
-    /* solid neutral */
-    box-shadow: none;
+    border: 0 !important;
+    /* kill any border coming from Pico */
+    background: #fff !important;
+
+    /* 1px border drawn INSIDE the card = perfectly even on all sides */
+    box-shadow: inset 0 0 0 1px #d8d8dc !important;
+
+
+    border-radius: var(--pico-border-radius);
 }
+
 
 
 /* LIGHT: avoid double-dimming date/miles (you had opacity + muted color) */
