@@ -1,14 +1,15 @@
-/* iOS safe-area helpers (older + newer) */
 :root {
     --sab: env(safe-area-inset-bottom, 0px);
     --sab-legacy: constant(safe-area-inset-bottom, 0px);
     --submit-h: 64px;
-    /* visible button height */
-    --summary-h: 40px;
+    --footer-pad-x: 1rem;
+    --footer-pad-y: .75rem;
 }
 
+/* reserve space so content never sits under the fixed footer */
 .dashboard {
-    padding-bottom: calc(var(--submit-h) + var(--summary-h) + var(--sab));
+    padding-bottom: calc(var(--submit-h) + (var(--footer-pad-y) * 2) + 28px + var(--sab));
+    padding-bottom: calc(var(--submit-h) + (var(--footer-pad-y) * 2) + 28px + var(--sab-legacy));
 }
 
 /* Sticky section header (DRAFTS) */
@@ -76,42 +77,45 @@ html[data-theme="dark"] {
     left: 0;
     right: 0;
     bottom: 0;
-    height: calc(var(--submit-h) + var(--sab));
-    height: calc(var(--submit-h) + var(--sab-legacy));
-    padding-bottom: var(--sab);
-    padding-bottom: var(--sab-legacy);
-    background: var(--pico-background-color);
     z-index: 30;
+    background: var(--pico-background-color);
     box-shadow: 0 -1px 0 rgba(0, 0, 0, .06);
+
+    /* THIS is the key: footer owns the safe area */
+    padding: var(--footer-pad-y) var(--footer-pad-x);
+    padding-bottom: calc(var(--footer-pad-y) + var(--sab));
+    padding-bottom: calc(var(--footer-pad-y) + var(--sab-legacy));
+
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
 }
 
-/* button sits ABOVE the safe area (doesn't extend into it) */
+/* summary sits inside the footer, not fixed on its own */
+.drafts-total {
+    font-size: .9rem;
+    opacity: .8;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    height: 28px;
+    /* consistent footer height */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* button is the full footer width and sits ABOVE the safe area */
 .dashboard-footer button {
     width: 100%;
     height: var(--submit-h);
     margin: 0;
-    border-radius: 0;
+    border-radius: 0.5rem;
+    /* or 0 if you want it flush */
     touch-action: manipulation;
 }
 
-/* summary bar sits above submit bar (including safe area) */
-.drafts-total {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: calc(var(--submit-h) + var(--sab));
-    bottom: calc(var(--submit-h) + var(--sab-legacy));
-    height: var(--summary-h);
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 1rem;
-    background: var(--pico-background-color);
-    box-shadow: 0 -1px 0 rgba(0, 0, 0, .06);
-}
-
-html[data-theme="dark"] .dashboard-footer,
-html[data-theme="dark"] .drafts-total {
+/* dark mode shadow */
+html[data-theme="dark"] .dashboard-footer {
     box-shadow: 0 -1px 0 rgba(255, 255, 255, .06);
 }
 
