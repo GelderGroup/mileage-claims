@@ -1,3 +1,5 @@
+/* ===== Drafts list ===== */
+
 .draft-list {
     margin-top: .75rem;
 }
@@ -17,15 +19,15 @@
     display: none;
 }
 
-/* Header row: date left, miles right (keep this!) */
+/* Header row: date left, miles right */
 header.draft-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: .75rem;
     font-size: .8rem;
-    opacity: .75;
     margin-bottom: .5rem;
+    opacity: .75;
 }
 
 .draft-date {
@@ -34,103 +36,92 @@ header.draft-header {
 
 .draft-miles {
     font-size: .8rem;
-    opacity: .75;
     white-space: nowrap;
+    opacity: .75;
 }
 
+/* Route rows */
 .draft-route {
     display: grid;
     grid-template-columns: 1rem 1fr;
     column-gap: .6rem;
-    /* spacing between pin + text */
     row-gap: .35rem;
     align-items: center;
-    /* vertical align pin + text within each row */
     line-height: 1.25;
 }
 
 .draft-route-start,
 .draft-route-end {
     margin-left: 0;
-    /* remove */
     font-weight: 400;
     font-size: .85rem;
-    /* 0.8 is a touch small; up to taste */
 }
 
-/* Clickable card: stop Pico styling it like a primary button */
+/* ===== Card styling (Pico-friendly) ===== */
+
+/* One definition only (you had two) */
 article.draft-card[role="button"] {
-    background: var(--pico-card-background-color, var(--pico-background-color));
+    background: var(--pico-card-sectioning-background-color,
+            var(--pico-card-background-color, var(--pico-background-color)));
     border: 1px solid var(--pico-muted-border-color);
-    box-shadow: none;
+    box-shadow: var(--pico-card-box-shadow, 0 1px 2px rgba(0, 0, 0, .06));
+    border-radius: var(--pico-border-radius);
     text-align: left;
     color: var(--pico-color);
     cursor: pointer;
 }
 
-html[data-theme="light"] article.draft-card .draft-route-start,
-html[data-theme="light"] article.draft-card .draft-route-end {
-    color: var(--pico-contrast) !important;
-}
-
 /* Keep same surface on hover */
 article.draft-card[role="button"]:hover {
-    background: var(--pico-card-background-color, var(--pico-background-color));
+    background: var(--pico-card-sectioning-background-color,
+            var(--pico-card-background-color, var(--pico-background-color)));
 }
 
-/* Accessible focus ring (keyboard) */
+/* Accessible focus ring */
 article.draft-card[role="button"]:focus {
     outline: 2px solid var(--pico-primary-focus);
     outline-offset: 2px;
 }
 
-/* Optional: subtle press feedback */
+/* Subtle press feedback */
 article.draft-card[role="button"]:active {
     transform: translateY(1px);
 }
 
+/* ===== Theme tweaks ===== */
+
+/* LIGHT: make the card feel less washed out */
+html[data-theme="light"] article.draft-card[role="button"] {
+    /* Remove the "near white" custom background that looks faded */
+    background: var(--pico-card-background-color, #fff);
+
+    /* Stronger border + a touch more shadow for separation */
+    border-color: rgba(0, 0, 0, .12);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .06);
+}
+
+/* LIGHT: avoid double-dimming date/miles (you had opacity + muted color) */
 html[data-theme="light"] article.draft-card[role="button"] .draft-date,
 html[data-theme="light"] article.draft-card[role="button"] .draft-miles {
+    color: rgba(0, 0, 0, .55) !important;
+    opacity: 1;
+}
+
+/* LIGHT: route text should be clear */
+html[data-theme="light"] article.draft-card .draft-route-start,
+html[data-theme="light"] article.draft-card .draft-route-end {
     color: var(--pico-contrast) !important;
-    opacity: .75;
-    /* keep your intended muted look */
-}
-
-article.draft-card[role="button"] {
-    background: var(--pico-card-sectioning-background-color, var(--pico-card-background-color, var(--pico-background-color)));
-    border: 1px solid var(--pico-muted-border-color);
-    box-shadow: var(--pico-card-box-shadow, 0 1px 2px rgba(0, 0, 0, .06));
-    border-radius: var(--pico-border-radius);
-}
-
-html[data-theme="light"] article.draft-card[role="button"] a.action {
-    color: var(--pico-muted-foreground-color);
-    border-color: var(--pico-muted-border-color);
-    background: rgba(0, 0, 0, .04);
-}
-
-html[data-theme="light"] article.draft-card[role="button"] a.action:active {
-    background: rgba(0, 0, 0, .08);
-}
-
-html[data-theme="light"] article.draft-card {
-    background: #f7f8fa;
-    /* tiny lift from pure white */
-}
-
-html[data-theme="light"] .draft-route-start,
-html[data-theme="light"] .draft-route-end {
     font-weight: 500;
 }
+
+/* ===== Pins ===== */
 
 .map-pin-start,
 .map-pin-end {
     display: flex;
-    /* keeps the svg centered in the 1rem cell */
     align-items: center;
     justify-content: center;
 }
-
 
 .map-pin-start {
     color: var(--text-ok);
@@ -140,7 +131,8 @@ html[data-theme="light"] .draft-route-end {
     color: var(--text-danger);
 }
 
-/* Actions */
+/* ===== Actions ===== */
+
 footer.draft-actions {
     display: flex;
     align-items: center;
@@ -163,7 +155,6 @@ a.action {
     background: transparent;
     border: 1px solid var(--pico-muted-border-color);
     color: var(--pico-muted-foreground-color);
-
     cursor: pointer;
 }
 
@@ -171,21 +162,26 @@ footer.draft-actions .action--delete {
     margin-left: auto;
 }
 
-/* Light theme */
-[data-theme="light"] a.action {
-    background: rgba(0, 0, 0, .04);
+/* LIGHT: make action button look deliberate (not disabled) */
+html[data-theme="light"] a.action {
+    background: rgba(0, 0, 0, .06);
+    border-color: rgba(0, 0, 0, .18);
+    color: rgba(0, 0, 0, .65);
 }
 
-/* Dark theme */
-[data-theme="dark"] a.action {
+html[data-theme="light"] a.action:active {
+    background: rgba(0, 0, 0, .10);
+}
+
+/* DARK: keep your existing approach */
+html[data-theme="dark"] a.action {
     background: rgba(255, 255, 255, .04);
 }
 
-/* Press feedback (mobile-first) */
 a.action:active {
     background: rgba(0, 0, 0, .08);
 }
 
-[data-theme="dark"] a.action:active {
+html[data-theme="dark"] a.action:active {
     background: rgba(255, 255, 255, .08);
 }
