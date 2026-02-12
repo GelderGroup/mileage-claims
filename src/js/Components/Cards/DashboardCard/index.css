@@ -75,20 +75,21 @@ html[data-theme="dark"] {
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 0;
+
+    /* key: lift it above iOS home indicator */
+    bottom: env(safe-area-inset-bottom, 0px);
+    bottom: constant(safe-area-inset-bottom, 0px);
+
     z-index: 30;
     background: var(--pico-background-color);
     box-shadow: 0 -1px 0 rgba(0, 0, 0, .06);
 
-    /* THIS is the key: footer owns the safe area */
     padding: var(--footer-pad-y) var(--footer-pad-x);
-    padding-bottom: calc(var(--footer-pad-y) + var(--sab));
-    padding-bottom: calc(var(--footer-pad-y) + var(--sab-legacy));
-
     display: flex;
     flex-direction: column;
     gap: .5rem;
 }
+
 
 /* summary sits inside the footer, not fixed on its own */
 .drafts-total {
