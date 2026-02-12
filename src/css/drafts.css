@@ -95,7 +95,7 @@ html[data-theme="light"] article.draft-card[role="button"] {
     background: #fff;
     border: 1px solid #d8d8dc;
     /* solid neutral */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+    box-shadow: none;
 }
 
 
