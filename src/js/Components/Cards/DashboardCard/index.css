@@ -6,9 +6,8 @@
     --footer-pad-y: .75rem;
 }
 
-/* reserve space so content never sits under the fixed footer */
 .dashboard {
-    padding-bottom: calc(var(--footer-reserve) + env(safe-area-inset-bottom, 0px));
+    padding-bottom: 0;
 }
 
 /* Sticky section header (DRAFTS) */
@@ -68,7 +67,7 @@ html[data-theme="dark"] {
 }
 
 .dashboard-body {
-    padding: 0;
+    padding-bottom: var(--footer-reserve);
 }
 
 .dashboard-footer {
