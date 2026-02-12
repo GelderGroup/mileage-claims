@@ -1,6 +1,6 @@
 :root {
-    --sab: env(safe-area-inset-bottom, 0px);
-    --sab-legacy: constant(safe-area-inset-bottom, 0px);
+    --footer-reserve: 150px;
+    /* start slightly generous */
     --submit-h: 64px;
     --footer-pad-x: 1rem;
     --footer-pad-y: .75rem;
@@ -8,8 +8,7 @@
 
 /* reserve space so content never sits under the fixed footer */
 .dashboard {
-    padding-bottom: calc(var(--submit-h) + (var(--footer-pad-y) * 2) + 28px + var(--sab));
-    padding-bottom: calc(var(--submit-h) + (var(--footer-pad-y) * 2) + 28px + var(--sab-legacy));
+    padding-bottom: calc(var(--footer-reserve) + env(safe-area-inset-bottom, 0px));
 }
 
 /* Sticky section header (DRAFTS) */

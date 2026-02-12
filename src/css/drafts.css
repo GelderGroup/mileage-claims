@@ -17,22 +17,6 @@
     display: none;
 }
 
-.draft-list__total {
-    position: sticky;
-    bottom: var(--app-footer-height);
-    z-index: 2;
-
-    background: var(--pico-background-color);
-    padding: .5rem 0;
-    border-top: 1px solid var(--pico-muted-border-color);
-}
-
-
-.draft-list__total.hidden {
-    display: none;
-}
-
-
 /* Header row: date left, miles right (keep this!) */
 header.draft-header {
     display: flex;
