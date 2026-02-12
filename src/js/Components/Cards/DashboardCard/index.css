@@ -1,9 +1,8 @@
 /* ===== Dashboard (merged) ===== */
 
 .dashboard {
-    padding: 0;
-    padding-bottom: 6rem;
-    /* room above fixed footer */
+    padding-bottom: calc(64px + env(safe-area-inset-bottom) + 40px);
+    /* submit + safe + summary */
 }
 
 /* Sticky section header (DRAFTS) */
@@ -66,50 +65,46 @@ html[data-theme="dark"] {
     padding: 0;
 }
 
-/* Fixed footer restored */
 .dashboard-footer {
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-
-    padding: .75rem 1rem;
-
+    padding: 0;
     background: var(--pico-background-color);
     z-index: 30;
-
     box-shadow: 0 -1px 0 rgba(0, 0, 0, .06);
-
-    display: flex;
-    /* NEW */
-    flex-direction: column;
-    /* NEW */
-    gap: .5rem;
-    /* NEW */
 }
 
 .drafts-total {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 1rem;
     font-size: .9rem;
-    opacity: .75;
-    text-align: right;
-    /* aligns with draft miles */
-    align-self: stretch;
-    /* ensures full width */
+    opacity: .8;
     font-variant-numeric: tabular-nums;
+    background: var(--pico-background-color);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .06);
 }
 
-
-
-html[data-theme="dark"] .dashboard-footer {
+html[data-theme="dark"] .dashboard-footer,
+html[data-theme="dark"] .drafts-total {
     box-shadow: 0 -1px 0 rgba(255, 255, 255, .06);
 }
 
 .dashboard-footer button {
     width: 100%;
-    max-width: 400px;
-    padding: .35rem .7rem;
-    margin: 0 auto;
-    /* centres button */
+    max-width: none;
+    margin: 0;
+    height: 64px;
+    border-radius: 0;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 

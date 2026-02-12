@@ -175,20 +175,19 @@ export default class DashboardCard {
         this.el.removeEventListener("edit-draft", this.onEditDraft);
         this.el.removeEventListener("delete-draft", this.onDeleteDraft);
         this.submitBtn.removeEventListener("click", this.handleSubmitAllDraftsGuarded);
-        // Guarded handler to prevent multiple rapid presses
-        handleSubmitAllDraftsGuarded = async (e) => {
-            if (this.submitBtn.disabled) return;
-            this.submitBtn.disabled = true;
-            try {
-                await this.onSubmitAllDrafts(e);
-            } finally {
-                // Re-enable after a short delay in case modal fails to open
-                setTimeout(() => {
-                    if (this.mode === "drafts") this.submitBtn.disabled = false;
-                }, 1000);
-            }
+    };
+
+    handleSubmitAllDraftsGuarded = async (e) => {
+        if (this.submitBtn.disabled) return;
+        this.submitBtn.disabled = true;
+        try { await this.onSubmitAllDrafts(e); }
+        finally {
+            setTimeout(() => {
+                if (this.mode === "drafts") this.submitBtn.disabled = false;
+            }, 1000);
         }
     };
+
 }
 
 
