@@ -138,6 +138,35 @@ html[data-theme="light"] article.draft-card[role="button"]> :not(header):not(foo
     outline: 0 !important;
 }
 
+/* 1) Outer border only (article) */
+html[data-theme="light"] article.draft-card[role="button"] {
+    border: 0 !important;
+    box-shadow: inset 0 0 0 1px #d8d8dc, 0 1px 3px rgba(0, 0, 0, .05) !important;
+    overflow: hidden;
+}
+
+/* 2) NO borders on any direct child sections (this removes the strong body L/R) */
+html[data-theme="light"] article.draft-card[role="button"]>* {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+/* 3) Keep Pico-like subtle header/footer tint */
+html[data-theme="light"] article.draft-card[role="button"]>header.draft-header,
+html[data-theme="light"] article.draft-card[role="button"]>footer.draft-actions {
+    background: var(--pico-card-sectioning-background-color, #f6f7f9);
+}
+
+/* 4) Add back ONLY the horizontal dividers (optional, but looks “card-like”) */
+html[data-theme="light"] article.draft-card[role="button"]>header.draft-header {
+    border-bottom: 1px solid #ececf0 !important;
+}
+
+html[data-theme="light"] article.draft-card[role="button"]>footer.draft-actions {
+    border-top: 1px solid #ececf0 !important;
+}
+
 
 /* ===== Pins ===== */
 
