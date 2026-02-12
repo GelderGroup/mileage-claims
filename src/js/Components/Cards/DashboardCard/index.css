@@ -80,8 +80,10 @@ html[data-theme="dark"] {
     bottom: constant(safe-area-inset-bottom, 0px);
 
     z-index: 30;
-    background: var(--pico-background-color);
-    box-shadow: 0 -1px 0 rgba(0, 0, 0, .06);
+    /* background: var(--pico-background-color);
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .06); */
+
+    background: hotpink !important;
 
     padding: var(--footer-pad-y) var(--footer-pad-x);
     display: flex;
