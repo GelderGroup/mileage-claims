@@ -106,7 +106,7 @@ export default class App {
         this.dashboardView.reset();
         setChildren(this.content, [this.dashboardView]);
         this.dashboardView.setMode("drafts");
-        this.refreshDrafts();
+        // this.refreshDrafts();
     };
 
     handleVehicleRegistered = async (raw) => {
