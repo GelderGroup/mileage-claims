@@ -1,53 +1,26 @@
+import { api } from "../services/api";
+
 export async function calculateDistance(startPostcode, endPostcode) {
-    const res = await fetch('/api/getRouteMiles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ startPostcode, endPostcode })
-    });
-
-    const json = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-        throw new Error(json.detail || json.error || 'Failed to calculate distance');
-    }
+    const json = await api
+        .post("getRouteMiles", { json: { startPostcode, endPostcode } })
+        .json()
+        .catch(async (err) => {
+            // ky throws for non-2xx; try to surface server JSON if present
+            const detail = await err.response?.json().catch(() => null);
+            throw new Error(detail?.detail || detail?.error || "Failed to calculate distance");
+        });
 
     return json.miles;
 }
 
-// POST: include cookies, no bearer
 export async function saveMileageEntry(mileageData) {
-    const res = await fetch("/api/saveMileageEntry", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(mileageData),
-    });
-
-    if (!res.ok) throw new Error((await res.text()) || `Server error: ${res.status}`);
-    return res.json();
+    return api.post("saveMileageEntry", { json: mileageData }).json();
 }
 
 export async function getMileageDrafts() {
-    const res = await fetch('/api/getMileageDrafts');
-    const json = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-        throw new Error(json.details || json.error || 'Failed to load mileage drafts');
-    }
-
-    return json; // array of entries
+    return api.get("getMileageDrafts").json();
 }
 
 export async function deleteMileageDraft(draftId) {
-    const res = await fetch("/api/deleteMileageDraft", {
-        method: "DELETE",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: draftId }),
-    });
-
-    if (!res.ok) throw new Error((await res.text()) || `Server error: ${res.status}`);
-    return res.json();
+    return api.delete("deleteMileageDraft", { json: { id: draftId } }).json();
 }
