@@ -82,8 +82,7 @@ export default class App {
         };
 
         try {
-            // const { hasVehicle } = await VehiclesApi.getActive();
-            const hasVehicle = true; // temp until we fix the API issue - assume true for now to show the main app
+            const { hasVehicle } = await VehiclesApi.getActive();
             hasVehicle ? this.showMainApp() : this.showNeedsVehicle();
         } catch (e) {
             console.error("VehiclesApi.get failed", e);
@@ -106,7 +105,7 @@ export default class App {
         this.dashboardView.reset();
         setChildren(this.content, [this.dashboardView]);
         this.dashboardView.setMode("drafts");
-        // this.refreshDrafts();
+        this.refreshDrafts();
     };
 
     handleVehicleRegistered = async (raw) => {
