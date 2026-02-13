@@ -1,3 +1,4 @@
-export default async function (context, req) {
-    context.res = { status: 200, body: "pong" };
+// api/ping/index.js
+module.exports = async function (context, req) {
+    context.res = { status: 200, body: "ok" };
 };
