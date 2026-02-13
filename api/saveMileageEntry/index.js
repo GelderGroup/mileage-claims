@@ -3,8 +3,6 @@ import { getClientPrincipal } from "../_lib/auth.js";
 import { geocodePostcode } from "../_lib/locationCore.js";
 import crypto from "node:crypto";
 
-const entries = getCosmosContainer("mileagedb", "mileageEntries");
-
 const toNumberOrNull = (v) => {
     if (v === "" || v == null) return null;
     const n = Number(v);
@@ -180,6 +178,7 @@ export default async function saveMileageEntry(context, req) {
         };
 
         // 4) Upsert into Cosmos (create or replace)
+        const entries = getCosmosContainer("mileagedb", "mileageEntries");
         const { resource } = await entries.items.upsert(entry);
 
         context.res = {

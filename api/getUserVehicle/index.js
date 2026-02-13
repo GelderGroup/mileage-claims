@@ -1,8 +1,6 @@
 import { getCosmosContainer } from "../_lib/cosmos.js";
 import { getClientPrincipal } from "../_lib/auth.js";
 
-const vehicles = getCosmosContainer("mileagedb", "vehicles");
-
 const readIfExists = async (container, id, pk) => {
     try { return (await container.item(id, pk).read()).resource || null; } catch { return null; }
 };
@@ -14,6 +12,7 @@ export default async function getUserVehicle(context, req) {
 
         // 1) Try active pointer first
         const activeId = `vehicle_active|${ownerId}`;
+        const vehicles = getCosmosContainer("mileagedb", "vehicles");
         const active = await readIfExists(vehicles, activeId, ownerId);
 
         let vehicle = null;

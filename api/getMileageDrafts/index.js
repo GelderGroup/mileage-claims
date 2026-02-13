@@ -1,8 +1,6 @@
 import { getCosmosContainer } from "../_lib/cosmos.js";
 import { getClientPrincipal } from "../_lib/auth.js";
 
-const entries = getCosmosContainer("mileagedb", "mileageEntries");
-
 export default async function getMileageDrafts(context, req) {
     try {
         const user = getClientPrincipal(req);
@@ -33,6 +31,7 @@ export default async function getMileageDrafts(context, req) {
             parameters: [{ name: "@userId", value: user.email }]
         };
 
+        const entries = getCosmosContainer("mileagedb", "mileageEntries");
         const { resources } = await entries.items.query(query).fetchAll();
 
         context.res = {

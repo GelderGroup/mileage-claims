@@ -2,8 +2,6 @@ import { getCosmosContainer } from "../_lib/cosmos.js";
 import { getClientPrincipal } from "../_lib/auth.js";
 import crypto from "node:crypto";
 
-const entries = getCosmosContainer("mileagedb", "mileageEntries");
-
 export default async function submitAllDrafts(context, req) {
     try {
         const user = getClientPrincipal(req);
@@ -57,6 +55,7 @@ export default async function submitAllDrafts(context, req) {
                 parameters: [{ name: "@userId", value: userId }]
             };
 
+        const entries = getCosmosContainer("mileagedb", "mileageEntries");
         const { resources: drafts } = await entries.items.query(query).fetchAll();
 
         if (!drafts || drafts.length === 0) {
