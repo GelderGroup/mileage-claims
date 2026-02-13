@@ -9,7 +9,8 @@
             "name": "req",
             "methods": [
                 "get"
-            ]
+            ],
+            "route": "ping"
         },
         {
             "type": "http",
