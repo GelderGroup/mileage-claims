@@ -1,13 +1,19 @@
 /* Add styling for vehicle info and prominent toast */
-.vehicle-info {
-    background: var(--pico-background-secondary, #f3f4f6);
-    padding: 0.5em 1em;
-    border-radius: 6px;
-    margin: 0.5em 0 1em 0;
-    font-size: 1.1em;
+
+.dashboard-header-row {
     display: flex;
-    flex-direction: column;
-    gap: 0.2em;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.vehicle-info-label {
+    margin-left: auto;
+    font-size: 1.1em;
+    font-weight: 500;
+    color: #405c59;
+    opacity: 0.85;
+    padding-left: 1.5em;
+    white-space: nowrap;
 }
 
 .dashboard-toast--visible {

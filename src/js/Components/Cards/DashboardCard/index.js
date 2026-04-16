@@ -21,8 +21,8 @@ export default class DashboardCard {
         );
 
 
-        // Vehicle info section
-        this.vehicleInfoEl = el("div.vehicle-info", { hidden: true });
+        // Vehicle info label (right-aligned)
+        this.vehicleInfoEl = el("div.vehicle-info-label", { hidden: true });
         this.vehicleRegLink = document.getElementById("vehicle-reg");
 
         this.addBtn = el("button#add-mileage-btn.p-1.mb-0", {
@@ -52,10 +52,12 @@ export default class DashboardCard {
         this.el = el("section.dashboard",
             el("header.dashboard-header",
                 el("div.dashboard-header-inner",
-                    el("div.dashboard-header-row", this.viewToggle),
+                    el("div.dashboard-header-row",
+                        this.viewToggle,
+                        this.vehicleInfoEl // Right-aligned in flex row
+                    ),
                     el("div.dashboard-header-row add-row", this.addBtn)
-                ),
-                this.vehicleInfoEl // Add vehicle info to header
+                )
             ),
             el("div.dashboard-body",
                 this.draftsView,
@@ -81,20 +83,15 @@ export default class DashboardCard {
      * @param {object|null} vehicle - vehicle object or null
      */
     setVehicleInfo(vehicle) {
-        if (!vehicle) {
+        if (!vehicle || !vehicle.registration) {
             this.vehicleInfoEl.hidden = true;
-            this.vehicleInfoEl.innerHTML = "";
+            this.vehicleInfoEl.textContent = "";
             return;
         }
         this.vehicleInfoEl.hidden = false;
-        this.vehicleInfoEl.innerHTML = `
-            <div class="vehicle-current">
-                <strong>Current Vehicle:</strong>
-                <span>${vehicle.registration || "-"}</span>
-                <span>${vehicle.make || ""} ${vehicle.model || ""}</span>
-                <span>${vehicle.colour ? `(${vehicle.colour})` : ""}</span>
-            </div>
-        `;
+        // Show make + reg if make exists, else just reg
+        const label = vehicle.make ? `${vehicle.make} ${vehicle.registration}` : vehicle.registration;
+        this.vehicleInfoEl.textContent = label;
     }
 
     reset() {
