@@ -2,8 +2,8 @@
 import { el } from "redom";
 import { PlusIcon } from "../../../utils/icons.js";
 import { MileageDraftList } from "../MileageCard/MileageDraftList/index.js";
-import "./index.css";
 import MileageSubmissionList from "../../MileageSubmissionList/index.js";
+import "./index.css";
 
 export default class DashboardCard {
     constructor({ onAddMileage, onChangeVehicle, onEditDraft, onDeleteDraft, onSubmitAllDrafts, onModeChange }) {
