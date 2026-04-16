@@ -101,17 +101,26 @@ export default class App {
         setChildren(this.content, [this.dashboardView]);
     };
 
-    showMainApp = () => {
+    showMainApp = async (vehicle) => {
         this.dashboardView.reset();
         setChildren(this.content, [this.dashboardView]);
         this.dashboardView.setMode("drafts");
+        // Always show current vehicle info
+        let v = vehicle;
+        if (!v) {
+            try {
+                const res = await VehiclesApi.getActive();
+                v = res.vehicle;
+            } catch { }
+        }
+        this.dashboardView.setVehicleInfo(v);
         this.refreshDrafts();
     };
 
     handleVehicleRegistered = async (raw) => {
         try {
             const res = await VehiclesApi.confirmFromLookup(raw); // returns { vehicle: {...} }
-            this.showMainApp(res.vehicle);
+            await this.showMainApp(res.vehicle);
             this.dashboardView.showToast("Vehicle registered successfully.");
         } catch (e) {
             this.dashboardView.showToast("Couldn't register vehicle. Please try again.");

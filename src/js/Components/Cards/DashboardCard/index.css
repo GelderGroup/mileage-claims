@@ -1,3 +1,25 @@
+/* Add styling for vehicle info and prominent toast */
+.vehicle-info {
+    background: var(--pico-background-secondary, #f3f4f6);
+    padding: 0.5em 1em;
+    border-radius: 6px;
+    margin: 0.5em 0 1em 0;
+    font-size: 1.1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+}
+
+.dashboard-toast--visible {
+    background: #2196f3;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 0.5em 1em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+}
+
 :root {
     --sab: env(safe-area-inset-bottom, 0px);
 

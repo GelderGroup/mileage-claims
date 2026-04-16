@@ -20,6 +20,9 @@ export default class DashboardCard {
             this.submittedBtn
         );
 
+
+        // Vehicle info section
+        this.vehicleInfoEl = el("div.vehicle-info", { hidden: true });
         this.vehicleRegLink = document.getElementById("vehicle-reg");
 
         this.addBtn = el("button#add-mileage-btn.p-1.mb-0", {
@@ -45,12 +48,14 @@ export default class DashboardCard {
 
         this.totalEl = el('.drafts-total');
 
+
         this.el = el("section.dashboard",
             el("header.dashboard-header",
                 el("div.dashboard-header-inner",
                     el("div.dashboard-header-row", this.viewToggle),
                     el("div.dashboard-header-row add-row", this.addBtn)
-                )
+                ),
+                this.vehicleInfoEl // Add vehicle info to header
             ),
             el("div.dashboard-body",
                 this.draftsView,
@@ -62,6 +67,26 @@ export default class DashboardCard {
             ),
             this.alert
         );
+        /**
+         * Update the vehicle info display
+         * @param {object|null} vehicle - vehicle object or null
+         */
+        setVehicleInfo(vehicle) {
+            if (!vehicle) {
+                this.vehicleInfoEl.hidden = true;
+                this.vehicleInfoEl.innerHTML = "";
+                return;
+            }
+            this.vehicleInfoEl.hidden = false;
+            this.vehicleInfoEl.innerHTML = `
+            <div class="vehicle-current">
+                <strong>Current Vehicle:</strong>
+                <span>${vehicle.registration || "-"}</span>
+                <span>${vehicle.make || ""} ${vehicle.model || ""}</span>
+                <span>${vehicle.colour ? `(${vehicle.colour})` : ""}</span>
+            </div>
+        `;
+        }
 
         this.onAddMileage = onAddMileage;
         this.onChangeVehicle = onChangeVehicle;
@@ -152,7 +177,11 @@ export default class DashboardCard {
     showToast(msg) {
         this.alert.textContent = msg;
         this.alert.hidden = false;
-        setTimeout(() => (this.alert.hidden = true), 4000);
+        this.alert.classList.add("dashboard-toast--visible");
+        setTimeout(() => {
+            this.alert.hidden = true;
+            this.alert.classList.remove("dashboard-toast--visible");
+        }, 4000);
     }
 
     onmount = () => {
