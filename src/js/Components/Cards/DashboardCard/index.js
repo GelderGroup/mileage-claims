@@ -67,26 +67,6 @@ export default class DashboardCard {
             ),
             this.alert
         );
-        /**
-         * Update the vehicle info display
-         * @param {object|null} vehicle - vehicle object or null
-         */
-        setVehicleInfo(vehicle) {
-            if (!vehicle) {
-                this.vehicleInfoEl.hidden = true;
-                this.vehicleInfoEl.innerHTML = "";
-                return;
-            }
-            this.vehicleInfoEl.hidden = false;
-            this.vehicleInfoEl.innerHTML = `
-            <div class="vehicle-current">
-                <strong>Current Vehicle:</strong>
-                <span>${vehicle.registration || "-"}</span>
-                <span>${vehicle.make || ""} ${vehicle.model || ""}</span>
-                <span>${vehicle.colour ? `(${vehicle.colour})` : ""}</span>
-            </div>
-        `;
-        }
 
         this.onAddMileage = onAddMileage;
         this.onChangeVehicle = onChangeVehicle;
@@ -94,6 +74,27 @@ export default class DashboardCard {
         this.onDeleteDraft = onDeleteDraft;
         this.onSubmitAllDrafts = onSubmitAllDrafts;
         this.onModeChange = onModeChange;
+    }
+
+    /**
+     * Update the vehicle info display
+     * @param {object|null} vehicle - vehicle object or null
+     */
+    setVehicleInfo(vehicle) {
+        if (!vehicle) {
+            this.vehicleInfoEl.hidden = true;
+            this.vehicleInfoEl.innerHTML = "";
+            return;
+        }
+        this.vehicleInfoEl.hidden = false;
+        this.vehicleInfoEl.innerHTML = `
+            <div class="vehicle-current">
+                <strong>Current Vehicle:</strong>
+                <span>${vehicle.registration || "-"}</span>
+                <span>${vehicle.make || ""} ${vehicle.model || ""}</span>
+                <span>${vehicle.colour ? `(${vehicle.colour})` : ""}</span>
+            </div>
+        `;
     }
 
     reset() {
@@ -218,5 +219,3 @@ export default class DashboardCard {
     };
 
 }
-
-
