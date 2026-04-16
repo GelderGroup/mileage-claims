@@ -23,7 +23,7 @@ export default class DashboardCard {
 
         // Vehicle info label (right-aligned)
         this.vehicleInfoEl = el("div.vehicle-info-label", { hidden: true });
-        this.vehicleRegLink = document.getElementById("vehicle-reg");
+        this.vehicleRegLink = document.getElementById("dashboard-vehicle-reg");
 
         this.addBtn = el("button#add-mileage-btn.p-1.mb-0", {
             type: "button",
@@ -49,13 +49,11 @@ export default class DashboardCard {
         this.totalEl = el('.drafts-total');
 
 
-        this.titleEl = el("div.dashboard-title", "MILEAGE CLAIMS");
         this.el = el("section.dashboard",
             el("header.dashboard-header",
                 el("div.dashboard-header-inner",
                     el("div.dashboard-header-row dashboard-header-title-row",
-                        this.titleEl,
-                        this.vehicleInfoEl // Right-aligned with title
+                        this.vehicleInfoEl // Right-aligned with title (now only reg)
                     ),
                     el("div.dashboard-header-row", this.viewToggle),
                     el("div.dashboard-header-row add-row", this.addBtn)

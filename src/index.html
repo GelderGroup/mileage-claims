@@ -32,11 +32,11 @@
     <main class="container">
         <header class="appbar">
             <nav class="app-nav">
-                <ul>
-                    <li>
+                <ul style="display:flex;flex-direction:column;align-items:flex-start;gap:0.2em;margin-bottom:0.5em;">
+                    <li style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                         <a class="brand" href="/">
                             <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                            <svg id="gelder-logo" width="512" height="512" viewBox="0 0 512 512" version="1.1" id="svg1"
+                            <svg id="gelder-logo" width="48" height="48" viewBox="0 0 512 512" version="1.1" id="svg1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
                                 <defs id="defs1" />
                                 <g id="layer1">
@@ -57,6 +57,13 @@
                                 </g>
                             </svg>
                         </a>
+                        <span id="dashboard-vehicle-reg" class="vehicle-info-label"
+                            style="margin-left:auto;text-align:right;white-space:nowrap;display:none;"></span>
+                    </li>
+                    <li>
+                        <span class="nav-title"
+                            style="display:block;font-size:1.3em;font-weight:700;letter-spacing:0.04em;color:#fff;opacity:0.95;margin-top:0.1em;">MILEAGE
+                            CLAIMS</span>
                     </li>
                 </ul>
                 <ul>

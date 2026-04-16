@@ -64,7 +64,7 @@
     align-items: center;
     justify-content: space-between;
 
-    padding: .5rem var(--pico-spacing) .25rem;
+    padding: 0 var(--pico-spacing) .25rem;
     margin: 0 calc(-1 * var(--pico-spacing));
 
     position: sticky;
