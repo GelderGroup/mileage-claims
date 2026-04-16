@@ -82,8 +82,9 @@ export default class App {
         };
 
         try {
-            const { hasVehicle } = await VehiclesApi.getActive();
-            hasVehicle ? this.showMainApp() : this.showNeedsVehicle();
+            const vehicleRes = await VehiclesApi.getActive();
+            this.setNavVehicleReg(vehicleRes.vehicle);
+            vehicleRes.hasVehicle ? this.showMainApp(vehicleRes.vehicle) : this.showNeedsVehicle();
         } catch (e) {
             console.error("VehiclesApi.get failed", e);
             setChildren(this.content, [
@@ -94,6 +95,18 @@ export default class App {
             ]);
         }
     };
+
+    setNavVehicleReg(vehicle) {
+        const navReg = document.getElementById("nav-vehicle-reg");
+        if (!navReg) return;
+        if (!vehicle || !vehicle.registration) {
+            navReg.textContent = "";
+            navReg.hidden = true;
+            return;
+        }
+        navReg.textContent = vehicle.make ? `${vehicle.make} ${vehicle.registration}` : vehicle.registration;
+        navReg.hidden = false;
+    }
 
     // 👉 now uses DashboardCard in a "no vehicle yet" mode
     showNeedsVehicle = () => {
@@ -120,6 +133,7 @@ export default class App {
     handleVehicleRegistered = async (raw) => {
         try {
             const res = await VehiclesApi.confirmFromLookup(raw); // returns { vehicle: {...} }
+            this.setNavVehicleReg(res.vehicle);
             await this.showMainApp(res.vehicle);
             this.dashboardView.showToast("Vehicle registered successfully.");
         } catch (e) {

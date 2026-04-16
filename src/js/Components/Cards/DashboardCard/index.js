@@ -49,13 +49,15 @@ export default class DashboardCard {
         this.totalEl = el('.drafts-total');
 
 
+        this.titleEl = el("div.dashboard-title", "MILEAGE CLAIMS");
         this.el = el("section.dashboard",
             el("header.dashboard-header",
                 el("div.dashboard-header-inner",
-                    el("div.dashboard-header-row",
-                        this.viewToggle,
-                        this.vehicleInfoEl // Right-aligned in flex row
+                    el("div.dashboard-header-row dashboard-header-title-row",
+                        this.titleEl,
+                        this.vehicleInfoEl // Right-aligned with title
                     ),
+                    el("div.dashboard-header-row", this.viewToggle),
                     el("div.dashboard-header-row add-row", this.addBtn)
                 )
             ),
