@@ -1,6 +1,5 @@
 :root {
     font-family: 'DM Sans', sans-serif;
-    --app-header-height: 96px;
     --text-danger: #c62828;
     --text-ok: #2e7d32;
     --app-footer-height: 69px;
@@ -8,44 +7,113 @@
 
 html,
 body {
-    height: auto;
     margin: 0;
+    height: auto;
 }
 
 body {
     overflow: auto;
-    /* allow normal page scroll again */
 }
 
 main.container {
     padding-top: 0 !important;
 }
 
+/* Header */
 .appbar {
     position: sticky;
     top: 0;
     z-index: 10;
-    height: var(--app-header-height);
     background: var(--pico-background-color);
+    padding-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--pico-muted-border-color);
 }
 
-nav.app-nav {
-    border-bottom: 1px solid var(--pico-muted-border-color);
-    padding-bottom: var(--pico-spacing);
+/* Top nav row */
+.app-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: none;
+}
+
+.app-nav ul {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.app-nav li {
+    list-style: none;
+}
+
+.nav-left {
+    margin-bottom: 0;
+}
+
+.nav-actions {
+    margin-bottom: 0;
+}
+
+/* Under-nav row */
+.app-header-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    /* 👈 important */
+    gap: 1rem;
+}
+
+.nav-title {
+    display: inline-block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--pico-color);
+    opacity: 0.95;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.vehicle-info-label {
+    margin-left: auto;
+    text-align: right;
+    color: var(--pico-muted-color);
+    font-weight: 500;
+    display: none;
+}
+
+.vehicle-info-label:not(:empty) {
+    display: inline-block;
+}
+
+/* Logo */
+.brand {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
 }
 
 #gelder-logo {
     display: block;
     width: 50px;
-    /* set width, let height auto-scale from viewBox */
     height: auto;
     flex: 0 0 auto;
-    /* if inside a flex bar */
     overflow: visible;
-    color: var(--pico-color);
     opacity: 0.9;
 }
 
-svg text {
-    fill: var(--pico-secondary) !important;
+/* Make icon buttons neater */
+.nav-actions a.secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    padding: 0.5rem;
 }
