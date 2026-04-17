@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="g12079">
+    <g
+       id="layer1">
+      <path
+         id="rect838"
+         style="fill:#405c59;stroke:#405c59;stroke-width:21.3333"
+         d="M 95.999999,10.666663 H 415.99998 c 47.27467,0 85.33334,38.058668 85.33334,85.333336 V 416.00004 c 0,47.27467 -38.05867,85.33334 -85.33334,85.33334 H 95.999999 c -47.274668,0 -85.333336,-38.05867 -85.333336,-85.33334 V 95.999999 c 0,-47.274668 38.058668,-85.333336 85.333336,-85.333336 z" />
+      <path
+         id="path108-3"
+         style="clip-rule:evenodd;fill:#e41837;fill-rule:nonzero;stroke-width:8.07308;stroke-linecap:square;stroke-miterlimit:2"
+         d="M 184.69566,267.65219 63.000001,386.95652 H 512.00001 V 267.65219 Z" />
+      <path
+         id="path110-6"
+         style="clip-rule:evenodd;fill:#e41837;fill-rule:nonzero;stroke-width:8.07308;stroke-linecap:square;stroke-miterlimit:2"
+         d="M 335.65218,121.56522 216.34783,239.65218 H 512.00001 V 121.56522 Z" />
+      <path
+         id="rect838-2"
+         style="fill:#405c59;fill-opacity:0;stroke:#6a9792;stroke-width:21.3333"
+         d="M 95.999999,10.666663 H 415.99998 c 47.27467,0 85.33334,38.058668 85.33334,85.333336 V 416.00004 c 0,47.27467 -38.05867,85.33334 -85.33334,85.33334 H 95.999999 c -47.274668,0 -85.333336,-38.05867 -85.333336,-85.33334 V 95.999999 c 0,-47.274668 38.058668,-85.333336 85.333336,-85.333336 z" />
+    </g>
+    <path
+       id="rect434"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:7.01529;stroke-linecap:round;stroke-linejoin:round"
+       transform="matrix(1,0,-0.66420793,0.74754787,0,0)"
+       d="m 566.83405,379.65393 h 43.23211 v 118.32783 h -43.23211 z" />
+    <path
+       id="rect434-9"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:5.18138;stroke-linecap:round;stroke-linejoin:round"
+       transform="matrix(1,0,-0.64985195,0.76006081,0,0)"
+       d="m 546.71851,193.20854 h 30.75758 v 90.72894 h -30.75758 z" />
+  </g>
+</svg>
