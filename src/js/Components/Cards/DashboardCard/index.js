@@ -1,4 +1,3 @@
-// Dashboard component
 import { el } from "redom";
 import { PlusIcon } from "../../../utils/icons.js";
 import { MileageDraftList } from "../MileageCard/MileageDraftList/index.js";
@@ -15,14 +14,14 @@ export default class DashboardCard {
         this.draftsBtn = el("button.secondary", { type: "button", "aria-current": "true" }, "Drafts");
         this.submittedBtn = el("button.secondary", { type: "button" }, "Submitted");
 
-        this.viewToggle = el("div", { role: "group", class: "view-toggle" },
+        this.viewToggle = el(
+            "div",
+            { role: "group", class: "view-toggle" },
             this.draftsBtn,
             this.submittedBtn
         );
 
-
-        // Vehicle info label (right-aligned)
-        this.vehicleInfoEl = el("div.vehicle-info-label", { hidden: true });
+        this.vehicleInfoEl = document.getElementById("vehicle-reg");
         this.vehicleRegLink = document.getElementById("dashboard-vehicle-reg");
 
         this.addBtn = el("button#add-mileage-btn.p-1.mb-0", {
@@ -46,24 +45,25 @@ export default class DashboardCard {
         this.submittedView = new MileageSubmissionList();
         this.submittedView.el.hidden = true;
 
-        this.totalEl = el('.drafts-total');
+        this.totalEl = el(".drafts-total");
 
-
-        this.el = el("section.dashboard",
-            el("header.dashboard-header",
-                el("div.dashboard-header-inner",
-                    el("div.dashboard-header-row dashboard-header-title-row",
-                        this.vehicleInfoEl // Right-aligned with title (now only reg)
-                    ),
+        this.el = el(
+            "section.dashboard",
+            el(
+                "header.dashboard-header",
+                el(
+                    "div.dashboard-header-inner",
                     el("div.dashboard-header-row", this.viewToggle),
                     el("div.dashboard-header-row add-row", this.addBtn)
                 )
             ),
-            el("div.dashboard-body",
+            el(
+                "div.dashboard-body",
                 this.draftsView,
                 this.submittedView
             ),
-            el("footer.dashboard-footer",
+            el(
+                "footer.dashboard-footer",
                 this.totalEl,
                 this.submitBtn
             ),
@@ -78,20 +78,15 @@ export default class DashboardCard {
         this.onModeChange = onModeChange;
     }
 
-    /**
-     * Update the vehicle info display
-     * @param {object|null} vehicle - vehicle object or null
-     */
     setVehicleInfo(vehicle) {
+        if (!this.vehicleInfoEl) return;
+
         if (!vehicle || !vehicle.registration) {
-            this.vehicleInfoEl.hidden = true;
             this.vehicleInfoEl.textContent = "";
             return;
         }
-        this.vehicleInfoEl.hidden = false;
-        // Show make + reg if make exists, else just reg
-        const label = vehicle.make ? `${vehicle.make} ${vehicle.registration}` : vehicle.registration;
-        this.vehicleInfoEl.textContent = label;
+
+        this.vehicleInfoEl.textContent = vehicle.registration;
     }
 
     reset() {
@@ -106,7 +101,6 @@ export default class DashboardCard {
 
         const isDrafts = mode === "drafts";
 
-        // Pico-style toggle state
         if (isDrafts) {
             this.draftsBtn.setAttribute("aria-current", "true");
             this.submittedBtn.removeAttribute("aria-current");
@@ -115,7 +109,6 @@ export default class DashboardCard {
             this.draftsBtn.removeAttribute("aria-current");
         }
 
-        // show/hide context UI
         this.addBtn.hidden = !isDrafts;
         this.submitBtn.hidden = !isDrafts;
         this.totalEl.hidden = !isDrafts;
@@ -130,7 +123,7 @@ export default class DashboardCard {
         const total = (drafts || []).reduce((acc, d) => acc + (Number(d.distance) || 0), 0);
         const totalFmt = Number.isInteger(total) ? String(total) : total.toFixed(1);
 
-        this.totalEl.textContent = drafts.length ? `${totalFmt} miles total` : '';
+        this.totalEl.textContent = drafts.length ? `${totalFmt} miles total` : "";
         this.submitBtn.disabled = drafts.length === 0;
         this.draftsView.update(drafts);
     };
@@ -138,7 +131,7 @@ export default class DashboardCard {
     updateSubmissions = (submissions) => {
         const groups = this.groupSubmissions(submissions);
         this.submittedView.update(groups);
-    }
+    };
 
     groupSubmissions = (rows = []) => {
         const map = new Map();
@@ -158,13 +151,12 @@ export default class DashboardCard {
             map.set(key, g);
         }
 
-        // sort items within each group by travel date (ascending)
         for (const g of map.values()) {
             g.items.sort((a, b) => new Date(a.date) - new Date(b.date));
         }
 
         return [...map.values()];
-    }
+    };
 
     showNeedsVehicle() {
         this.addBtn.hidden = true;
@@ -176,6 +168,7 @@ export default class DashboardCard {
         this.alert.textContent = msg;
         this.alert.hidden = false;
         this.alert.classList.add("dashboard-toast--visible");
+
         setTimeout(() => {
             this.alert.hidden = true;
             this.alert.classList.remove("dashboard-toast--visible");
@@ -187,7 +180,7 @@ export default class DashboardCard {
         this.submittedBtn.addEventListener("click", this.handleSubmittedClick);
 
         this.addBtn.addEventListener("click", this.onAddMileage);
-        this.vehicleRegLink.addEventListener("click", this.onChangeVehicle);
+        this.vehicleRegLink?.addEventListener("click", this.onChangeVehicle);
         this.el.addEventListener("edit-draft", this.onEditDraft);
         this.el.addEventListener("delete-draft", this.onDeleteDraft);
         this.submitBtn.addEventListener("click", this.handleSubmitAllDraftsGuarded);
@@ -198,7 +191,7 @@ export default class DashboardCard {
         this.submittedBtn.removeEventListener("click", this.handleSubmittedClick);
 
         this.addBtn.removeEventListener("click", this.onAddMileage);
-        this.vehicleRegLink.removeEventListener("click", this.onChangeVehicle);
+        this.vehicleRegLink?.removeEventListener("click", this.onChangeVehicle);
         this.el.removeEventListener("edit-draft", this.onEditDraft);
         this.el.removeEventListener("delete-draft", this.onDeleteDraft);
         this.submitBtn.removeEventListener("click", this.handleSubmitAllDraftsGuarded);
@@ -206,13 +199,14 @@ export default class DashboardCard {
 
     handleSubmitAllDraftsGuarded = async (e) => {
         if (this.submitBtn.disabled) return;
+
         this.submitBtn.disabled = true;
-        try { await this.onSubmitAllDrafts(e); }
-        finally {
+        try {
+            await this.onSubmitAllDrafts(e);
+        } finally {
             setTimeout(() => {
                 if (this.mode === "drafts") this.submitBtn.disabled = false;
             }, 1000);
         }
     };
-
 }

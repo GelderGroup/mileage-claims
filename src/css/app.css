@@ -83,8 +83,9 @@ main.container {
 .vehicle-info-label {
     margin-left: auto;
     text-align: right;
-    color: var(--pico-muted-color);
+    font-size: 1.1em;
     font-weight: 500;
+    color: var(--pico-muted-color);
     display: none;
 }
 
