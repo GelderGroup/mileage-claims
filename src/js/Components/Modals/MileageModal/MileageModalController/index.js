@@ -16,6 +16,7 @@ export default class MileageModalController {
         root.addEventListener('request-calculate', this.calculate);
         root.addEventListener('request-save-mileage', this.save);
         root.addEventListener('field-input', this.onFieldInput);
+        root.addEventListener('field-commit', this.onFieldCommit);
 
         // NEW: wire override toggle from the view
         root.addEventListener('toggle-override', this.onToggleOverride);
@@ -138,6 +139,16 @@ export default class MileageModalController {
 
         set({ [name]: value, showSummary: false, banner: null });
         this.validateAndStore();
+    };
+
+    // On leaving a postcode field, show it in standard form (e.g. "ln12ds" -> "LN1 2DS").
+    // Same postcode, so any calculated distance stays valid.
+    onFieldCommit = (e) => {
+        const { name, value } = e.detail;
+        if (name !== 'startPostcode' && name !== 'endPostcode') return;
+
+        const formatted = formatPostcode(value).trim();
+        if (formatted !== get()[name]) set({ [name]: formatted });
     };
 
     onToggleOverride = (e) => {

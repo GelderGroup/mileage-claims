@@ -89,9 +89,11 @@ export default class MileageModalView {
 
         this.startPostcodeInput.addEventListener('input', this.handleNativeFieldInput);
         this.startPostcodeInput.addEventListener('change', this.handleNativeFieldInput);
+        this.startPostcodeInput.addEventListener('blur', this.handleNativeFieldBlur);
 
         this.endPostcodeInput.addEventListener('input', this.handleNativeFieldInput);
         this.endPostcodeInput.addEventListener('change', this.handleNativeFieldInput);
+        this.endPostcodeInput.addEventListener('blur', this.handleNativeFieldBlur);
 
         this.mileageInput.addEventListener?.('input', this.handleNativeFieldInput);
         this.mileageInput.addEventListener?.('change', this.handleNativeFieldInput);
@@ -112,9 +114,11 @@ export default class MileageModalView {
 
         this.startPostcodeInput.removeEventListener('input', this.handleNativeFieldInput);
         this.startPostcodeInput.removeEventListener('change', this.handleNativeFieldInput);
+        this.startPostcodeInput.removeEventListener('blur', this.handleNativeFieldBlur);
 
         this.endPostcodeInput.removeEventListener('input', this.handleNativeFieldInput);
         this.endPostcodeInput.removeEventListener('change', this.handleNativeFieldInput);
+        this.endPostcodeInput.removeEventListener('blur', this.handleNativeFieldBlur);
 
         this.mileageInput.removeEventListener?.('input', this.handleNativeFieldInput);
         this.mileageInput.removeEventListener?.('change', this.handleNativeFieldInput);
@@ -221,6 +225,13 @@ export default class MileageModalView {
         const name = e.target?.name;
         if (!name) return;
         this.dispatch('field-input', { name, value: e.target.value });
+    };
+
+    // Fired when the user leaves a field, so the controller can tidy the value
+    handleNativeFieldBlur = (e) => {
+        const name = e.target?.name;
+        if (!name) return;
+        this.dispatch('field-commit', { name, value: e.target.value });
     };
 
     dispatch(name, detail = {}) {

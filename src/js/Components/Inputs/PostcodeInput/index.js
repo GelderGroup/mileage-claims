@@ -3,6 +3,9 @@ import './index.css';
 import { LocateFixedIcon } from '../../../utils/icons.js';
 import { attachValidity } from '../../../utils/Validation/a11y/inputValidity.js';
 
+// Events that belong to the <input> itself rather than the wrapper
+const INPUT_EVENTS = ['input', 'change', 'blur'];
+
 export default class PostcodeInput {
     constructor(props = {}) {
         const baseId = props.id || crypto.randomUUID();
@@ -56,12 +59,12 @@ export default class PostcodeInput {
 
     // Event dispatch proxy methods
     addEventListener(type, listener, options) {
-        if (type === 'input' || type === 'change') this.input.addEventListener(type, listener, options);
+        if (INPUT_EVENTS.includes(type)) this.input.addEventListener(type, listener, options);
         else this.el.addEventListener(type, listener, options);
     }
 
     removeEventListener(type, listener, options) {
-        if (type === 'input' || type === 'change') this.input.removeEventListener(type, listener, options);
+        if (INPUT_EVENTS.includes(type)) this.input.removeEventListener(type, listener, options);
         else this.el.removeEventListener(type, listener, options);
     }
 
